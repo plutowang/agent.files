@@ -1,0 +1,16 @@
+---
+description: "Apply when restructuring or refactoring code without changing behavior"
+globs: ""
+alwaysApply: false
+---
+# Refactoring Standards
+
+Apply these standards when refactoring code.
+
+- Run tests before starting. Run tests after every step. If a test breaks, the refactor is wrong — stop and revert.
+- One refactoring pattern per commit. Never mix refactoring with feature changes.
+- Preserve all existing behavior — refactoring changes structure, not function.
+- Prefer small, safe transformations over large rewrites.
+
+<!-- @import _core/4_refactoring/smell_detection.md -->
+<!-- @import _core/4_refactoring/extraction_patterns.md -->

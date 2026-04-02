@@ -10,4 +10,5 @@ lazy-lock.json
 zig-out/
 .opencode/
 dist/
+.cursor/
 .source.*

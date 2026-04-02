@@ -1,0 +1,17 @@
+---
+description: "Apply when working on authentication, authorization, cryptography, secrets management, or user input handling"
+globs: "**/*auth*, **/*crypto*, **/*secret*, **/*password*, **/*token*, **/*session*, **/*permission*"
+alwaysApply: false
+---
+# Security Standards
+
+Apply these standards when working on security-sensitive code.
+
+- Validate all external input. Never trust user data.
+- Use parameterized queries — no string concatenation for SQL/NoSQL.
+- Store secrets in environment variables or secret managers, never in code.
+- Use standard cryptographic primitives — no custom crypto.
+- Error messages must not leak internal details (stack traces, DB schema).
+- Always delegate to `/security-reviewer` after completing security-sensitive changes.
+
+<!-- @import _core/3_engineering/security_audit.md -->

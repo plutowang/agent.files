@@ -17,8 +17,11 @@ Do not guess file locations. Use the following map to understand the project's a
 
     agent.files/
     ├── _core/                     [UNIVERSAL ZONE] Shared Assets & Philosophies
-    │   ├── skills/                Shared skills (Compatible schemas)
-    │   └── *.md
+    │   ├── 1_governance/          HITL gates, execution safety, anti-loop
+    │   ├── 2_workflows/           Feature dev, error triage, git ops, communication
+    │   ├── 3_engineering/         Architecture, API, code standards, testing, security
+    │   ├── 4_refactoring/         Smell detection, extraction patterns
+    │   └── skills/                Shared skills (Compatible schemas)
     │
     ├── cursor/                    [CURSOR ZONE] Host Shells & Rules
     │   ├── .examples/             Reference templates for AI
@@ -53,16 +56,16 @@ Because OpenCode ignores unknown frontmatter fields, we author all skills using 
 - `metadata` (Optional): Key-value mapping.
 - `disable-model-invocation` (Optional, Cursor only): If true, agent will not auto-apply it. (OpenCode safely ignores this field).
 
-### 3. The Lexical Ban (`_core/` Root Markdown Files)
+### 3. The Lexical Ban (`_core/` Markdown Files)
 
-- **Purpose**: Files directly under `_core/` (like `hitl.md`) are injected via macros and apply to ALL IDEs.
+- **Purpose**: Files under `_core/` subdirectories (like `1_governance/hitl_gates.md`) are injected via macros and apply to ALL IDEs.
 - **THE LEXICAL BAN**: These files MUST NEVER contain IDE-specific tool names or subagent names.
 - *FORBIDDEN WORDS*: `glob`, `grep`, `Task`, `explore agent`, `build agent`, `YAML frontmatter`.
 
 ### 4. The Macro System (Dependency Injection)
 
 We use HTML comments to inject core philosophies into the host shells.
-**Syntax:** `<!-- @import _core/file.md -->`
+**Syntax:** `<!-- @import _core/1_governance/hitl_gates.md -->`
 
 - If you create a new universal rule in `_core/`, you MUST ensure it is imported via this macro at the bottom of the respective host shell files inside `opencode/` and `cursor/`.
 

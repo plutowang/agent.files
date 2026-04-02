@@ -1,0 +1,16 @@
+---
+description: "Apply when working on API routes, controllers, handlers, or endpoint definitions"
+globs: "**/*route*, **/*controller*, **/*handler*, **/*endpoint*, **/api/**, **/*middleware*"
+alwaysApply: false
+---
+# API Design Standards
+
+Apply these standards when designing or modifying API endpoints.
+
+- REST: nouns for resources, HTTP verbs for actions, kebab-case URLs, version in path (`/api/v1/`).
+- Consistent error format: `{ error: { code, message, details? } }`. Correct status codes.
+- Validate at the boundary. Reject early. Sanitize before storage.
+- Rate limit all public endpoints. `429` + `Retry-After` header.
+- Cursor-based pagination for list endpoints.
+
+<!-- @import _core/3_engineering/api_contracts.md -->

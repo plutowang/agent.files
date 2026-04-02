@@ -11,4 +11,4 @@ When this command is triggered, analyze the code in the user's current active ed
 3. ⏸ WAIT: Present the proposed test cases to the user before writing them to a new test file.
 
 ## Testing Standards
-<!-- @import _core/testing_standards.md -->
+<!-- @import _core/3_engineering/testing_aaa.md -->

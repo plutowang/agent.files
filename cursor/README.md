@@ -3,65 +3,54 @@
 This directory contains the source files for Cursor-specific agent behaviors, MDC rules, subagents, and custom commands.
 
 ## Reference Links
-
-- MDC Rules Schema: <https://cursor.com/docs/rules>
-- Subagents Architecture: <https://cursor.com/docs/subagents>
-- Commands: <https://cursor.com/docs/reference/plugins#commands-format>
-
----
-
-## 1. MDC Rules Schema (.mdc)
-
-Cursor uses `.mdc` files with frontmatter to specify description and globs for more control over when rules are applied.
-
-### Rule Anatomy
-
-Each rule is a markdown file with frontmatter metadata and content. Control how rules are applied by configuring the following frontmatter properties: `description`, `globs`, and `alwaysApply`.
-
-### Rule Types & Application Logic
-
-| Rule Type | Description | Trigger Mechanism |
-| :--- | :--- | :--- |
-| **Always Apply** | Apply to every chat session | Set `alwaysApply: true` in frontmatter. |
-| **Apply Intelligently** | When Agent decides it's relevant | Agent reads the `description` field to decide. |
-| **Apply to Specific Files** | When file matches a specified pattern | Agent checks if the current file matches `globs`. |
-| **Apply Manually** | When explicitly mentioned in chat | User types `@rule-name` in the Composer/Chat. |
+- MDC Rules Schema: https://cursor.com/docs/rules
+- Subagents Architecture: https://cursor.com/docs/subagents
+- Commands: https://cursor.com/docs/reference/plugins#commands-format
 
 ---
 
-## 2. Subagent Configuration Schema
+## 1. Subagent Configuration Schema (`cursor/agents/*.md`)
+Custom subagents live in `.cursor/agents/` and run in isolated context windows. Use them for long-running, parallel, or specialized tasks to prevent bloating the main conversation.
 
-When creating or modifying Cursor subagents, you MUST use the following YAML frontmatter schema:
+**Note:** Cursor already has built-in subagents for `Explore` (codebase search), `Bash`, and `Browser`. Do not reinvent these unless you need highly specialized behavior.
 
-### Configuration Fields
+### YAML Frontmatter Fields
+| Field           | Type    | Default   | Description                                                                                            |
+| :-------------- | :------ | :-------- | :----------------------------------------------------------------------------------------------------- |
+| `name`          | string  | Filename  | Display name and identifier (lowercase, hyphens). You can invoke it via `/name`.                       |
+| `description`   | string  | —         | **CRITICAL for Routing:** The parent agent reads this to decide delegation.                            |
+| `model`         | string  | `inherit` | `inherit` (parent's model), `fast` (cheaper/faster model), or specific ID (e.g., `claude-3.5-sonnet`). |
+| `readonly`      | boolean | `false`   | If `true`, blocks file edits and state-changing shell commands.                                        |
+| `is_background` | boolean | `false`   | If `true`, runs asynchronously without blocking the parent agent.                                      |
 
-| Field | Type | Required | Default | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `name` | string | No | Derived from filename | Display name and identifier. Use lowercase letters and hyphens. |
-| `description` | string | No | — | Short description shown in Task tool hints. Agent reads this to decide delegation. |
-| `model` | string | No | `inherit` | Model to use (`inherit`, `fast`, or specific ID like `claude-3.5-sonnet`). |
-| `readonly` | boolean | No | `false` | If true, runs with restricted write permissions (no file edits, no state-changing commands). |
-| `is_background` | boolean | No | `false` | If true, runs in the background without blocking the parent. |
-
----
-
-## 3. Command Configuration Schema
-
-Cursor allows defining custom slash commands (e.g., `/refactor`) to quickly trigger specific workflows.
-
-### Command Frontmatter Fields
-
-When creating a command file, you MUST use the following YAML frontmatter:
-
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| `name` | string | Command identifier (lowercase, kebab-case). |
-| `description` | string | Brief description of what the command does. |
+### Pro-Tips for AI Agents (From Official Docs)
+- **Delegation Hacking**: To force the parent agent to use your subagent automatically, inject aggressive phrases into the `description` field like: *"Use proactively when..."* or *"Always use for..."*.
+- **Model Selection**: Always use `model: fast` for verifiers, test runners, or searchers to save tokens and speed up parallel execution.
+- **Subagent vs. Skill**: If a task is a quick, single-shot action (like formatting or generating a changelog) without needing context isolation, create a Slash Command or Skill instead.
 
 ---
 
-## 4. Integration with _core (Dependency Injection)
+## 2. MDC Rules Schema (`cursor/rules/*.mdc`)
+MDC files provide context-aware rules based on the active file or explicit invocation.
 
-Whether building an MDC rule, a subagent, or a command, remember to append `<!-- @import _core/[filename].md -->` at the bottom of host shells to inherit universal philosophies (like testing standards, security sandboxing, or human-in-the-loop workflows).
+### Frontmatter Fields
+| Field         | Type    | Description                                                                |
+| :------------ | :------ | :------------------------------------------------------------------------- |
+| `description` | string  | Used by the Agent to apply intelligently.                                  |
+| `globs`       | string  | Apply rule when the active file matches (e.g., `*.ts`, `backend/**/*.go`). |
+| `alwaysApply` | boolean | Apply to every single chat session.                                        |
 
-Do NOT redefine universal software engineering philosophies in this directory. Only define Cursor-specific execution mechanics and metadata here.
+---
+
+## 3. Command Configuration Schema (`cursor/commands/*.md`)
+For quick, repeatable actions.
+
+| Field         | Type   | Description                            |
+| :------------ | :----- | :------------------------------------- |
+| `name`        | string | Command identifier (e.g., `refactor`). |
+| `description` | string | Description shown in the UI palette.   |
+
+---
+
+## Integration with _core
+Remember to append `<!-- @import _core/1_governance/hitl_gates.md -->` (or similar) at the bottom of host shells to inherit universal philosophies (like testing standards, security sandboxing, or human-in-the-loop workflows).

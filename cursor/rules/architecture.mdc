@@ -1,0 +1,16 @@
+---
+description: "Apply when making architecture or design decisions, evaluating patterns, or structuring systems"
+globs: ""
+alwaysApply: false
+---
+# Architecture Standards
+
+Apply these standards when making design decisions.
+
+- Always consider 2-3 options before committing to an approach.
+- Evaluate against quality attributes: performance, maintainability, security, cost, operability.
+- Prefer boring technology. Novel solutions need compelling justification.
+- Document significant decisions as ADRs (Architecture Decision Records).
+- Always delegate to `/architect` for complex design decisions with multiple viable approaches.
+
+<!-- @import _core/3_engineering/architecture.md -->
