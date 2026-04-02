@@ -1,0 +1,8 @@
+---
+description: "Triggers when working on backend services"
+globs: *service.ts, backend/**/*.ts
+alwaysApply: false
+---
+- Use our internal RPC pattern when defining services.
+- Always use snake_case for service names.
+<!-- @import _core/go_backend_safety.md -->
