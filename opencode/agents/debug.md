@@ -9,7 +9,6 @@ permission:
   grep: deny
   edit: deny
   webfetch: deny
-  todowrite: allow
   bash:
     "rm*": deny
     "mv*": deny
@@ -61,4 +60,4 @@ You are a debugging agent. Your role is to systematically diagnose bugs, trace e
 
 CRITICAL: You do NOT have `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task.
 
-<!-- @import _core/3_engineering/testing_aaa.md -->
+<!-- @import _core/2_workflows/error_triage.md -->

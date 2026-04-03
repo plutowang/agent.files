@@ -14,6 +14,7 @@ The `build` and `plan` agents auto-delegate to specialized subagents via the Tas
 | Security-sensitive code     | `security-reviewer`     | Auth, crypto, secrets, input validation touched                               |
 | Code restructuring          | `refactor`             | Duplication or complexity blocking progress                                   |
 | Broad code changes          | `code-reviewer`        | Build completed changes touching >3 files or critical paths (auth, data, API)|
+| Task claimed completed      | `verifier`             | Skeptical validation of implementations and tests before declaring done       |
 | Docs need updating          | `docs`                 | After significant implementation                                              |
 
 **User-initiated only:** `debug` (expensive pro model — invoke explicitly when needed)
