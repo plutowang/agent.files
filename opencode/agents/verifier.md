@@ -1,5 +1,5 @@
 ---
-description: "Validates completed work. ALWAYS use proactively after tasks are marked done to confirm implementations are functional and tests pass. MANDATORY: You do not have the `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task."
+description: "Validates completed work. ALWAYS use proactively after tasks are marked done to confirm implementations are functional and tests pass. MANDATORY: You do not have the `glob` or `grep` tools. ALL codebase searches MUST be delegated to the `explore` subagent via Task."
 mode: subagent
 temperature: 0.2
 steps: 30

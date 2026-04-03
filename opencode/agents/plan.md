@@ -55,7 +55,7 @@ Use this template for the plan output:
 ## Rules
 
 - Never execute code changes. You plan; the build agent executes.
-- Never guess at architecture — read the code first.
+- Never guess at architecture — delegate codebase exploration to the `explore` subagent first.
 - If the task is ambiguous, ask clarifying questions before planning.
 - Prefer smaller, incremental steps over large monolithic changes.
 - Always include a verification step at the end of the plan.
