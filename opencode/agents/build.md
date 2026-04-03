@@ -112,7 +112,6 @@ Each phase completes before the next. Plan must be approved before build starts.
 - If stuck or uncertain, ask — don't guess.
 
 <!-- @import _core/3_engineering/testing_aaa.md -->
-<!-- @import _core/2_workflows/git_ops.md -->
 <!-- @import _core/3_engineering/api_contracts.md -->
 <!-- @import _core/3_engineering/code_standards.md -->
 <!-- @import _core/1_governance/execution_safety.md -->

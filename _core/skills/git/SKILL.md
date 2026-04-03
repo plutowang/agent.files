@@ -13,9 +13,39 @@ description: Auto-apply when the user asks for any git version control operation
 
 ## 1. Standards
 
+### Conventional Commits
+
 - **Commit Format:** `<type>(<scope>): <description>`
 - **Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`.
-- **Branch Format:** `<type>/<kebab-case-description>` (e.g., `feat/auth-login`).
+- **Scope** is optional but encouraged for monorepos.
+- **Description** is imperative mood, lowercase, no period: `feat(auth): add JWT refresh token rotation`
+
+### Branch Strategy
+
+- **Branch Format:** `<type>/<kebab-case-description>` (e.g., `feat/auth-login` or `fix/jwt-expiry`).
+- Keep branches short-lived — merge within days, not weeks.
+- Rebase feature branches on main before merging to maintain linear history.
+
+### Atomic Commits
+
+- One logical change per commit. Don't mix refactoring with feature work.
+- Each commit should leave the codebase in a compilable, testable state.
+- If a change requires multiple steps, each step gets its own commit.
+
+### Pull Requests
+
+- Title follows conventional commit format.
+- Description includes: summary (1-3 bullets), what changed, how to test.
+- Link related issues.
+- Keep PRs focused — one feature or fix per PR.
+
+### Safety Rules
+
+- **Never force-push to main/master.** Period.
+- **Never commit secrets**, credentials, API keys, `.env` files, or private keys — even temporarily.
+- **Never amend commits** that have been pushed to remote.
+- **Verify tests pass** before creating a commit.
+- **Review the diff** before committing — no accidental files, no debug statements.
 
 ## 2. Workflows
 

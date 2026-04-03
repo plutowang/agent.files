@@ -29,5 +29,5 @@ I want you to be exceptionally ruthless about finding:
 
 1. Perform the deep scan across the 3 main directories.
 2. Generate the formal **"Architectural Audit Report"** exactly as specified in the `aupc-auditor` skill. 
-3. Group your findings by the 4 Audit Dimensions. Provide concrete, actionable recommendations (Issue -> Fix).
-4. **⏸ WAIT**: Stop and explicitly ask for my "Approved" command before you execute any cleanup operations.
+3. Group your findings by the 4 Audit Dimensions. Provide concrete, actionable recommendations using the **[ISSUE]** and **[FIX]** format.
+4. **WAIT**: Stop and explicitly ask for my "Approved" command before you execute any cleanup operations.

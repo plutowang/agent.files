@@ -41,13 +41,13 @@ Please meticulously scan the codebase against these 4 dimensions:
 
 ---
 
-## 📋 EXECUTION PROTOCOL (STRICT HITL)
+## EXECUTION PROTOCOL (STRICT HITL)
 
 You are conducting an audit. **DO NOT modify or rewrite any files yet.**
 
 1. **Analyze**: Deeply read the requested files, trace how the macros assemble (resolving the `<!-- @import -->` chains), and evaluate them against the Audit Matrix above.
 2. **Report**: Output an "Architectural Audit Report" grouped by the 4 dimensions. 
 3. **Action Items**: For every issue found, provide a concrete, actionable recommendation. You must use the following strict format:
-   - 🔴 **Issue Type** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` conflicts with `[File Path B]` regarding [Concept].
-   - 🟢 **Proposed Fix**: Remove/Edit line [X] from file [Y]. Add macro [Z].
-4. **⏸ WAIT**: Stop and wait for my explicit "Approved" command before executing any of the cleanup actions.
+   - **[ISSUE]** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` conflicts with `[File Path B]` regarding [Concept].
+   - **[FIX]**: Remove/Edit line [X] from file [Y]. Add macro [Z].
+4. **WAIT**: Stop and wait for my explicit "Approved" command before executing any of the cleanup actions.

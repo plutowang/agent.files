@@ -35,7 +35,7 @@ These rules are non-negotiable. Every wasted token degrades your context window.
 - Prefer Edit over Write for existing files — smaller diffs, less context consumed.
 - Auto-compaction is enabled. When context pressure is high, the system will compact automatically. Keep tool outputs clean and distill findings promptly to help compaction work effectively.
 
-## Task Breakdown
+## Execution Steps
 
 - For tasks with 3+ steps, create an explicit task list before starting.
 - Each task should be specific and actionable — include file paths, function names, and expected behavior.

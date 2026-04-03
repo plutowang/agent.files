@@ -28,7 +28,6 @@ After completing all changes, delegate when these conditions are met:
 <!-- @import _core/1_governance/anti_loop.md -->
 <!-- @import _core/3_engineering/code_standards.md -->
 <!-- @import _core/3_engineering/testing_aaa.md -->
-<!-- @import _core/2_workflows/git_ops.md -->
 <!-- @import _core/3_engineering/api_contracts.md -->
 <!-- @import _core/2_workflows/error_triage.md -->
 <!-- @import _core/2_workflows/communication.md -->
