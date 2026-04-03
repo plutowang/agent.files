@@ -13,7 +13,7 @@ fn backup(log: *zlap.Logger, allocator: std.mem.Allocator, file_path: []const u8
     const stat = file.stat() catch return false;
     if (stat.kind == .sym_link) return false;
 
-    const ts = std.time.timestamp();
+    const ts = std.time.nanoTimestamp();
     const backup_path = try std.fmt.allocPrint(allocator, "{s}.backup.{d}", .{ file_path, ts });
     defer allocator.free(backup_path);
 
@@ -40,6 +40,17 @@ pub fn createSymlink(
         log.warning("Source does not exist: {s}", .{source_path});
         return error.SourceNotFound;
     };
+
+    // Validate source kind: only allow regular files and directories.
+    // Reject symlinks to prevent chained symlink attacks (e.g., source -> ~/.ssh/id_rsa).
+    const source_stat = work_dir.statFile(source_path) catch {
+        log.warning("Could not stat source: {s}", .{source_path});
+        return error.SourceNotFound;
+    };
+    if (source_stat.kind != .file and source_stat.kind != .directory) {
+        log.err("Source is not a regular file or directory: {s} (kind: {s})", .{ source_path, @tagName(source_stat.kind) });
+        return error.InvalidSourceKind;
+    }
 
     if (dry_run) {
         log.info("Would link {s} -> {s}", .{ target_path, source_path });

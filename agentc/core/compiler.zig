@@ -51,6 +51,20 @@ pub fn resolveImports(
             " \t\r\n",
         );
 
+        // Validate import path: reject directory traversal and absolute paths.
+        // This prevents <!-- @import ../../etc/passwd --> style attacks.
+        if (mem.startsWith(u8, import_path, "/") or
+            mem.startsWith(u8, import_path, "\\") or
+            mem.eql(u8, import_path, "..") or
+            mem.startsWith(u8, import_path, "../") or
+            mem.startsWith(u8, import_path, "..\\") or
+            mem.indexOf(u8, import_path, "/../") != null or
+            mem.indexOf(u8, import_path, "\\..\\") != null)
+        {
+            log.err("Rejected unsafe import path: {s} (in {s})", .{ import_path, filepath });
+            return error.AccessDenied;
+        }
+
         // Recursively resolve the imported file
         const imported = try resolveImports(allocator, import_path, visited, log);
         try result.appendSlice(allocator, imported);

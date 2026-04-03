@@ -20,18 +20,10 @@ fn shouldSkip(entry_path: []const u8) bool {
     return false;
 }
 
-fn copyFile(allocator: mem.Allocator, source_path: []const u8, dest_path: []const u8) !void {
-    const src = try fs.cwd().openFile(source_path, .{});
-    defer src.close();
-
-    const dest = try fs.cwd().createFile(dest_path, .{});
-    defer dest.close();
-
-    const stat = try src.stat();
-    const content = try src.readToEndAlloc(allocator, stat.size);
-    defer allocator.free(content);
-
-    try dest.writeAll(content);
+fn copyFile(source_path: []const u8, dest_path: []const u8) !void {
+    // Use the stdlib streaming copy to avoid reading the entire file into memory.
+    // This is safe against large/malicious files and is more efficient.
+    try fs.cwd().copyFile(source_path, fs.cwd(), dest_path, .{});
 }
 
 fn compileFile(allocator: mem.Allocator, source_path: []const u8, dest_path: []const u8, log: *zlap.Logger) !void {
@@ -92,7 +84,7 @@ pub fn buildTargetDir(
                     try fs.cwd().makePath(parent);
                 }
                 if (is_json) {
-                    try copyFile(allocator, source_path, dest_path);
+                    try copyFile(source_path, dest_path);
                     log.info("Copied   {s}/{s}", .{ source_dir_path, entry.path });
                 } else {
                     try compileFile(allocator, source_path, dest_path, log);
@@ -141,7 +133,7 @@ pub fn copyDirRecursive(
                 if (fs.path.dirname(dest_path)) |parent| {
                     try fs.cwd().makePath(parent);
                 }
-                try copyFile(allocator, source_path, dest_path);
+                try copyFile(source_path, dest_path);
                 log.info("Copied skill {s}/{s}", .{ source_dir_path, entry.path });
             }
             count += 1;
