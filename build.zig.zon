@@ -1,0 +1,19 @@
+.{
+    .name = .agentc,
+    .version = "0.0.0",
+    .fingerprint = 0x8821bb0ae51934ee,
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{
+        .zlap = .{
+            .url = "https://github.com/plutowang/zlap/archive/v0.0.2-beta.tar.gz",
+            .hash = "zlap-0.0.2-beta-eNQqnN7CAACi6ca9Z4gRcUhRwlfkOB0AiXPoUbrfMrr7",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "agentc",
+        "LICENSE",
+        "README.md",
+    },
+}

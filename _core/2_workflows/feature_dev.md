@@ -14,7 +14,7 @@ Every non-trivial task follows this cycle:
 6. **⏸ Report** — Present results to the human. Summarize what was done, what was verified, and any remaining concerns.
 7. **Commit** — Only when explicitly instructed. Follow git workflow standards.
 
-## Principles
+## Development Principles
 
 - **Read before write.** Always understand existing code before modifying it.
 - **Search before read.** Use search to find relevant files before reading them in full.

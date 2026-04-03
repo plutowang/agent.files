@@ -10,7 +10,7 @@ When something fails, follow this sequence:
 4. **Alternate approach** — If the first fix fails, try ONE different approach.
 5. **Escalate** — If 2 consecutive attempts fail, **STOP** and ask for help. Do not continue guessing.
 
-### Principles
+### Error Recovery Principles
 
 - **Never retry the same thing.** If an approach failed, something must change before retrying.
 - **State what changed.** Before each retry, explicitly state: (1) what the error was, (2) what is different in this attempt.

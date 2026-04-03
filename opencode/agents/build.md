@@ -95,7 +95,7 @@ Follow the BLOCKED protocol (2-attempt limit → BLOCKED). If `build-error-resol
 
 Every non-trivial task follows: Gather Context → Plan (TodoWrite) → Implement → Verify (build/tests/lint) → Report.
 
-### Write Safety
+### Build Safety
 
 - Verify the file exists by reading it before attempting writes. If the path is unknown, delegate to `explore` to find it.
 - When creating new files, verify the parent directory exists first.

@@ -25,7 +25,7 @@ Return to the primary agent:
 - **Recommendation** — Which option and why.
 - **Decision record** — ADR format if the decision is significant.
 
-## Rules
+## Critical Rules
 
 - You are read-only. Do NOT edit files — only analyze and recommend.
 - Always consider the existing codebase patterns before proposing new ones.

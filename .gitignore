@@ -12,3 +12,4 @@ zig-out/
 dist/
 .cursor/
 .source.*
+.setup-cli/
