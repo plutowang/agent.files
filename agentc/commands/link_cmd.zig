@@ -64,7 +64,7 @@ pub fn handler(parser: *zlap.Parser) !void {
     const dist_target_path = try fs.path.join(alloc, &.{ "dist", target.source_dir });
     var dist_dir = fs.cwd().openDir(dist_target_path, .{ .iterate = true }) catch |err| {
         log.warning("Could not open {s}: {s}", .{ dist_target_path, @errorName(err) });
-        log.info("Done.", .{});
+        log.success("Done.", .{});
         return;
     };
     defer dist_dir.close();
@@ -82,5 +82,5 @@ pub fn handler(parser: *zlap.Parser) !void {
         };
     }
 
-    log.info("Done.", .{});
+    log.success("Done.", .{});
 }

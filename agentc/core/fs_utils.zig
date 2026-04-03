@@ -85,10 +85,10 @@ pub fn buildTargetDir(
                 }
                 if (is_json) {
                     try copyFile(source_path, dest_path);
-                    log.info("Copied   {s}/{s}", .{ source_dir_path, entry.path });
+                    log.success("Copied   {s}/{s}", .{ source_dir_path, entry.path });
                 } else {
                     try compileFile(allocator, source_path, dest_path, log);
-                    log.info("Compiled {s}/{s}", .{ source_dir_path, entry.path });
+                    log.success("Compiled {s}/{s}", .{ source_dir_path, entry.path });
                 }
             }
             count += 1;
@@ -134,7 +134,7 @@ pub fn copyDirRecursive(
                     try fs.cwd().makePath(parent);
                 }
                 try copyFile(source_path, dest_path);
-                log.info("Copied skill {s}/{s}", .{ source_dir_path, entry.path });
+                log.success("Copied skill {s}/{s}", .{ source_dir_path, entry.path });
             }
             count += 1;
         }

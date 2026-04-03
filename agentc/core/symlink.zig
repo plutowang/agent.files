@@ -69,7 +69,7 @@ pub fn createSymlink(
     var link_buffer: [fs.max_path_bytes]u8 = undefined;
     if (work_dir.readLink(target_path, &link_buffer)) |current_target| {
         if (std.mem.eql(u8, current_target, source_path)) {
-            log.info("{s}: already linked - {s} -> {s}", .{ name, target_path, source_path });
+            log.success("{s}: already linked - {s} -> {s}", .{ name, target_path, source_path });
             return;
         }
         log.warning("Replacing existing symlink: {s} -> {s}", .{ target_path, current_target });
@@ -83,5 +83,5 @@ pub fn createSymlink(
     }
 
     try work_dir.symLink(source_path, target_path, .{});
-    log.info("{s}: linked - {s} -> {s}", .{ name, target_path, source_path });
+    log.success("{s}: linked - {s} -> {s}", .{ name, target_path, source_path });
 }

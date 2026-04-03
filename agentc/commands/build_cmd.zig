@@ -51,7 +51,7 @@ pub fn handler(parser: *zlap.Parser) error{OutOfMemory}!void {
         };
         total_files += count;
 
-        log.info("Processed {d} files for {s}", .{ count, target.name });
+        log.success("Processed {d} files for {s}", .{ count, target.name });
     }
 
     // Copy shared skills to both targets
@@ -70,8 +70,8 @@ pub fn handler(parser: *zlap.Parser) error{OutOfMemory}!void {
         };
         total_files += count;
 
-        log.info("Processed {d} skill files to dist/{s}/skills", .{ count, target.name });
+        log.success("Processed {d} skill files to dist/{s}/skills", .{ count, target.name });
     }
 
-    log.info("Done. {d} files processed.", .{total_files});
+    log.success("Done. {d} files processed.", .{total_files});
 }
