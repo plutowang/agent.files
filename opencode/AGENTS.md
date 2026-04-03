@@ -9,12 +9,12 @@ The `build` and `plan` agents auto-delegate to specialized subagents via the Tas
 | Trigger                     | Subagent               | When                                                                          |
 | --------------------------- | ---------------------- | ----------------------------------------------------------------------------- |
 | Codebase search / Web fetch | `explore`              | Need to find files, search code, or retrieve web documentation                |
-| Design decision             | `architect`            | Multiple viable approaches (plan agent only)                                   |
-| Build failure               | `build-error-resolver` | After 2 failed build/test attempts                                            |
-| Security-sensitive code     | `security-reviewer`    | Auth, crypto, secrets, input validation touched                               |
+| Design decision             | `architect`            | Multiple viable approaches (plan agent only)                                 |
+| Build failure               | `build-error-resolver`  | After 2 failed build/test attempts                                            |
+| Security-sensitive code     | `security-reviewer`     | Auth, crypto, secrets, input validation touched                               |
 | Code restructuring          | `refactor`             | Duplication or complexity blocking progress                                   |
-| Broad code changes         | `code-reviewer`        | Build completed changes touching >3 files or critical paths (auth, data, API) |
-| Docs need updating         | `docs`                | After significant implementation                                              |
+| Broad code changes          | `code-reviewer`        | Build completed changes touching >3 files or critical paths (auth, data, API)|
+| Docs need updating          | `docs`                 | After significant implementation                                              |
 
 **User-initiated only:** `debug` (expensive pro model — invoke explicitly when needed)
 

@@ -11,12 +11,12 @@ NOT satisfy this check. Therefore `build` must call `read` directly before editi
 
 ### Tool-Level Enforcement Architecture
 
-| Tool       | `explore` | `build`                             | All other agents |
-|------------|-----------|-------------------------------------|------------------|
-| `read`     | ✅ enabled | ✅ enabled (required for Edit/Write) | ❌ disabled       |
-| `glob`     | ✅ enabled | ❌ disabled                          | ❌ disabled       |
-| `grep`     | ✅ enabled | ❌ disabled                          | ❌ disabled       |
-| `webfetch` | ✅ enabled | ❌ disabled                          | ❌ disabled       |
+| Tool      | `explore` | `build`                            | All other agents |
+| --------- | --------- | ---------------------------------- | ---------------- |
+| `read`    | ✅ enabled | ✅ enabled (required for Edit/Write) | ❌ disabled      |
+| `glob`    | ✅ enabled | ❌ disabled                         | ❌ disabled      |
+| `grep`    | ✅ enabled | ❌ disabled                         | ❌ disabled      |
+| `webfetch`| ✅ enabled | ❌ disabled                         | ❌ disabled      |
 
 ### Build Agent
 

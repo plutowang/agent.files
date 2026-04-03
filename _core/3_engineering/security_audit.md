@@ -76,13 +76,13 @@ When reviewing or writing code that handles user input, authentication, or data 
 
 For each finding:
 
-| Field              | Content                            |
-| ------------------ | ---------------------------------- |
+| Field              | Content                               |
+| ------------------ | ------------------------------------- |
 | **Severity**       | Critical / High / Medium / Low / Info |
-| **Location**       | file:line                          |
-| **Description**    | What the vulnerability is          |
-| **Impact**         | What an attacker could do          |
-| **Recommendation** | Specific remediation               |
+| **Location**       | file:line                             |
+| **Description**    | What the vulnerability is             |
+| **Impact**         | What an attacker could do             |
+| **Recommendation** | Specific remediation                  |
 
 ## Rules
 

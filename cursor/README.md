@@ -3,18 +3,21 @@
 This directory contains the source files for Cursor-specific agent behaviors, MDC rules, subagents, and custom commands.
 
 ## Reference Links
-- MDC Rules Schema: https://cursor.com/docs/rules
-- Subagents Architecture: https://cursor.com/docs/subagents
-- Commands: https://cursor.com/docs/reference/plugins#commands-format
+
+- MDC Rules Schema: <https://cursor.com/docs/rules>
+- Subagents Architecture: <https://cursor.com/docs/subagents>
+- Commands: <https://cursor.com/docs/reference/plugins#commands-format>
 
 ---
 
 ## 1. Subagent Configuration Schema (`cursor/agents/*.md`)
+
 Custom subagents live in `.cursor/agents/` and run in isolated context windows. Use them for long-running, parallel, or specialized tasks to prevent bloating the main conversation.
 
 **Note:** Cursor already has built-in subagents for `Explore` (codebase search), `Bash`, and `Browser`. Do not reinvent these unless you need highly specialized behavior.
 
 ### YAML Frontmatter Fields
+
 | Field           | Type    | Default   | Description                                                                                            |
 | :-------------- | :------ | :-------- | :----------------------------------------------------------------------------------------------------- |
 | `name`          | string  | Filename  | Display name and identifier (lowercase, hyphens). You can invoke it via `/name`.                       |
@@ -24,6 +27,7 @@ Custom subagents live in `.cursor/agents/` and run in isolated context windows. 
 | `is_background` | boolean | `false`   | If `true`, runs asynchronously without blocking the parent agent.                                      |
 
 ### Pro-Tips for AI Agents (From Official Docs)
+
 - **Delegation Hacking**: To force the parent agent to use your subagent automatically, inject aggressive phrases into the `description` field like: *"Use proactively when..."* or *"Always use for..."*.
 - **Model Selection**: Always use `model: fast` for verifiers, test runners, or searchers to save tokens and speed up parallel execution.
 - **Subagent vs. Skill**: If a task is a quick, single-shot action (like formatting or generating a changelog) without needing context isolation, create a Slash Command or Skill instead.
@@ -31,9 +35,11 @@ Custom subagents live in `.cursor/agents/` and run in isolated context windows. 
 ---
 
 ## 2. MDC Rules Schema (`cursor/rules/*.mdc`)
+
 MDC files provide context-aware rules based on the active file or explicit invocation.
 
 ### Frontmatter Fields
+
 | Field         | Type    | Description                                                                |
 | :------------ | :------ | :------------------------------------------------------------------------- |
 | `description` | string  | Used by the Agent to apply intelligently.                                  |
@@ -43,6 +49,7 @@ MDC files provide context-aware rules based on the active file or explicit invoc
 ---
 
 ## 3. Command Configuration Schema (`cursor/commands/*.md`)
+
 For quick, repeatable actions.
 
 | Field         | Type   | Description                            |
@@ -53,4 +60,5 @@ For quick, repeatable actions.
 ---
 
 ## Integration with _core
+
 Remember to append `<!-- @import _core/1_governance/hitl_gates.md -->` (or similar) at the bottom of host shells to inherit universal philosophies (like testing standards, security sandboxing, or human-in-the-loop workflows).

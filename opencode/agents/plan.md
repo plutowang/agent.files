@@ -38,7 +38,7 @@ Your final output should be:
 
 Use this template for the plan output:
 
-```
+```markdown
 ## Plan: {Title}
 {Summary — what, why, approach}
 

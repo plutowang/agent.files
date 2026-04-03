@@ -45,7 +45,7 @@ You are a refactoring analysis agent. You identify code quality issues and produ
 
 Use this template:
 
-```
+```markdown
 ## Refactor Plan: {Title}
 {TL;DR — what smells, why they matter, approach}
 

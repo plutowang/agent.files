@@ -10,12 +10,14 @@ You are an expert in **REST API Design**. You strictly adhere to resource-orient
 ## 1. Resource Naming Conventions
 
 ### URL Structure
+
 - **Plural nouns** for collections: `/users`, `/posts`, `/comments`
 - **Nested resources** for relationships: `/users/{userId}/posts`
 - **kebab-case** for multi-word paths: `/user-profiles`, `/order-items`
 - **No verbs in URLs**: Use HTTP methods, not `/getUser` or `/createPost`
 
 ### Examples
+
 ```http
 GET    /users              # List users
 POST   /users              # Create user
@@ -29,6 +31,7 @@ POST   /users/{userId}/posts    # Create post for user
 ```
 
 ### Anti-Patterns
+
 ```http
 # Bad: verbs in URLs
 GET /getUsers
@@ -97,6 +100,7 @@ Use a consistent error response format across all endpoints:
 | 503         | `SERVICE_UNAVAILABLE` | Temporarily unavailable               |
 
 ### HTTP Status Code Guidelines
+
 - `200 OK` — Successful GET, PATCH, PUT, DELETE
 - `201 Created` — Successful POST creating a resource
 - `202 Accepted` — Async operation accepted
@@ -115,6 +119,7 @@ Use a consistent error response format across all endpoints:
 Use **cursor-based pagination** for large datasets. Never use offset pagination for large tables.
 
 ### Cursor Pagination
+
 ```json
 {
   "data": [...],
@@ -129,37 +134,42 @@ Use **cursor-based pagination** for large datasets. Never use offset pagination 
 ```
 
 ### Request Parameters
-```
+
+```bash
 GET /users?first=20&after=eyJpZCI6MTAwfQ==
 GET /posts?last=10&before=eyJpZCI6MjAwfQ==
 ```
 
 ### Query Parameters
-| Parameter | Purpose                                    |
-| --------- | ------------------------------------------ |
-| `first`   | Number of items to return (forward)       |
-| `after`   | Cursor for forward pagination              |
-| `last`    | Number of items to return (backward)       |
-| `before`  | Cursor for backward pagination             |
-| `filter`  | JSON-encoded filter object                 |
-| `sort`    | Field and direction (e.g., `createdAt:desc`)|
+
+| Parameter | Purpose                                             |
+| --------- | --------------------------------------------------- |
+| `first`  | Number of items to return (forward)                 |
+| `after`  | Cursor for forward pagination                       |
+| `last`   | Number of items to return (backward)                |
+| `before` | Cursor for backward pagination                      |
+| `filter` | JSON-encoded filter object                          |
+| `sort`   | Field and direction (e.g., `createdAt:desc`)      |
 
 ## 5. Idempotency
 
 For critical POST operations, support idempotency keys:
 
 ### Request Headers
-```
+
+```bash
 Idempotency-Key: <unique-client-generated-key>
 ```
 
 ### Idempotency Response
+
 ```http
 HTTP/1.1 201 Created
 Idempotency-Key: abc123
 ```
 
 ### Implementation Notes
+
 - Store idempotency keys with TTL (24 hours recommended)
 - Return cached response for duplicate keys
 - Keys should be UUIDs or similar high-entropy values
@@ -167,20 +177,23 @@ Idempotency-Key: abc123
 ## 6. API Versioning
 
 ### URL Path Versioning (Recommended)
-```
+
+```bash
 /api/v1/users
 /api/v2/users
 ```
 
 ### Version Lifecycle
-| Status    | Description                                      |
-| --------- | ------------------------------------------------ |
-| `current` | Latest stable version                            |
-| `deprecated` | Still supported, migration recommended        |
-| ` sunset` | Security patches only, migration required        |
-| `closed`  | No longer available                              |
+
+| Status       | Description                                           |
+| ------------ | ----------------------------------------------------- |
+| `current`    | Latest stable version                                 |
+| `deprecated` | Still supported, migration recommended               |
+| `sunset`     | Security patches only, migration required             |
+| `closed`     | No longer available                                   |
 
 ### Deprecation Headers
+
 ```http
 Deprecation: true
 Sunset: Sat, 31 Dec 2025 23:59:59 GMT
@@ -190,11 +203,13 @@ Link: <https://api.example.com/v2/users>; rel="successor-version"
 ## 7. Input Validation
 
 ### Validation Rules
+
 - Validate at **boundary** (entry point), not in business logic
 - Reject early with clear, actionable error messages
 - Use schema validation (Zod, JSON Schema, etc.)
 
 ### Example Validation Error
+
 ```json
 {
   "error": {
@@ -212,23 +227,25 @@ Link: <https://api.example.com/v2/users>; rel="successor-version"
 ```
 
 ### Common Validation Types
-| Type        | Rule Example                              |
-| ----------- | ------------------------------------------ |
-| `required`  | Field must be present                      |
-| `string`    | Must be a string                           |
-| `email`     | Valid email format                         |
-| `uuid`      | Valid UUID v4 format                       |
-| `url`       | Valid URL                                  |
-| `minLength` | Minimum string length                      |
-| `maxLength` | Maximum string length                      |
-| `minimum`   | Minimum numeric value                      |
-| `maximum`   | Maximum numeric value                      |
-| `enum`      | Must be one of allowed values              |
-| `pattern`   | Must match regex pattern                   |
+
+| Type       | Rule Example                                     |
+| ---------- | ------------------------------------------------ |
+| `required` | Field must be present                             |
+| `string`   | Must be a string                                  |
+| `email`    | Valid email format                                |
+| `uuid`     | Valid UUID v4 format                              |
+| `url`      | Valid URL                                         |
+| `minLength`| Minimum string length                             |
+| `maxLength`| Maximum string length                             |
+| `minimum`  | Minimum numeric value                             |
+| `maximum`  | Maximum numeric value                             |
+| `enum`     | Must be one of allowed values                     |
+| `pattern`  | Must match regex pattern                          |
 
 ## 8. Rate Limiting
 
 ### Response Headers
+
 ```http
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
@@ -237,6 +254,7 @@ Retry-After: 60
 ```
 
 ### Rate Limit Exceeded Response
+
 ```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 60
@@ -252,16 +270,18 @@ Content-Type: application/json
 ```
 
 ### Rate Limit Tiers
-| Tier      | Requests/minute | Use Case           |
-| --------- | --------------- | ------------------ |
-| Standard  | 60             | Default            |
-| Elevated  | 600            | Authenticated      |
-| Partner   | 6000           | Business partners  |
-| Internal  | Unlimited      | Service-to-service |
+
+| Tier      | Requests/minute | Use Case             |
+| --------- | --------------- | ------------------- |
+| Standard  | 60              | Default              |
+| Elevated  | 600             | Authenticated        |
+| Partner   | 6000            | Business partners    |
+| Internal  | Unlimited       | Service-to-service   |
 
 ## 9. Request/Response Conventions
 
 ### Content Type
+
 Always specify Content-Type and Accept headers:
 
 ```http
@@ -270,6 +290,7 @@ Accept: application/json
 ```
 
 ### Date Format
+
 Use **ISO 8601** with UTC timezone:
 
 ```json
@@ -280,29 +301,33 @@ Use **ISO 8601** with UTC timezone:
 ```
 
 ### Null vs Empty
-| Value    | Meaning                                   |
-| -------- | ----------------------------------------- |
-| `null`   | Field exists but has no value             |
-| `[]`     | Empty collection                          |
-| `""`     | Empty string (rarely use)                |
-| omitted  | Field not included (sparse fields)       |
+
+| Value    | Meaning                                           |
+| -------- | ------------------------------------------------- |
+| `null`   | Field exists but has no value                     |
+| `[]`     | Empty collection                                   |
+| `""`     | Empty string (rarely use)                         |
+| omitted  | Field not included (sparse fields)                |
 
 ### Sparse Fieldsets
+
 Allow clients to request specific fields:
 
-```
+```bash
 GET /users?fields=id,name,email
 ```
 
 ## 10. Async Operations
 
 ### Accepted Response (202)
+
 ```http
 HTTP/1.1 202 Accepted
 Location: /operations/12345
 ```
 
 ### Operation Resource
+
 ```json
 {
   "id": "12345",
@@ -313,6 +338,7 @@ Location: /operations/12345
 ```
 
 ### Webhook Alternative
+
 For async operations that complete asynchronously:
 
 ```json
@@ -326,16 +352,19 @@ For async operations that complete asynchronously:
 ## 11. Security
 
 ### Authentication
+
 - Use Bearer tokens in Authorization header
 - API keys for server-to-server
 - JWT or OAuth 2.0 for user authentication
 
 ### Authorization
+
 - Implement RBAC or ABAC
 - Validate permissions at endpoint level
 - Audit log all authorization failures
 
 ### CORS
+
 Configure appropriate CORS headers:
 
 ```http

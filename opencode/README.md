@@ -37,7 +37,8 @@ Permissions control what tools the agent can execute autonomously. Values can be
 - **`permission.task`**: Controls which *other subagents* this agent can invoke. Uses glob patterns. Setting to `deny` removes that subagent from this agent's visibility.
 
 ### CRITICAL: The Timestamp Workaround
-OpenCode has a strict security mechanism for the `edit` and `write` tools. 
+
+OpenCode has a strict security mechanism for the `edit` and `write` tools.
 If an agent requires the ability to modify files, it **MUST** also have `read: true` in its tools list. Furthermore, the prompt MUST explicitly instruct the agent to **call `read` on a file immediately before modifying it**. Subagent reads (e.g., from `explore`) do NOT satisfy this timestamp check.
 
 ---

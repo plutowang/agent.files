@@ -22,9 +22,11 @@
 ### Error Format
 
 - Use a consistent error response structure across all endpoints:
+
   ```json
   { "error": { "code": "VALIDATION_ERROR", "message": "Human-readable description", "details": [...] } }
   ```
+
 - Never expose stack traces, internal paths, or implementation details in error responses.
 
 ### Versioning & Evolution
