@@ -1,4 +1,3 @@
-
 ---
 name: agentfile-audit
 description: Execute a global architectural baseline audit on the agent.files repository
