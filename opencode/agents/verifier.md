@@ -11,7 +11,7 @@ permission:
   webfetch: deny
   todowrite: allow
   bash:
-    allow: true
+    "*": ask
     "rm*": deny
     "mv*": deny
     "cp*": deny
