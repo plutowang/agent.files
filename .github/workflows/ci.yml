@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  zig:
+    name: Zig Build & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: zmachine/setup-zig@v2
+        with:
+          zig-version: "0.15.0"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/zig
+          key: zig-${{ runner.os }}-${{ hashFiles('build.zig.zon') }}
+          restore-keys: |
+            zig-${{ runner.os }}-
+
+      - run: zig build
+
+      - run: zig fmt --check
+
+  markdown:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DavidAnson/markdownlint-cli2@v0.13.0
+        with:
+          config: .markdownlint.json
+          files: .
+          glob: "**/*.md"
+
+  secrets:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base_depth: 0
