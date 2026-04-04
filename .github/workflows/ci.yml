@@ -72,7 +72,7 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog
-        uses: trufflesecurity/trufflehog@0.3.8
+        uses: trufflesecurity/trufflehog@main
         with:
           path: ./
           base_depth: 0
