@@ -60,7 +60,7 @@ pub fn handler(parser: *zlap.Parser) !void {
         };
     }
 
-    // --- Symlink root-level files (e.g. .cursorrules, AGENTS.md, *.json) ---
+    // --- Symlink root-level files (e.g. AGENTS.md, *.json) ---
     const dist_target_path = try fs.path.join(alloc, &.{ "dist", target.source_dir });
     var dist_dir = fs.cwd().openDir(dist_target_path, .{ .iterate = true }) catch |err| {
         log.warning("Could not open {s}: {s}", .{ dist_target_path, @errorName(err) });

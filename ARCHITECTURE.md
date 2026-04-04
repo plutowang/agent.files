@@ -11,7 +11,7 @@ This document serves as the definitive architectural blueprint for the `agent.fi
 
 **AUPC** stands for **Agentic Unified Prompt Compiler**.
 
-Before AUPC, AI agent configurations (such as Cursor's `.cursorrules` or OpenCode's `agents/*.md` files) were typically maintained as monolithic, isolated text files. Developers mixed high-level software engineering philosophies (e.g., "Use Test-Driven Development") with low-level IDE mechanics (e.g., "Use the `glob` tool", "Add `globs: *.ts` to YAML").
+Before AUPC, AI agent configurations (such as Cursor's `AGENTS.md` or OpenCode's `agents/*.md` files) were typically maintained as monolithic, isolated text files. Developers mixed high-level software engineering philosophies (e.g., "Use Test-Driven Development") with low-level IDE mechanics (e.g., "Use the `glob` tool", "Add `globs: *.ts` to YAML").
 
 This monolithic approach led to severe issues:
 
@@ -52,7 +52,7 @@ To guarantee the cross-platform nature of `_core/`, the system enforces a strict
 These directories contain the physical templates required by specific AI IDEs. They contain the YAML frontmatter, JSON configurations, and explicit routing mechanics unique to that platform.
 
 - **OpenCode (Multi-Agent System)**: Host shells here (e.g., `agents/build.md`) explicitly define tool `permission` objects (e.g., `bash: deny`, `edit: allow`). They also contain IDE-specific workarounds, such as the explicit instruction to "call the `read` tool before editing" to bypass OpenCode's internal timestamp security checks.
-- **Cursor (Monolithic RAG System)**: Host shells here consolidate primary routing logic into a global `.cursorrules` file, while mapping engineering standards into targeted `.mdc` files utilizing `globs` for file-based activation. Subagents here are restricted to background, read-only tasks using fast models.
+- **Cursor (Monolithic RAG System)**: Host shells here consolidate primary routing logic into a global `AGENTS.md` file, while mapping engineering standards into targeted `.mdc` files utilizing `globs` for file-based activation. Subagents here are restricted to background, read-only tasks using fast models.
 
 ---
 
