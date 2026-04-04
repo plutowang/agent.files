@@ -2,57 +2,77 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
+    branches: [main, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   zig:
     name: Zig Build & Format
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        zig-version: [0.15.2]
+
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ko-zu/setup-zig@v0.5.0
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v2
         with:
-          zig-version: "0.15.0"
+          version: ${{ matrix.zig-version }}
 
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/zig
-          key: zig-${{ runner.os }}-${{ hashFiles('build.zig.zon') }}
-          restore-keys: |
-            zig-${{ runner.os }}-
+      - name: Run Zig fmt check
+        run: zig fmt --check .
 
-      - run: zig build
+      - name: Build project
+        run: zig build
 
-      - run: zig fmt --check
+      - name: Build optimized release
+        run: zig build -Doptimize=ReleaseFast
 
   markdown:
-    name: Markdown Lint
+    name: Markdown Formatting
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - uses: actions/checkout@v4
 
-      - uses: DavidAnson/markdownlint-cli2-action@v0.14.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          config: .markdownlint.json
-          files: .
-          glob: "**/*.md"
+          node-version: '25'
+          cache: 'npm'
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Check markdown formatting
+        run: markdownlint . --ignore node_modules --ignore .git
 
   secrets:
     name: Secret Scanning
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: TruffleHog
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@0.3.8
         with:
           path: ./
           base_depth: 0
