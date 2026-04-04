@@ -3,6 +3,7 @@ description: "MANDATORY: Use `read` directly before editing any file (subagent r
 temperature: 0.4
 steps: 35
 permission:
+  read: allow
   glob: deny
   grep: deny
   webfetch: deny
