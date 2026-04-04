@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: zmachine/setup-zig@v2
+      - uses: ko-zu/setup-zig@v0.5.0
         with:
           zig-version: "0.15.0"
 
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: DavidAnson/markdownlint-cli2@v0.13.0
+      - uses: DavidAnson/markdownlint-cli2-action@v0.14.0
         with:
           config: .markdownlint.json
           files: .
