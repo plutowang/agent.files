@@ -1,96 +1,56 @@
-# agent.files
+# agent.files (AUPC)
 
 > **A Write-Once, Compile-Anywhere configuration vault for AI Coding Agents.**
-> This repository acts as the Single Source of Truth for agentic workflows, compiling abstract human philosophies and shared skills into IDE-specific prompt dialects (OpenCode, Cursor).
+>
+> This repository acts as the Single Source of Truth for agentic workflows. It uses a custom macro compiler to inject abstract human software engineering philosophies into the specific prompt dialects of diverse AI IDEs (e.g., OpenCode, Cursor).
 
 ---
 
-## ATTENTION AI AGENTS (CRITICAL META-PROMPT)
+## ATTENTION AI AGENTS (CRITICAL INSTRUCTION)
 
-If you are an AI reading this repository to help the user modify, add, or delete prompt rules, **YOU MUST STRICTLY ADHERE TO THE FOLLOWING ARCHITECTURAL CONSTRAINTS.**
-Ignorance of these rules will break the cross-IDE compilation pipeline.
+If you are an AI assistant tasked with reading, modifying, or auditing this repository, **DO NOT PROCEED** using your default assumptions about system prompts.
 
-### 1. Source of Truth Directory Structure
+You **MUST** immediately invoke the `agent-architect` skill located in `.agents/skills/agent-architect/SKILL.md` to load the structural mapping, the Lexical Ban rules, and the macro-compilation logic of this specific repository.
 
-Do not guess file locations. Use the following map to understand the project's architecture.
-**ALL modifications must be made in the source directories (`_core/`, `opencode/`, `cursor/`), NEVER in the `dist/` directory.**
-
-    agent.files/
-    ├── _core/                     [UNIVERSAL ZONE] Shared Assets & Philosophies
-    │   ├── 1_governance/          HITL gates, execution safety, anti-loop
-    │   ├── 2_workflows/           Feature dev, error triage, git ops, communication
-    │   ├── 3_engineering/         Architecture, API, code standards, testing, security
-    │   ├── 4_refactoring/         Smell detection, extraction patterns
-    │   └── skills/                Shared skills (Compatible schemas)
-    │
-    ├── cursor/                    [CURSOR ZONE] Host Shells & Rules
-    │   ├── .examples/             Reference templates for AI
-    │   ├── agents/                Subagent definitions
-    │   ├── commands/              Slash command behaviors
-    │   ├── rules/                 .mdc files
-    │   └── README.md              Directory-specific schema guide
-    │
-    ├── opencode/                  [OPENCODE ZONE] Host Shells & Rules
-    │   ├── .examples/             Reference templates for AI
-    │   ├── agents/                Role-driven agent definitions
-    │   ├── commands/              Slash command behaviors
-    │   ├── rules/                 Task-specific constraints
-    │   └── README.md              Directory-specific schema guide
-    │
-    ├── agentc.go                  The Macro Compiler Script
-    ├── .gitignore
-    ├── LICENSE
-    └── README.md                  This Meta-Prompt file
-
-### 2. The Shared Skills Architecture (`_core/skills/`)
-
-Skills are the ONLY fully cross-compatible assets. They are stored in `_core/skills/` and distributed to both IDEs without modification during compilation.
-
-**The Unified Skill Frontmatter Schema:**
-Because OpenCode ignores unknown frontmatter fields, we author all skills using the Cursor superset schema:
-
-- `name` (Required): Skill identifier (lowercase-hyphens).
-- `description` (Required): Describes what the skill does. Used by agents for delegation.
-- `license` (Optional): License string.
-- `compatibility` (Optional): Environment requirements.
-- `metadata` (Optional): Key-value mapping.
-- `disable-model-invocation` (Optional, Cursor only): If true, agent will not auto-apply it. (OpenCode safely ignores this field).
-
-### 3. The Lexical Ban (`_core/` Markdown Files)
-
-- **Purpose**: Files under `_core/` subdirectories (like `1_governance/hitl_gates.md`) are injected via macros and apply to ALL IDEs.
-- **THE LEXICAL BAN**: These files MUST NEVER contain IDE-specific tool names or subagent names.
-- *FORBIDDEN WORDS*: `glob`, `grep`, `Task`, `explore agent`, `build agent`, `YAML frontmatter`.
-
-### 4. The Macro System (Dependency Injection)
-
-We use HTML comments to inject core philosophies into the host shells.
-**Syntax:** `<!-- @import _core/1_governance/hitl_gates.md -->`
-
-- If you create a new universal rule in `_core/`, you MUST ensure it is imported via this macro at the bottom of the respective host shell files inside `opencode/` and `cursor/`.
-
-### 5. Modifying Assets (Action Guide for AI)
-
-> **CRITICAL PRE-FLIGHT CHECK:**
-> Before creating or editing ANY file inside the `opencode/` or `cursor/` directories, you **MUST first read** the corresponding `README.md` and `.examples/example_*.md` files in that target directory.
-> These files contain the exact YAML schemas, field definitions, and formatting rules required for that specific IDE. **DO NOT guess the frontmatter schema!**
-
-- **Add a universal safety rule**: Create/edit a file in `_core/` (NOT in `_core/skills/`).
-- **Add a new capability/tool**: Create a new Skill markdown file in `_core/skills/`.
-- **Add an IDE-specific agent or rule**: Edit the respective `agents/` or `rules/` folder inside `opencode/` or `cursor/`.
+Failure to load the `agent-architect` skill before making modifications will result in broken compilation pipelines and severe context pollution.
 
 ---
 
-## How to Compile (For Humans)
+## Project Architecture at a Glance
 
-This project uses a custom script to compile the Markdown files and distribute the shared skills into IDE-ready configurations.
+This repository strictly separates **Human Philosophy** from **Machine Execution**.
 
-**Run Compiler:**
+- **`_core/` (The Soul)**: Platform-agnostic software engineering rules, workflows, and shared skills. *Never contains IDE-specific mechanics.*
+- **`opencode/` & `cursor/` (The Host Shells)**: IDE-specific bodies containing YAML permissions, `.mdc` globs, and tool routing. They assemble their prompts via `<!-- @import _core/... -->` macros.
+- **`dist/` (The Output)**: Ephemeral compiled configurations ready for IDE consumption.
+- **`agentc/`**: The blazingly fast Zig compiler that stitches it all together.
 
-    go run agentc.go
+---
 
-**Output Locations:**
-Compiled assets are generated into the `dist/` directory:
+## The Subcommand Arsenal (Built-in Skills)
 
-- `dist/opencode/` (Includes injected agents and copied shared skills)
-- `dist/cursor/` (Includes injected rules and copied shared skills)
+This repository comes with its own "Cyber-Immune System" implemented via powerful AI Skills and Commands:
+
+- **`/aupc-auditor`**: Runs a holistic static analysis to find logic conflicts, context bloat, and redundancy across the prompts.
+- **`/ide-bootstrapper`**: Automatically generates the full suite of Host Shell templates for a brand new AI IDE target.
+- **`/ingest`**: Safely assimilates third-party prompts or new configuration folders, splitting them cleanly into the `_core/` architecture without introducing conflicts.
+
+---
+
+## Quick Start (For Humans)
+
+1. **Make your changes**: Edit the universal rules in `_core/` or tweak the specific routing shells in `opencode/` / `cursor/`.
+2. **Compile the Prompts**:
+
+   ```bash
+   ./agentc-cli build
+   ```
+
+3. **Deploy (Symlink to your global config)**:
+
+   ```bash
+   ./agentc-cli link opencode
+   ./agentc-cli link cursor
+   ```
+
+Enjoy a frictionless, universally synchronized AI coding experience!
