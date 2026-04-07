@@ -47,11 +47,16 @@
     },
     "approvalMode": "allowlist",
     "sandbox": {
-      "mode": "enabled",
-      "networkAccess": "user_config_only"
-    },  
+        "mode": "enabled",
+        "networkAccess": "user_config_only"
+    },
     "attribution": {
         "attributeCommitsToAgent": true,
         "attributePRsToAgent": true
+    },
+    "display": {
+        "showLineNumbers": true,
+        "showThinkingBlocks": false,
+        "showStatusIndicators": false
     }
 }
