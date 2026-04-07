@@ -1,0 +1,32 @@
+{
+  "networkPolicy": {
+    "default": "deny",
+    "allow": [
+      "github.com",
+      "api.github.com",
+      "registry.npmjs.org",
+      "pkg.go.dev",
+      "proxy.golang.org",
+      "crates.io",
+      "pypi.org",
+      "files.pythonhosted.org",
+      "registry.npmjs.org",
+      "registry.yarnpkg.com",
+      "pypi.org",
+      "files.pythonhosted.org",
+      "*.docker.io",
+      "ghcr.io",
+      "*.googleapis.com"
+    ],
+    "deny": [
+      "*.internal.corp.example.com"
+    ]
+  },
+  "additionalReadwritePaths": [
+    "/home/me/.docker"
+  ],
+  "additionalReadonlyPaths": [
+    "/opt/shared/design-tokens"
+  ],
+  "enableSharedBuildCache": true
+}

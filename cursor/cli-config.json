@@ -1,0 +1,57 @@
+{
+    "version": 1,
+    "editor": {
+        "vimMode": true
+    },
+    "permissions": {
+        "allow": [
+            "Shell(ls)",
+            "Shell(git -C)"
+        ],
+        "deny": [
+            "Read(**/.env)",
+            "Read(**/.env.*)",
+            "Read(**/id_rsa)",
+            "Read(**/*.pem)",
+            "Read(**/*.key)",
+            "Read(**/*.p12)",
+            "Read(**/*.pfx)",
+            "Read(**/secrets.*)",
+            "Read(**/credentials)",
+            "Read(**/credentials.json)",
+            "Read(**/.kube/config)",
+            "Read(**/.npmrc)",
+            "Read(**/.netrc)",
+            "Shell(curl*)",
+            "Shell(wget*)",
+            "Shell(sudo*)",
+            "Shell(eval*)",
+            "Shell(git commit*)",
+            "Shell(git push*)",
+            "Shell(git rebase*)"
+        ]
+    },
+    "hasChangedDefaultModel": true,
+    "model": {
+        "modelId": "default",
+        "displayModelId": "auto",
+        "displayName": "Auto",
+        "displayNameShort": "Auto",
+        "aliases": [
+            "auto"
+        ],
+        "maxMode": false
+    },
+    "network": {
+        "useHttp1ForAgent": false
+    },
+    "approvalMode": "allowlist",
+    "sandbox": {
+      "mode": "enabled",
+      "networkAccess": "user_config_only"
+    },  
+    "attribution": {
+        "attributeCommitsToAgent": true,
+        "attributePRsToAgent": true
+    }
+}
