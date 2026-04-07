@@ -48,15 +48,9 @@ pub fn handler(parser: *zlap.Parser) !void {
         const source_path = try fs.path.join(alloc, &.{ cwd, "dist", target.source_dir, subdir });
         const dest_path = try fs.path.join(alloc, &.{ home_dir, target.config_base, subdir });
 
-        // Verify source exists before attempting link
-        fs.cwd().access(source_path, .{}) catch {
-            log.warning("Source does not exist, skipping {s}", .{source_path});
-            continue;
-        };
-
-        symlink.createSymlink(source_path, dest_path, subdir, alloc, dry_run, log) catch |err| {
-            log.err("Failed to link {s}: {s}", .{ subdir, @errorName(err) });
-            continue;
+        symlink.createSymlink(source_path, dest_path, subdir, alloc, dry_run, log) catch |err| switch (err) {
+            error.SourceNotFound => continue,
+            else => log.err("Failed to link {s}: {s}", .{ subdir, @errorName(err) }),
         };
     }
 
@@ -74,11 +68,18 @@ pub fn handler(parser: *zlap.Parser) !void {
         if (entry.kind != .file) continue;
 
         const source_path = try fs.path.join(alloc, &.{ cwd, "dist", target.source_dir, entry.name });
-        const dest_path = try fs.path.join(alloc, &.{ home_dir, target.config_base, entry.name });
+        const dest_path = blk: {
+            for (target.file_dest_overrides) |override| {
+                if (std.mem.eql(u8, override.name, entry.name)) {
+                    break :blk try fs.path.join(alloc, &.{ home_dir, override.dest_relative_home });
+                }
+            }
+            break :blk try fs.path.join(alloc, &.{ home_dir, target.config_base, entry.name });
+        };
 
-        symlink.createSymlink(source_path, dest_path, entry.name, alloc, dry_run, log) catch |err| {
-            log.err("Failed to link {s}: {s}", .{ entry.name, @errorName(err) });
-            continue;
+        symlink.createSymlink(source_path, dest_path, entry.name, alloc, dry_run, log) catch |err| switch (err) {
+            error.SourceNotFound => continue,
+            else => log.err("Failed to link {s}: {s}", .{ entry.name, @errorName(err) }),
         };
     }
 
