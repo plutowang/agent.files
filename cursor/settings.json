@@ -83,5 +83,7 @@
             "minimapSlider.activeBackground": "#7287fd80"
         }
     },
-    "editor.accessibilitySupport": "on"
+    "editor.accessibilitySupport": "off",
+    "files.autoSave": "onFocusChange",
+    "accessibility.signalOptions.volume": 0
 }
