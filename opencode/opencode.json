@@ -425,6 +425,10 @@
         "qwen3:14b": {
           "name": "Qwen 3 14b",
           "tool_call": true
+        },
+        "gemma4:latest": {
+          "name": "Gemma 4 (latest)",
+          "tool_call": true
         }
       }
     },
