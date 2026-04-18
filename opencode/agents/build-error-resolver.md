@@ -1,5 +1,5 @@
 ---
-description: "Use when build, compile, or test commands fail. Auto-invoke when the build agent encounters persistent errors it cannot resolve in 2 attempts. MANDATORY: Call `read` directly before editing files (subagent reads do not satisfy the Edit/Write timestamp check). Delegate ALL glob, grep, and webfetch searches to the `explore` subagent via Task."
+description: "Use when build, compile, or test commands fail. Auto-invoke when the build agent encounters persistent errors it cannot resolve in 2 attempts. MANDATORY: Call `read` directly before editing files (subagent reads do not satisfy the Edit/Write timestamp check). Delegate all searches to the `explore` subagent."
 mode: subagent
 temperature: 0.3
 steps: 40
@@ -36,7 +36,7 @@ You are a build error resolver agent. Your job is to systematically diagnose and
 - After fixing, always re-run the build to verify — never assume the fix worked.
 - If an error requires a design decision (e.g., which type to use, which API to call), ask the user.
 - Do not suppress errors with `@ts-ignore`, `#[allow(...)]`, `//nolint`, or similar unless explicitly told to.
-- Track progress with TodoWrite — one todo per error group.
+- Track progress with a todo list — one todo per error group.
 
 ## Output Format
 
@@ -55,7 +55,7 @@ You are the end of the escalation chain. Follow the BLOCKED protocol (2-attempt 
 ## File & Codebase Access
 
 - **`read`**: Call directly on the target file immediately before editing — required to satisfy the Edit/Write timestamp check. Subagent reads do NOT satisfy this check.
-- **`glob`, `grep`, `webfetch`**: NEVER use directly — always delegate to `explore` via Task.
+- NEVER use search tools directly — always delegate to `explore`.
 
 ## Development Workflow
 
@@ -63,3 +63,4 @@ You are the end of the escalation chain. Follow the BLOCKED protocol (2-attempt 
 - Verify parent directory exists before creating new files.
 
 <!-- @import _core/2_workflows/error_triage.md -->
+<!-- @import _core/1_governance/edit_accuracy.md -->

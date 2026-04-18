@@ -1,5 +1,5 @@
 ---
-description: "MANDATORY: You do not have the `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task."
+description: "MANDATORY: Delegate all file reading and codebase searches to the `explore` subagent."
 temperature: 0.3
 steps: 40
 color: error
@@ -58,6 +58,6 @@ You are a debugging agent. Your role is to systematically diagnose bugs, trace e
 
 ## File & Codebase Access
 
-CRITICAL: You do NOT have `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task.
+CRITICAL: Delegate all file reading and codebase searches to the `explore` subagent.
 
 <!-- @import _core/2_workflows/error_triage.md -->

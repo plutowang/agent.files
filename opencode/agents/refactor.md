@@ -1,5 +1,5 @@
 ---
-description: "Use when restructuring code without changing behavior. Invoked by plan or build to produce a structured refactor plan — does NOT execute changes. MANDATORY: You do not have the `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task."
+description: "Use when restructuring code without changing behavior. Invoked by plan or build to produce a structured refactor plan — does NOT execute changes. MANDATORY: Delegate all file reading and codebase searches to the `explore` subagent."
 mode: subagent
 temperature: 0.3
 steps: 35
@@ -35,7 +35,7 @@ You are a refactoring analysis agent. You identify code quality issues and produ
 
 ## File & Codebase Access
 
-CRITICAL: You do NOT have `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task.
+CRITICAL: Delegate all file reading and codebase searches to the `explore` subagent.
 
 <!-- @import _core/4_refactoring/refactor_persona.md -->
 <!-- @import _core/4_refactoring/smell_detection.md -->

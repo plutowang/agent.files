@@ -4,7 +4,7 @@
 
 ## Agent Orchestration
 
-The `build` and `plan` agents auto-delegate to specialized subagents via the Task tool:
+The `build` and `plan` agents auto-delegate to specialized subagents:
 
 | Trigger                     | Subagent               | When                                                                          |
 | --------------------------- | ---------------------- | ----------------------------------------------------------------------------- |
@@ -17,11 +17,11 @@ The `build` and `plan` agents auto-delegate to specialized subagents via the Tas
 | Task claimed completed      | `verifier`             | Skeptical validation of implementations and tests before declaring done       |
 | Docs need updating          | `docs`                 | After significant implementation                                              |
 
-**User-initiated only:** `debug` (expensive pro model — invoke explicitly when needed)
+**User-initiated only:** `debug` (invoke explicitly when needed)
 
 ## Delegation Format
 
-When delegating to a subagent via Task, always provide structured context:
+When delegating, provide structured context:
 
 **Parent provides:**
 
@@ -38,7 +38,6 @@ When delegating to a subagent via Task, always provide structured context:
 
 <!-- @import _core/1_governance/hitl_gates.md -->
 <!-- @import _core/1_governance/execution_safety.md -->
-<!-- @import _core/1_governance/edit_accuracy.md -->
 <!-- @import _core/1_governance/anti_loop.md -->
 <!-- @import _core/2_workflows/error_triage.md -->
 <!-- @import _core/2_workflows/communication.md -->

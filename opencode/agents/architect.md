@@ -1,5 +1,5 @@
 ---
-description: "Use when the task requires system design, architecture decisions, or evaluating multiple technical approaches. Auto-invoke from plan agent for design-heavy tasks. MANDATORY: You do not have the `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task."
+description: "Use when the task requires system design, architecture decisions, or evaluating multiple technical approaches. Auto-invoke from plan agent for design-heavy tasks. MANDATORY: Delegate all file reading and codebase searches to the `explore` subagent."
 mode: subagent
 temperature: 0.3
 steps: 35
@@ -38,7 +38,7 @@ When designing REST or GraphQL APIs, the architect MUST:
 ## Do NOT
 
 - Create or modify source files
-- Perform direct codebase searches (glob, grep) or web fetches — delegate to `explore`
+- Perform direct codebase searches or web fetches — delegate to `explore`
 - Deviate from existing patterns without flagging and justifying the deviation
 - Make implementation-level choices (variable names, specific libraries) — stay at architecture level
 

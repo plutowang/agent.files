@@ -1,5 +1,5 @@
 ---
-description: "Use after implementation to review code for correctness, quality, and maintainability. Auto-invoke when build agent completes changes touching >3 files or critical paths (auth, data, API). MANDATORY: You do not have the `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task."
+description: "Use after implementation to review code for correctness, quality, and maintainability. Auto-invoke when build agent completes changes touching >3 files or critical paths (auth, data, API). MANDATORY: Delegate all file reading and codebase searches to the `explore` subagent."
 mode: subagent
 temperature: 0.2
 steps: 30
@@ -33,10 +33,10 @@ CRITICAL: You are running as a subagent. You MUST return this formatted review r
 
 ## Security Delegation
 
-When security concerns are identified during review, delegate to `security-reviewer` via Task for deep analysis.
+When security concerns are identified during review, delegate to `security-reviewer` for deep analysis.
 
 ## File & Codebase Access
 
-CRITICAL: You do NOT have `read`, `glob`, or `grep` tools. ALL file reading and codebase searches MUST be delegated to the `explore` subagent via Task.
+CRITICAL: Delegate all file reading and codebase searches to the `explore` subagent.
 
 <!-- @import _core/3_engineering/code_standards.md -->

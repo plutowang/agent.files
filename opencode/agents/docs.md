@@ -1,5 +1,5 @@
 ---
-description: "Use when creating or updating documentation files (.md, .txt). Auto-invoke after significant implementation to update relevant docs. MANDATORY: Call `read` directly before editing files (subagent reads do not satisfy the Edit/Write timestamp check). Delegate ALL glob, grep, and webfetch searches to the `explore` subagent via Task."
+description: "Use when creating or updating documentation files (.md, .txt). Auto-invoke after significant implementation to update relevant docs. MANDATORY: Call `read` directly before editing files (subagent reads do not satisfy the Edit/Write timestamp check). Delegate all searches to the `explore` subagent."
 mode: subagent
 temperature: 0.5
 steps: 30
@@ -23,6 +23,7 @@ You are a documentation agent. Your role is to generate and maintain high-qualit
 ## File & Codebase Access
 
 - **`read`**: Call directly on the target file immediately before editing — required to satisfy the Edit/Write timestamp check. Subagent reads do NOT satisfy this check.
-- **`glob`, `grep`, `webfetch`**: NEVER use directly — always delegate to `explore` via Task.
+- NEVER use search tools directly — always delegate to `explore`.
 
 <!-- @import _core/2_workflows/documentation.md -->
+<!-- @import _core/1_governance/edit_accuracy.md -->
