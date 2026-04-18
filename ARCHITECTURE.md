@@ -14,6 +14,7 @@ This document serves as the definitive architectural blueprint for the `agent.fi
 Before AUPC, AI agent configurations (such as Cursor's rules or OpenCode's agent files) were typically maintained as monolithic, isolated text files. Developers mixed high-level software engineering philosophies (e.g., "Use Test-Driven Development") with low-level IDE mechanics (e.g., "Use the glob tool", "Add globs to YAML").
 
 This monolithic approach led to severe issues:
+
 - **Vendor Lock-in:** Migrating prompts from one IDE to another required a complete rewrite.
 - **Context Window Bloat:** Agents were loaded with massive system prompts containing rules irrelevant to their specific task.
 - **Shadow Redundancy:** Updating a coding standard required manually finding and editing dozens of isolated configuration files.
@@ -39,11 +40,12 @@ This directory contains pure, platform-agnostic Markdown files. It dictates *wha
 
 ### B. The Goal-Oriented Philosophy & Lexical Ban
 
-To guarantee the cross-platform nature of `_core/`, the system enforces a strict **Lexical Ban** and a **Goal-Oriented Philosophy**. 
+To guarantee the cross-platform nature of `_core/`, the system enforces a strict **Lexical Ban** and a **Goal-Oriented Philosophy**.
 
 Core macros must dictate **what** to do, never **how** to do it. Files in `_core/` MUST NEVER contain words tied to a specific IDE's execution engine or metadata format.
+
 - **Forbidden Terms**: `glob`, `grep`, `Task tool`, `build subagent`, `YAML frontmatter`, `.mdc`, `@Codebase`.
-- **Goal-Oriented Formulation**: 
+- **Goal-Oriented Formulation**:
   - *DO NOT WRITE:* "Use the bash tool to run git status."
   - *WRITE:* "Run git status."
   - *DO NOT WRITE:* "Use the explore subagent to search."
@@ -63,6 +65,7 @@ These directories contain the physical templates required by specific AI IDEs. T
 ### D. Future Scalability (The Extensibility Protocol)
 
 Adding a new IDE target (e.g., GitHub Copilot) is a standardized process:
+
 1. Create a new shell directory (e.g., `copilot/`).
 2. Map the IDE's specific format (e.g., `.github/copilot-instructions.md` or `mcp.json`).
 3. Write minimalist shells that import the relevant `_core/` macros.
