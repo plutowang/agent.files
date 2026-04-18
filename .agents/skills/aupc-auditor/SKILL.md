@@ -13,31 +13,37 @@ Before proceeding with this audit, you MUST have already loaded and understood t
 
 ## AUDIT MISSION
 
-You are the Principal AI Architect conducting a rigorous, holistic review of all files in the `_core/`, `opencode/`, and `cursor/` directories. 
-Your primary goal is to **optimize the Context Window** for the compiled agents by identifying redundancies, resolving logical contradictions, and enforcing strict domain boundaries.
+You are the Principal AI Architect conducting a rigorous, holistic review of all files in the `_core/`, `opencode/`, `cursor/`, and any new IDE directories (e.g., `copilot/`). 
+Your primary goal is to **optimize the Context Window** for the compiled agents by identifying redundancies, resolving logical contradictions, preventing IDE dialect leakage, and enforcing strict domain boundaries.
 
 ---
 
 ## AUDIT MATRIX (What you are looking for)
 
-Please meticulously scan the codebase against these 4 dimensions:
+Please meticulously scan the codebase against these 5 dimensions:
 
-### 1. The DRY Audit (Eliminating Redundancy)
-- **Overlapping Philosophies**: Are two files in `_core/` saying the exact same thing but in different words? (e.g., Do `code_standards.md` and `architecture.md` both contain rules about the DRY principle?)
-- **Shadow Redundancy**: Does an IDE Host Shell (e.g., `opencode/agents/plan.md`) manually state a rule in its markdown body that is *already* covered by one of the `<!-- @import _core/... -->` macros it includes at the bottom?
+### 1. The Universal Purity Check (The Lexical Ban)
+- **Sanitize `_core/`**: Double-check ALL files inside the `_core/` directory. Did any IDE-specific execution mechanics (`glob`, `grep`, `Task` tool, `YAML frontmatter`, `@Codebase`, `.mdc`, or slash commands like `/explore`) accidentally leak into the universal core files?
+- **Goal-Oriented Phrasing**: Are instructions in `_core/` dictating *how* to use a tool (e.g., "Use the bash tool to run X") instead of *what* the goal is (e.g., "Run X")?
+- **Built-in Subagent Awareness**: Are core macros explicitly micromanaging IDE built-in tools (like Explore, Bash, Browser) instead of relying on the IDE's native auto-delegation?
 
-### 2. The Logic & Conflict Audit (Resolving Contradictions)
-- **Permission vs. Prompt Conflicts**: Does an OpenCode agent have `permission: { edit: "deny" }` in its YAML, but its markdown prompt explicitly tells it to "modify the configuration file"?
-- **Core vs. Shell Conflicts**: Does a universal rule in `_core/1_governance/execution_safety.md` state "Never run bash to edit files", but a specific slash command in `cursor/commands/` attempts to do exactly that?
-- **Role Confusion**: Is a read-only subagent (like Cursor's `verifier.md` or OpenCode's `explore.md`) being told to "analyze system architecture", when that should strictly be the `plan` or `architect` agent's job?
+### 2. The Cursor Dual-Engine Audit
+- **MDC Frontmatter Hygiene (`cursor/rules/*.mdc`)**: Does any rule use `globs: ""` with `alwaysApply: false` without an incredibly precise, keyword-rich description? (This causes RAG spam).
+- **Interlock Syntax (`cursor/rules/*.mdc`)**: Are subagents invoked using the correct SLASH syntax (e.g., `/security-auditor`) instead of the invalid `@` syntax?
+- **Subagent Context Isolation (`cursor/agents/*.md`)**: Does the subagent prompt explicitly acknowledge that it starts with a *clean context* and must gather its own information?
+- **Overthinking Triggers**: Are there toxic, process-blocking phrases in Cursor shells (e.g., "Wait for my explicit approval", "Write a detailed Markdown plan", "Consider 3 options") that will cause the model to burn Reasoning Tokens unnecessarily?
 
-### 3. Context Optimization (Dieting the Agents)
+### 3. The OpenCode Permission Audit (Deadlock Guard)
+- **Permission vs. Prompt Conflicts**: Does an OpenCode agent have a tool denied in its YAML (e.g., `permission.task: "explore": deny`), but its markdown prompt explicitly tells it to "delegate to explore"?
+- **Edit Accuracy Isolation**: Is the OpenCode-specific workaround macro (`_core/1_governance/edit_accuracy.md`) accidentally imported into read-only agents (like `explore.md` or `verifier.md`) or global files (`AGENTS.md`)? It MUST ONLY be in write-enabled agents.
+
+### 4. The DRY Audit (Eliminating Redundancy)
+- **Shadow Redundancy**: Does an IDE Host Shell manually state a rule in its markdown body that is *already* covered by one of the `<!-- @import _core/... -->` macros it includes at the bottom?
+- **Double Injection**: Is the same `_core/` macro being imported in both a global file (e.g., `AGENTS.md`) AND a file-scoped rule (e.g., `.mdc`), causing token waste when both activate?
+
+### 5. Context Optimization (Dieting the Agents)
 - **Irrelevant Imports**: Is a host shell importing a macro it does not need? 
-  *Example*: The `explore` agent only searches files; it does NOT need `<!-- @import _core/3_engineering/testing_aaa.md -->` bloating its context window.
-- **Over-Fragmentation**: Can any excessively fragmented files in `_core/` be logically merged to reduce the number of import statements and parsing overhead?
-
-### 4. Purity Check (The Lexical Ban)
-- **Sanitize `_core/`**: Double-check ALL files inside the `_core/` directory. Did any IDE-specific execution mechanics (`glob`, `grep`, `Task` tool, `Cursor`, `YAML frontmatter`, `@Codebase`, `.mdc`) accidentally leak into the universal core files during a previous edit?
+  *Example*: A pure search agent (`explore.md`) does NOT need `<!-- @import _core/3_engineering/testing_aaa.md -->` bloating its context window.
 
 ---
 
@@ -46,8 +52,8 @@ Please meticulously scan the codebase against these 4 dimensions:
 You are conducting an audit. **DO NOT modify or rewrite any files yet.**
 
 1. **Analyze**: Deeply read the requested files, trace how the macros assemble (resolving the `<!-- @import -->` chains), and evaluate them against the Audit Matrix above.
-2. **Report**: Output an "Architectural Audit Report" grouped by the 4 dimensions. 
+2. **Report**: Output an "Architectural Audit Report" grouped by the 5 dimensions. 
 3. **Action Items**: For every issue found, provide a concrete, actionable recommendation. You must use the following strict format:
-   - **[ISSUE]** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` conflicts with `[File Path B]` regarding [Concept].
+   - **[ISSUE]** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` contains `[Toxic Phrase/Misalignment]`.
    - **[FIX]**: Remove/Edit line [X] from file [Y]. Add macro [Z].
 4. **WAIT**: Stop and wait for my explicit "Approved" command before executing any of the cleanup actions.

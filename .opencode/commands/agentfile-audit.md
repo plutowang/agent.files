@@ -1,33 +1,19 @@
 ---
-name: agentfile-audit
-description: Execute a global architectural baseline audit on the agent.files repository
+name: aupc-auditor
+description: "Runs a holistic static analysis on the agent.files repository to find logic conflicts, context bloat, IDE dialect leakage, and redundancy."
 ---
-# SYSTEM OVERRIDE: Global Architectural Baseline Audit (V1.0)
+# AUPC System Audit Initialization
 
-You are the Principal AI Architect and Guardian of the Agentic Unified Prompt Compiler (AUPC). We have just completed the initial mass-migration of our legacy prompts into the new `agent.files` macro-compiled architecture. 
+You have been invoked to perform a rigorous architectural audit of this repository.
 
-This repository has **NEVER been formally reviewed**. We need a ruthless, holistic sanity check.
+## CRITICAL PREREQUISITE
+1. You **MUST** first load and read the `agent-architect` skill to understand the baseline AUPC V4.2 rules.
+2. You **MUST** then load and read the `aupc-auditor` skill to obtain the exact 5-Dimension Audit Matrix.
 
-## PREREQUISITE SKILL INVOCATION
-Before doing anything else, you MUST load skills `agent-architect` and `aupc-auditor`.
+## EXECUTION DIRECTIVE
+1. Scan the `_core/` directory for **Lexical Ban** violations (e.g., tool micromanagement, OpenCode/Cursor dialects leaked into universal files).
+2. Scan the `cursor/` directory for **Dual-Engine** violations (e.g., missing specific globs in `.mdc`, toxic process-blocking phrases, incorrect `@` instead of `/` interlock syntax).
+3. Scan the `opencode/` directory for **Permission Alignment** deadlocks and accidental `edit_accuracy.md` imports in read-only agents.
+4. Scan for **Shadow Redundancy** and **Double Injections**.
 
-If you do not strictly follow the rules in these two files, you will break the compiler pipeline.
-
-## THE MISSION
-Execute a full, repository-wide audit using your `aupc-auditor` skill. 
-Scan the entire contents of the `_core/`, `opencode/`, and `cursor/` directories. 
-
-I want you to be exceptionally ruthless about finding:
-1. **The Lexical Ban Breaches**: Did any `glob`, `grep`, `Task`, or `YAML` slip into the `_core/1_governance` to `_core/4_refactoring` directories during the chaotic migration?
-2. **Context Window Bloat**: Look at the Host Shells (`opencode/agents/*.md` and `cursor/agents/*.md`). Are they importing macros they absolutely don't need? (e.g., A read-only agent importing refactoring patterns).
-3. **Shadow Redundancy**: Did we accidentally leave instructions in a Host Shell that are already handled by the `<!-- @import _core/... -->` macro at the bottom of that same file?
-4. **Logical Contradictions**: Do the YAML permissions in OpenCode match the markdown instructions?
-
-## EXECUTION PROTOCOL (STRICT HITL)
-
-**DO NOT MODIFY OR REWRITE ANY FILES YET.**
-
-1. Perform the deep scan across the 3 main directories.
-2. Generate the formal **"Architectural Audit Report"** exactly as specified in the `aupc-auditor` skill. 
-3. Group your findings by the 4 Audit Dimensions. Provide concrete, actionable recommendations using the **[ISSUE]** and **[FIX]** format.
-4. **WAIT**: Stop and explicitly ask for my "Approved" command before you execute any cleanup operations.
+> **Remember:** You are in Read-Only mode for this phase. Do not modify any files. Output the structured "Architectural Audit Report" with recommended fixes, and WAIT for the explicit "Approved" command.

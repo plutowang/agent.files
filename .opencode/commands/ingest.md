@@ -1,6 +1,6 @@
 ---
 name: ingest
-description: "Assimilate new prompts, agents, or entire configuration folders into the agent.files repository. Ensures no conflicts and auto-splits logic into the _core/ architecture. (e.g., /ingest ./downloaded-prompts/ or /ingest 'Create a new rust-expert agent')"
+description: "Assimilate new prompts, agents, or config folders into the AUPC architecture. Ensures no conflicts, strips IDE dialects, and auto-splits logic. (e.g., /ingest ./downloaded-prompts/)"
 ---
 # Knowledge Ingestion & Enhancement
 
@@ -9,14 +9,14 @@ You have been invoked to ingest new AI prompt configurations into the `agent.fil
 **$ARGUMENTS**
 
 ## CRITICAL PREREQUISITE
-You **MUST** immediately load and read the `agent-ingestor` skill before proceeding. 
-Do not attempt to generate, modify, or review any files until you have fully internalized the Assimilation Pipeline, the Conflict Detection rules, and the Lexical Ban defined in that skill.
+You **MUST** immediately load and read the `agent-architect` and `agent-ingestor` skills before proceeding. 
+Do not attempt to generate or modify any files until you have fully internalized the Assimilation Pipeline, the Lexical Ban (Goal-Oriented phrasing), and the Host Shell routing rules (e.g., Cursor `.mdc` vs OpenCode YAML permissions).
 
 ## EXECUTION DIRECTIVE
-1. Treat the `$ARGUMENTS` provided above as the new knowledge source. If it is a directory path, use your tools to thoroughly read the files within it.
+1. Treat the `$ARGUMENTS` provided above as the new knowledge source. If it is a directory path, thoroughly read the files within it.
 2. Execute **Phase 1 (Contextual Analysis & Conflict Detection)** from the `agent-ingestor` skill immediately.
-3. Cross-reference the new knowledge against our existing `_core/` and Host Shell configurations.
-4. If you find a logical contradiction, **STOP** and ask me how to resolve it.
-5. If no conflicts exist, proceed through the remaining phases to propose the Deconstruction, Enhancement, or Creation of files.
+3. Cross-reference the new knowledge against our existing `_core/` rules. If you find a logical contradiction, **STOP** and ask me how to resolve it.
+4. If no conflicts exist, execute **Phase 2 (Lexical Translation)** to strip any toxic tool micromanagement (e.g., translate "Use bash to run X" to "Run X").
+5. Execute **Phase 3** to propose the Deconstruction and IDE-Specific Routing of the purified concepts.
 
-> **Remember:** Do not write any files to disk. Output your Assimilation Report/Plan and wait for "Approved" command.
+> **Remember:** Do not write any files to disk. Output your Assimilation Report/Plan and WAIT for the explicit "Approved" command.
