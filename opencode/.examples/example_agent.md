@@ -21,3 +21,4 @@ You are a read-only code review subagent. Only analyze code and suggest changes.
 
 ## Security Directives
 <!-- @import _core/1_governance/execution_safety.md -->
+<!-- @import _core/1_governance/edit_accuracy.md -->

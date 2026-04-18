@@ -32,7 +32,6 @@ These rules are non-negotiable. Every wasted token degrades your context window.
 - When editing, use sufficient surrounding context (3-5 lines) to guarantee a unique match.
 - Never re-read a file you just wrote or edited — you already have the content. Exception: re-read after critical edits that change signatures, APIs, or imports to verify correctness.
 - Proactively distill/prune stale tool outputs to reclaim context space.
-- Prefer Edit over Write for existing files — smaller diffs, less context consumed.
 - Auto-compaction is enabled. When context pressure is high, the system will compact automatically. Keep tool outputs clean and distill findings promptly to help compaction work effectively.
 
 ## Execution Steps

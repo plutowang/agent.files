@@ -13,4 +13,6 @@ Apply these standards when designing or modifying API endpoints.
 - Rate limit all public endpoints. `429` + `Retry-After` header.
 - Cursor-based pagination for list endpoints.
 
+**Interlock**: When designing new endpoints or modifying API contracts, you MUST delegate to `/architect` to evaluate the design.
+
 <!-- @import _core/3_engineering/api_contracts.md -->

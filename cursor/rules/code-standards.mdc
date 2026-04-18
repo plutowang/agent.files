@@ -13,4 +13,7 @@ Apply these standards when writing or reviewing production code.
 - Names describe *what*, not *how*. No abbreviations unless universally understood.
 - No `TODO` without a linked issue. No debug statements. No magic numbers. No commented-out code.
 
+**Interlock**: After changes touch >3 files or critical paths (auth, data, API), you MUST delegate to `/code-reviewer` for quality review.
+**Interlock**: When encountering persistent build errors or test failures that require systematic root cause analysis, you MUST delegate to `/debugger` for diagnosis.
+
 <!-- @import _core/3_engineering/code_standards.md -->

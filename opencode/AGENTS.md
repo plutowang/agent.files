@@ -38,6 +38,7 @@ When delegating to a subagent via Task, always provide structured context:
 
 <!-- @import _core/1_governance/hitl_gates.md -->
 <!-- @import _core/1_governance/execution_safety.md -->
+<!-- @import _core/1_governance/edit_accuracy.md -->
 <!-- @import _core/1_governance/anti_loop.md -->
 <!-- @import _core/2_workflows/error_triage.md -->
 <!-- @import _core/2_workflows/communication.md -->

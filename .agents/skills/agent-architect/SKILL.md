@@ -51,13 +51,14 @@ To edit or maintain this project, you must strictly respect the boundary between
 
 ---
 
-## 3. The Lexical Ban (Purity Constraint)
+## 3. The Lexical Ban & Subagent Awareness (Purity Constraint)
 
 When editing files in `_core/1_governance/` through `_core/5_commands/`, you MUST adhere to the Lexical Ban.
 
 These files MUST NEVER contain IDE-specific execution mechanics. 
-- **Forbidden Words in `_core/`**: `glob`, `grep`, `Task` tool, `explore` subagent, `build` subagent, `YAML frontmatter`, `@Codebase`, `.mdc`.
-- **How to write**: Write abstractly. Instead of "Use the explore subagent to search", write "Thoroughly research the existing architecture before proceeding."
+- **Forbidden Words in `_core/`**: `glob`, `grep`, `Task` tool, `build` subagent, `YAML frontmatter`, `@Codebase`, `.mdc`.
+- **Built-in Subagent Awareness**: Cursor natively provides `Explore`, `Bash`, and `Browser` subagents with automatic routing. Rules MUST NOT manually micromanage their invocation (e.g., "Delegate to the explore subagent"). Instead, state the goal (e.g., "Thoroughly analyze the codebase") and trust the IDE's routing engine.
+- **How to write**: Write goal-oriented instructions. Instead of "Use the explore subagent to search", write "Thoroughly research the existing architecture before proceeding." Instead of "Run git status using the bash tool", write "Run git status."
 
 ---
 
@@ -81,5 +82,66 @@ Workflow commands:
 1. `./agentc-cli build` (Compiles all macros and copies skills to `dist/`)
 2. `./agentc-cli link opencode` (Symlinks `dist/opencode/*` to `~/.config/opencode/`)
 3. `./agentc-cli link cursor` (Symlinks `dist/cursor/*` to `~/.cursor/`)
+
+---
+
+## 6. Cursor Dual-Engine Standards
+
+When maintaining the `cursor/` host shell, enforce these rules for both engines.
+
+### Engine 1: Contextual Rules (`.cursor/rules/*.mdc`)
+
+**AGENTS.md Must Be Lean**
+- Contains: persona, principles (4-5 lines), subagent delegation table, post-build triggers, universal governance imports only (`execution_safety`, `anti_loop`).
+- **Must NOT contain**: engineering standards (code quality, testing, API design). These belong in `.mdc` rules.
+
+**Anti-Double-Injection Rule**
+- Never import the same `_core/` module in both `AGENTS.md` and a `.mdc` rule. When a `.mdc` rule triggers, its imports add to the AGENTS.md context — duplicates waste tokens.
+- Engineering standards (`code_standards`, `testing_aaa`, `api_contracts`, `security_audit`, `architecture`) → `.mdc` rules only.
+- Governance (`execution_safety`, `anti_loop`) → `AGENTS.md` only.
+
+**`.mdc` Rule Hygiene**
+- Rules must use `alwaysApply: false` and highly specific `globs` (e.g., `*.go, src/**/*.ts`). Use `alwaysApply: true` ONLY for absolute project-wide safety constraints.
+- Shell content should be a brief TL;DR (3-5 bullets). The `<!-- @import -->` provides full detail.
+
+**Interlock Directives (SLASH SYNTAX REQUIRED)**
+- Each `.mdc` rule should include a contextual **Interlock** telling the main agent WHEN to invoke a subagent.
+- **CRITICAL WARNING**: You MUST use the SLASH (`/`) syntax to invoke subagents, NOT the `@` syntax. `@` only mounts text; `/` invokes the agent.
+- Format: `**Interlock**: When [specific condition in these file types], you MUST delegate to /subagent-name to [action].`
+- Interlocks are CONTEXTUAL (file-scoped via globs), not generic. They fire only when the relevant rule activates.
+- BAD: "Always delegate to @security-auditor" (generic, unconditional, wrong syntax)
+- GOOD: "When modifying authentication flows, you MUST delegate to `/security-auditor` to audit the changes" (specific condition + context + correct syntax)
+
+**Forbidden in Cursor Shells**
+- OpenCode-specific mechanics: tool batching, task lists, Edit vs Write preferences, auto-compaction, approval gates, `Task` tool, timestamp checks.
+- OpenCode Edit mechanics: The `_core/1_governance/edit_accuracy.md` macro contains OpenCode-specific Edit tool behavior (timestamp checks, Edit vs Write preferences). It must ONLY be imported into OpenCode shells — never into Cursor shells or `.mdc` rules.
+- Built-in subagent declarations: Cursor automatically routes to Explore, Bash, and Browser subagents. Do NOT explicitly declare them in `cursor/AGENTS.md` — doing so interferes with Cursor's automatic routing engine.
+- Process control imports: `feature_dev.md`, `hitl_gates.md`, `communication.md`, `error_triage.md`, `skills_manifest.md`.
+
+### Engine 2: Isolated Subagents (`.cursor/agents/*.md`)
+
+**Required Frontmatter**
+```yaml
+---
+name: string              # e.g., security-auditor
+description: string       # CRITICAL: Use "Use proactively when..." to trigger automatic delegation
+model: fast | inherit | specific-model-id # fast = high-volume (verifier, debugger); inherit = deep reasoning (architect, security)
+readonly: boolean         # true for auditors/reviewers; false for fixers
+is_background: boolean    # typically false
+---
+```
+
+**Context Isolation**
+- Subagents start with a clean context window — they do NOT inherit the main agent's conversation.
+- Subagent prompts must explicitly instruct the agent to gather context first (e.g., "Read the files related to the claim").
+
+**Cost Efficiency**
+- `model: fast` for high-volume tasks: verification, debugging, documentation.
+- `model: inherit` for tasks requiring deep reasoning: architecture, security audit, code review.
+
+**Import Rules for Subagents**
+- Subagents SHOULD import the relevant `_core/` macro for their specialty (e.g., `security-auditor.md` imports `security_audit.md`).
+- Subagents do NOT need governance imports (`execution_safety`, `anti_loop`) — these are handled by `AGENTS.md` in the main agent.
+- Keep subagent prompts concise. The imported macro provides the detailed standards.
 
 > **Acknowledge**: By reading this skill, your internal constraints have been upgraded. You now possess the architectural map to safely maintain and evolve the AUPC repository. Proceed with the user's request.

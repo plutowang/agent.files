@@ -1,12 +1,12 @@
 ---
 description: "Apply when working on authentication, authorization, cryptography, secrets management, or user input handling"
-globs: "**/*auth*, **/*crypto*, **/*secret*, **/*password*, **/*token*, **/*session*, **/*permission*"
+globs: "**/*auth*, **/*crypto*, **/*secret*, **/*password*, **/*token*, **/*session*, **/*permission*, **/*jwt*, **/*bcrypt*, **/*hash*, **/*encrypt*, **/*ssl*, **/*tls*"
 alwaysApply: false
 ---
 # Security Standards
 
 Apply these standards when working on security-sensitive code.
 
-- Always delegate to `/security-reviewer` after completing security-sensitive changes.
+**Interlock**: When modifying authentication, authorization, or cryptography code, you MUST delegate to the `/security-auditor` subagent to audit the changes before completing.
 
 <!-- @import _core/3_engineering/security_audit.md -->

@@ -117,3 +117,4 @@ Each phase completes before the next. Plan must be approved before build starts.
 <!-- @import _core/3_engineering/api_contracts.md -->
 <!-- @import _core/3_engineering/code_standards.md -->
 <!-- @import _core/1_governance/execution_safety.md -->
+<!-- @import _core/1_governance/edit_accuracy.md -->

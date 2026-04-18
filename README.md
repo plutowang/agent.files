@@ -54,3 +54,61 @@ This repository comes with its own "Cyber-Immune System" implemented via powerfu
    ```
 
 Enjoy a frictionless, universally synchronized AI coding experience!
+
+---
+
+## Cursor Shell Architecture (Dual-Engine)
+
+The Cursor host shell uses a **Dual-Engine Architecture** consisting of two interlocking systems:
+
+### Engine 1: Contextual Rules (`.cursor/rules/*.mdc`)
+
+File-scoped engineering standards applied via `globs`. When a matching file is open, the rule injects into the main agent's context.
+
+```
+---
+description: "Short, keyword-rich description for Cursor's intelligent routing"
+globs: "**/*.test.*, **/*.spec.*"   # File patterns that trigger this rule
+alwaysApply: false                   # false = glob-triggered or AI-routed
+---
+# Rule Title
+
+Brief shell content (TL;DR of the standard).
+
+**Interlock**: When [specific condition], you MUST delegate to `/subagent-name` to [action].
+
+<!-- @import _core/path/to/standard.md -->
+```
+
+- **`globs: ""`** with `alwaysApply: false` = "Apply Intelligently" — Cursor uses the `description` field to decide when to apply. Optimize descriptions with domain keywords.
+- **Interlock directives** tell the main agent WHEN to delegate to subagents. They are contextual (file-scoped), not generic.
+
+### Engine 2: Isolated Subagents (`.cursor/agents/*.md`)
+
+Specialized AI assistants with clean context windows, triggered proactively or via `/commands`.
+
+```yaml
+---
+name: subagent-name
+description: "Use proactively when [trigger condition]."
+model: fast | inherit        # fast = high-volume; inherit = deep reasoning
+readonly: true | false       # true for auditors/reviewers
+is_background: false
+---
+```
+
+- Subagents start with a **clean context** — they must gather their own context.
+- Use `model: fast` for verification/search tasks; `model: inherit` for design/security analysis.
+- Include "Use proactively when..." in descriptions to enable automatic delegation.
+
+### The Interlock Pattern
+
+Rules and subagents connect via Interlocks:
+1. User opens auth file → `security.mdc` activates via globs
+2. Rule's Interlock tells main agent: "invoke `/security-auditor`"
+3. `/security-auditor` subagent launches with clean context, audits changes
+4. Subagent reports findings back to main agent
+
+### Anti-Patterns
+- Never import the same `_core/` module in both `AGENTS.md` and a `.mdc` rule (double-injection).
+- `AGENTS.md` stays lean: persona + delegation table + governance imports only. No engineering standards.

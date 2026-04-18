@@ -44,15 +44,30 @@ To prevent the `_core/` directory from becoming an unmanageable flat list of rul
 
 To guarantee the cross-platform nature of `_core/`, the system enforces a strict **Lexical Ban**. Files in `_core/` (excluding specific `skills/`) MUST NEVER contain words tied to a specific IDE's execution engine or metadata format.
 
-- *Forbidden Terms*: `glob`, `grep`, `Task tool`, `explore subagent`, `YAML frontmatter`, `.mdc`, `@Codebase`.
-- *Rule Formulation*: Instead of writing "Use the explore subagent to search", rules must be written abstractly: "Thoroughly research the existing architecture in the codebase before modifying files."
+- *Forbidden Terms*: `glob`, `grep`, `Task tool`, `build subagent`, `YAML frontmatter`, `.mdc`, `@Codebase`.
+- *Built-in Subagent Awareness*: Cursor natively provides `Explore`, `Bash`, and `Browser` subagents with automatic routing. Rules MUST NOT manually micromanage their invocation (e.g., "Delegate to the explore subagent"). Instead, state the goal (e.g., "Thoroughly analyze the codebase") and trust the IDE's routing engine.
+- *Rule Formulation*: Write goal-oriented instructions. Instead of "Use the explore subagent to search", write "Thoroughly research the existing architecture in the codebase before modifying files." Instead of "Run git status using the bash tool", write "Run git status."
 
 ### C. The Host Shells (`opencode/`, `cursor/` - The Body)
 
 These directories contain the physical templates required by specific AI IDEs. They contain the YAML frontmatter, JSON configurations, and explicit routing mechanics unique to that platform.
 
 - **OpenCode (Multi-Agent System)**: Host shells here (e.g., `agents/build.md`) explicitly define tool `permission` objects (e.g., `bash: deny`, `edit: allow`). They also contain IDE-specific workarounds, such as the explicit instruction to "call the `read` tool before editing" to bypass OpenCode's internal timestamp security checks.
-- **Cursor (Monolithic RAG System)**: Host shells here consolidate primary routing logic into a global `AGENTS.md` file, while mapping engineering standards into targeted `.mdc` files utilizing `globs` for file-based activation. Subagents here are restricted to background, read-only tasks using fast models.
+- **Cursor (Dual-Engine System)**: Cursor's architecture consists of two interlocking engines:
+  1. **Contextual Rules** (`.cursor/rules/*.mdc`): File-scoped, declarative engineering standards applied via `globs`. When a user opens a file matching the glob pattern, the rule's content is injected into the main agent's context. Each rule contains a brief TL;DR shell plus `<!-- @import -->` macros for full standards. Rules also contain **Interlock directives** — contextual instructions telling the main agent WHEN to proactively invoke a subagent (e.g., "When modifying auth flows, you MUST delegate to `/security-auditor`").
+  2. **Isolated Subagents** (`.cursor/agents/*.md`): Specialized, parallel-executing AI assistants with their own clean context windows. Each has YAML frontmatter specifying `name`, `description` (with "Use proactively when..." phrasing for automatic delegation), `model` (`fast` for high-volume tasks, `inherit` for deep reasoning), `readonly`, and `is_background`. Subagents gather their own context from scratch — they do not inherit the main agent's conversation.
+  
+  The **AGENTS.md** remains lean: persona, principles, subagent delegation table, post-build triggers, and governance imports only. The **Interlock Pattern** connects the two engines: `.mdc` rules fire when relevant files are open and instruct the main agent to delegate to subagents using the explicit SLASH (`/`) syntax (e.g., `/verifier`), creating a file-aware delegation chain. Invoking rules via globs or `@` context mounting is strictly separated from invoking Subagents via `/commands`.
+
+### Cursor Built-in Subagents (The Context Isolators)
+
+Cursor natively provides three built-in subagents that handle token-heavy, noisy I/O operations using fast models with strict context isolation:
+
+- **Explore**: Codebase search and file discovery
+- **Bash**: Shell command execution
+- **Browser**: Web access and documentation retrieval
+
+These subagents are invoked automatically by Cursor's routing engine — no explicit configuration or delegation instructions are needed. AUPC rules should lean into this by encouraging broad research and testing goals using natural language (e.g., "Thoroughly analyze the codebase"), trusting the IDE to route to the appropriate built-in subagent. Explicitly micromanaging invocation (e.g., "Use the explore subagent to search") is counterproductive and interferes with the routing engine.
 
 ---
 

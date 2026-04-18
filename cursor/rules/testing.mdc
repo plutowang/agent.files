@@ -14,4 +14,6 @@ Apply these standards when writing or modifying tests.
 - Bug fixes: write a failing test BEFORE fixing.
 - 80% minimum coverage on critical paths. Don't chase 100%.
 
+**Interlock**: After completing implementation, you MUST delegate to `/verifier` to validate that tests pass and behavior is correct.
+
 <!-- @import _core/3_engineering/testing_aaa.md -->

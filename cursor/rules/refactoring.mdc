@@ -1,6 +1,6 @@
 ---
 description: "Apply when restructuring or refactoring code without changing behavior"
-globs: ""
+globs: "**/*.{ts,tsx,js,jsx,go,rs,zig,cs,py}"
 alwaysApply: false
 ---
 # Refactoring Standards
@@ -11,6 +11,8 @@ Apply these standards when refactoring code.
 - One refactoring pattern per commit. Never mix refactoring with feature changes.
 - Preserve all existing behavior — refactoring changes structure, not function.
 - Prefer small, safe transformations over large rewrites.
+
+**Interlock**: For complex restructuring, you MUST delegate to `/refactor` to produce a structured refactoring plan before executing changes.
 
 <!-- @import _core/4_refactoring/smell_detection.md -->
 <!-- @import _core/4_refactoring/extraction_patterns.md -->
