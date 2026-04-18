@@ -1,15 +1,19 @@
 const std = @import("std");
 const fs = std.fs;
 const mem = std.mem;
+const Io = std.Io;
+
 const zlap = @import("zlap");
+
 const compiler = @import("compiler.zig");
+const context = @import("context.zig");
 
 /// Returns true if the entry should be excluded from the build.
 /// Skips files under any `.examples/` directory component, and skips
 /// root-level `README.md` files.
 fn shouldSkip(entry_path: []const u8) bool {
     // Skip README.md at root level
-    if (mem.eql(u8, entry_path, "README.md")) return true;
+    if (mem.eql(u8, entry_path, "README.md") or mem.eql(u8, entry_path, ".DS_Store")) return true;
 
     // Skip anything inside a .examples/ directory
     var it = mem.splitScalar(u8, entry_path, fs.path.sep);
@@ -20,23 +24,28 @@ fn shouldSkip(entry_path: []const u8) bool {
     return false;
 }
 
-fn copyFile(source_path: []const u8, dest_path: []const u8) !void {
-    // Use the stdlib streaming copy to avoid reading the entire file into memory.
-    // This is safe against large/malicious files and is more efficient.
-    try fs.cwd().copyFile(source_path, fs.cwd(), dest_path, .{});
+fn copyFile(io: Io, allocator: mem.Allocator, source_path: []const u8, dest_path: []const u8) !void {
+    // Read the source file and write it to the destination.
+    const content = try Io.Dir.cwd().readFileAlloc(io, source_path, allocator, .limited(1024 * 1024 * 100));
+    defer allocator.free(content);
+
+    const dest = try Io.Dir.cwd().createFile(io, dest_path, .{});
+    defer dest.close(io);
+
+    try dest.writeStreamingAll(io, content);
 }
 
-fn compileFile(allocator: mem.Allocator, source_path: []const u8, dest_path: []const u8, log: *zlap.Logger) !void {
+fn compileFile(allocator: mem.Allocator, io: Io, source_path: []const u8, dest_path: []const u8, log: *zlap.Logger) !void {
     var visited = std.StringHashMap(void).init(allocator);
     defer visited.deinit();
 
     const resolved = try compiler.resolveImports(allocator, source_path, &visited, log);
     defer allocator.free(resolved);
 
-    const dest = try fs.cwd().createFile(dest_path, .{});
-    defer dest.close();
+    const dest = try Io.Dir.cwd().createFile(io, dest_path, .{});
+    defer dest.close(io);
 
-    try dest.writeAll(resolved);
+    try dest.writeStreamingAll(io, resolved);
 }
 
 /// Walks source_dir, compiles or copies each file to the mirrored path inside
@@ -51,15 +60,16 @@ pub fn buildTargetDir(
     dry_run: bool,
     log: *zlap.Logger,
 ) !usize {
+    const io = context.init.io;
     var count: usize = 0;
 
-    var source_dir = try fs.cwd().openDir(source_dir_path, .{ .iterate = true });
-    defer source_dir.close();
+    var source_dir = try Io.Dir.cwd().openDir(io, source_dir_path, .{ .iterate = true });
+    defer source_dir.close(io);
 
     var walker = try source_dir.walk(allocator);
     defer walker.deinit();
 
-    while (try walker.next()) |entry| {
+    while (try walker.next(io)) |entry| {
         if (shouldSkip(entry.path)) continue;
 
         if (entry.kind == .file) {
@@ -81,13 +91,13 @@ pub fn buildTargetDir(
                 }
             } else {
                 if (fs.path.dirname(dest_path)) |parent| {
-                    try fs.cwd().makePath(parent);
+                    try Io.Dir.cwd().createDirPath(io, parent);
                 }
                 if (is_json) {
-                    try copyFile(source_path, dest_path);
+                    try copyFile(io, allocator, source_path, dest_path);
                     log.success("Copied   {s}/{s}", .{ source_dir_path, entry.path });
                 } else {
-                    try compileFile(allocator, source_path, dest_path, log);
+                    try compileFile(allocator, io, source_path, dest_path, log);
                     log.success("Compiled {s}/{s}", .{ source_dir_path, entry.path });
                 }
             }
@@ -109,15 +119,16 @@ pub fn copyDirRecursive(
     dry_run: bool,
     log: *zlap.Logger,
 ) !usize {
+    const io = context.init.io;
     var count: usize = 0;
 
-    var source_dir = try fs.cwd().openDir(source_dir_path, .{ .iterate = true });
-    defer source_dir.close();
+    var source_dir = try Io.Dir.cwd().openDir(io, source_dir_path, .{ .iterate = true });
+    defer source_dir.close(io);
 
     var walker = try source_dir.walk(allocator);
     defer walker.deinit();
 
-    while (try walker.next()) |entry| {
+    while (try walker.next(io)) |entry| {
         if (shouldSkip(entry.path)) continue;
 
         if (entry.kind == .file) {
@@ -131,9 +142,9 @@ pub fn copyDirRecursive(
                 log.info("Would copy skill {s}/{s}", .{ source_dir_path, entry.path });
             } else {
                 if (fs.path.dirname(dest_path)) |parent| {
-                    try fs.cwd().makePath(parent);
+                    try Io.Dir.cwd().createDirPath(io, parent);
                 }
-                try copyFile(source_path, dest_path);
+                try copyFile(io, allocator, source_path, dest_path);
                 log.success("Copied skill {s}/{s}", .{ source_dir_path, entry.path });
             }
             count += 1;

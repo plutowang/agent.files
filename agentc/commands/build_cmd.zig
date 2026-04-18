@@ -1,12 +1,17 @@
 const std = @import("std");
 const fs = std.fs;
+const Io = std.Io;
+
 const zlap = @import("zlap");
+
 const config = @import("../core/config.zig");
+const context = @import("../core/context.zig");
 const fs_utils = @import("../core/fs_utils.zig");
 
 pub fn handler(parser: *zlap.Parser) error{OutOfMemory}!void {
     const allocator = parser.allocator;
     const log = parser.logger;
+    const io = context.init.io;
 
     var arena = std.heap.ArenaAllocator.init(allocator);
     defer arena.deinit();
@@ -20,7 +25,7 @@ pub fn handler(parser: *zlap.Parser) error{OutOfMemory}!void {
         log.info("Starting build...", .{});
 
         // Delete dist/ if it exists
-        fs.cwd().deleteTree("dist") catch |err| {
+        Io.Dir.cwd().deleteTree(io, "dist") catch |err| {
             if (err != error.FileNotFound) {
                 log.err("Failed to delete dist/: {s}", .{@errorName(err)});
                 return;
@@ -28,7 +33,7 @@ pub fn handler(parser: *zlap.Parser) error{OutOfMemory}!void {
         };
 
         // Create dist/
-        fs.cwd().makePath("dist") catch |err| {
+        Io.Dir.cwd().createDirPath(io, "dist") catch |err| {
             log.err("Failed to create dist/: {s}", .{@errorName(err)});
             return;
         };

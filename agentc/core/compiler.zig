@@ -1,7 +1,11 @@
 const std = @import("std");
 const fs = std.fs;
 const mem = std.mem;
+const Io = std.Io;
+
 const zlap = @import("zlap");
+
+const context = @import("context.zig");
 
 const max_file_size = 1024 * 1024; // 1MB
 
@@ -22,10 +26,8 @@ pub fn resolveImports(
     defer _ = visited.remove(filepath);
     errdefer _ = visited.remove(filepath);
 
-    // Read source file
-    var file = try fs.cwd().openFile(filepath, .{});
-    defer file.close();
-    const content = try file.readToEndAlloc(allocator, max_file_size);
+    // Read source file using readFileAlloc (opens, reads, and closes the file)
+    const content = try Io.Dir.cwd().readFileAlloc(context.init.io, filepath, allocator, .limited(max_file_size));
     errdefer allocator.free(content);
 
     var result: std.ArrayList(u8) = .empty;
@@ -35,12 +37,12 @@ pub fn resolveImports(
     const tag_end = " -->";
 
     var cursor: usize = 0;
-    while (mem.indexOfPos(u8, content, cursor, tag_start)) |start_idx| {
+    while (mem.findPos(u8, content, cursor, tag_start)) |start_idx| {
         // Write text before the import tag
         try result.appendSlice(allocator, content[cursor..start_idx]);
 
         // Find the closing tag
-        const end_idx = mem.indexOfPos(u8, content, start_idx + tag_start.len, tag_end) orelse {
+        const end_idx = mem.findPos(u8, content, start_idx + tag_start.len, tag_end) orelse {
             return error.MalformedImportTag;
         };
 
@@ -58,8 +60,8 @@ pub fn resolveImports(
             mem.eql(u8, import_path, "..") or
             mem.startsWith(u8, import_path, "../") or
             mem.startsWith(u8, import_path, "..\\") or
-            mem.indexOf(u8, import_path, "/../") != null or
-            mem.indexOf(u8, import_path, "\\..\\") != null)
+            mem.find(u8, import_path, "/../") != null or
+            mem.find(u8, import_path, "\\..\\") != null)
         {
             log.err("Rejected unsafe import path: {s} (in {s})", .{ import_path, filepath });
             return error.AccessDenied;

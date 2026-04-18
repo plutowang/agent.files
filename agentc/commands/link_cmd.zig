@@ -1,12 +1,17 @@
 const std = @import("std");
 const fs = std.fs;
+const Io = std.Io;
+
 const zlap = @import("zlap");
+
 const config = @import("../core/config.zig");
+const context = @import("../core/context.zig");
 const symlink = @import("../core/symlink.zig");
 
 pub fn handler(parser: *zlap.Parser) !void {
     const allocator = parser.allocator;
     const log = parser.logger;
+    const io = context.init.io;
 
     var arena = std.heap.ArenaAllocator.init(allocator);
     defer arena.deinit();
@@ -32,13 +37,13 @@ pub fn handler(parser: *zlap.Parser) !void {
     }
 
     // Resolve HOME directory
-    const home_dir = std.posix.getenv("HOME") orelse {
+    const home_dir = context.init.environ_map.get("HOME") orelse {
         log.err("Error: HOME environment variable not set", .{});
         return;
     };
 
     // Resolve current working directory absolute path
-    const cwd = fs.cwd().realpathAlloc(alloc, ".") catch |err| {
+    const cwd = std.process.currentPathAlloc(io, alloc) catch |err| {
         log.err("Failed to get current directory: {s}", .{@errorName(err)});
         return;
     };
@@ -48,7 +53,7 @@ pub fn handler(parser: *zlap.Parser) !void {
         const source_path = try fs.path.join(alloc, &.{ cwd, "dist", target.source_dir, subdir });
         const dest_path = try fs.path.join(alloc, &.{ home_dir, target.config_base, subdir });
 
-        symlink.createSymlink(source_path, dest_path, subdir, alloc, dry_run, log) catch |err| switch (err) {
+        symlink.createSymlink(io, source_path, dest_path, subdir, alloc, dry_run, log) catch |err| switch (err) {
             error.SourceNotFound => continue,
             else => log.err("Failed to link {s}: {s}", .{ subdir, @errorName(err) }),
         };
@@ -56,15 +61,15 @@ pub fn handler(parser: *zlap.Parser) !void {
 
     // --- Symlink root-level files (e.g. AGENTS.md, *.json) ---
     const dist_target_path = try fs.path.join(alloc, &.{ "dist", target.source_dir });
-    var dist_dir = fs.cwd().openDir(dist_target_path, .{ .iterate = true }) catch |err| {
+    var dist_dir = Io.Dir.cwd().openDir(io, dist_target_path, .{ .iterate = true }) catch |err| {
         log.warning("Could not open {s}: {s}", .{ dist_target_path, @errorName(err) });
         log.success("Done.", .{});
         return;
     };
-    defer dist_dir.close();
+    defer dist_dir.close(io);
 
     var it = dist_dir.iterate();
-    while (it.next() catch null) |entry| {
+    while (it.next(io) catch null) |entry| {
         if (entry.kind != .file) continue;
 
         const source_path = try fs.path.join(alloc, &.{ cwd, "dist", target.source_dir, entry.name });
@@ -77,7 +82,7 @@ pub fn handler(parser: *zlap.Parser) !void {
             break :blk try fs.path.join(alloc, &.{ home_dir, target.config_base, entry.name });
         };
 
-        symlink.createSymlink(source_path, dest_path, entry.name, alloc, dry_run, log) catch |err| switch (err) {
+        symlink.createSymlink(io, source_path, dest_path, entry.name, alloc, dry_run, log) catch |err| switch (err) {
             error.SourceNotFound => continue,
             else => log.err("Failed to link {s}: {s}", .{ entry.name, @errorName(err) }),
         };

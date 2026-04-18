@@ -1,12 +1,14 @@
 const std = @import("std");
+
 const zlap = @import("zlap");
+
 const build_cmd = @import("commands/build_cmd.zig");
 const link_cmd = @import("commands/link_cmd.zig");
+const context = @import("core/context.zig");
 
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
+pub fn main(init: std.process.Init) !void {
+    context.init = init;
+    const allocator = init.arena.allocator();
 
     var logger = zlap.Logger{};
 
@@ -27,8 +29,7 @@ pub fn main() !void {
     _ = link_sub.arg("target", "Target IDE: opencode or cursor", true);
     _ = link_sub.flag('n', "dry-run", "Show what would be done without creating any symlinks");
 
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+    const args = try init.minimal.args.toSlice(allocator);
 
     try parser.parse(args);
     try parser.execute();
