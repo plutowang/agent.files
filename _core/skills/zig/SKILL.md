@@ -24,6 +24,7 @@ Before answering any coding question, execute the following mental or actual che
    - **Version >= 0.13**: `std.http` and `std.net` changes.
    - **Version >= 0.14**: `GPA.init` and `root_module` in build scripts.
    - **Version >= 0.15**: `std.Io` (new I/O); `async`/`await` removed.
+   - **Version >= 0.16**: "Juicy Main" (`std.process.Init`); `@cImport` removed; `@Type` split into `@Int`/`@Struct`/etc.; `std.Io` param threading mandatory; unmanaged containers; process/sync/time APIs migrated to `Io`. **Read the migration file before generating code** (see Section 5).
 
 ## 2. Project Structure
 
@@ -51,10 +52,21 @@ Instruct the user to use these commands:
 Zig is manual. Always define ownership and allocator lifetime.
 
 ```zig
-var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-defer _ = gpa.deinit();
-const allocator = gpa.allocator();
+// >= 0.16: Allocators and I/O come from main's init parameter
+pub fn main(init: std.process.Init) !void {
+    const gpa = init.gpa;       // general-purpose allocator
+    const arena = init.arena;   // scratch arena (no deinit needed)
+    const io = init.io;         // required for ALL I/O calls
+    _ = .{ gpa, arena, io };
+}
+
+// <= 0.15: Manual allocator setup
+var gpa_inst = std.heap.GeneralPurposeAllocator(.{}){};
+defer _ = gpa_inst.deinit();
+const allocator = gpa_inst.allocator();
 ```
+
+For library code (no main), accept `allocator` and `io` as function parameters.
 
 ### Error Handling
 
@@ -66,6 +78,22 @@ const allocator = gpa.allocator();
 
 - **Loops**: `for (items) |item|` (Old) vs `for (items) |*item|` (Pointer capture) vs `for (items, 0..) |item, i|` (Index capture).
   - _Action_: Verify which loop syntax is valid for the detected version.
+
+## 5. Version Migration Protocol
+
+Zig has breaking API changes every minor version. When the detected version has a migration file, **read it before generating any code** to ensure no deprecated/removed APIs are used.
+
+**Available migration files** (in this skill's `migrations/` directory):
+
+- **0.16** → `migrations/0.16.md` — "Juicy Main", I/O threading, `@cImport` removal, `@Type` split, unmanaged containers, process/sync/time migration
+
+**Workflow:**
+
+1. Detect the project's Zig version (Section 1)
+2. If a migration file exists for that version, read it immediately
+3. Cross-check **every** stdlib call against the OLD→NEW tables in the migration file
+4. **NEVER** use any API from the "Old" column — always use "New"
+5. If unsure whether an API changed, check the migration file before writing code
 
 **Docs**: Context7 `/websites/ziglang` · Fallback: <https://ziglang.org/documentation>
 
