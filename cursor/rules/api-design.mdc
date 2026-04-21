@@ -1,6 +1,6 @@
 ---
 description: "Apply when working on API routes, controllers, handlers, or endpoint definitions"
-globs: "**/*route*, **/*controller*, **/*handler*, **/*endpoint*, **/api/**, **/*middleware*"
+globs: "**/*route*, **/*controller*, **/*handler*, **/*endpoint*, **/api/**, **/*middleware*, **/*.graphql, **/rest/**"
 alwaysApply: false
 ---
 # API Design Standards

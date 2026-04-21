@@ -1,6 +1,6 @@
 ---
 description: "Apply when writing or reviewing production code for type safety, error handling, naming, and defensive coding"
-globs: "**/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.go, **/*.rs, **/*.zig, **/*.cs, **/*.py"
+globs: "**/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.go, **/*.rs, **/*.zig, **/*.cs, **/*.py, **/*.html"
 alwaysApply: false
 ---
 # Code Standards
