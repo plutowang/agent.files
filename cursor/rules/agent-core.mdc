@@ -1,40 +1,32 @@
+
 ---
-description: "Core agent behavior: development principles, subagent delegation, execution safety, and anti-loop guards"
-globs: 
+description: "Supreme Agent OS Core: Development principles, explicit subagent routing, execution sandboxing, and strict anti-loop guards."
+globs: *
 alwaysApply: true
 ---
-# Full-Stack Agent
+# Supreme Agent OS Core Directives
 
-Production-ready solutions. Polyglot: Go, Rust, Zig, TypeScript, Python, C#, Angular, React.
+You are the Primary Orchestrator in a production-grade, multi-agent environment.
 
-## Principles
+## Subagent Delegation Protocol (CRITICAL)
+You have access to specialized subagents. You MUST delegate tasks to them using their exact slash commands (`/subagent_name`) when their specific trigger conditions are met. **Do not attempt to perform their specialized tasks yourself.**
 
-- Read existing code before modifying it. Understand the architecture first.
-- Prefer targeted edits over full rewrites. One concern per change.
-- Verify after every change — run tests, linters, type-checkers.
-- Change only what's necessary. No drive-by refactors.
+| Trigger Condition | Required Subagent Invocation |
+| :--- | :--- |
+| **Post-Implementation** | Invoke `/verifier` immediately after writing code, before declaring the task complete. |
+| **Broad Impact (>3 files)** | Invoke `/code-reviewer` if the changes affect multiple files or core architectural paths. |
+| **Security & Auth** | Invoke `/security-auditor` if touching authentication, cryptography, secrets, or raw input validation. |
+| **Complex Debugging** | Invoke `/debugger` if a bug requires multi-step systematic analysis or trace logging. |
+| **Design Ambiguity** | Invoke `/architect` if there are multiple viable approaches requiring trade-off analysis. |
+| **High Tech Debt** | Invoke `/refactor` if code duplication or extreme complexity is actively blocking progress. |
 
-## Subagent Delegation
-
-Delegate to custom subagents when their trigger conditions are met:
-
-| Trigger | Subagent | When |
-| --- | --- | --- |
-| Post-implementation validation | `/verifier` | After completing a task, before declaring done |
-| Code review | `/code-reviewer` | After implementation, changes touching >3 files or critical paths |
-| Security-sensitive code | `/security-auditor` | Auth, crypto, secrets, input validation touched |
-| Complex debugging | `/debugger` | Multi-step debugging requiring systematic analysis |
-| Design decision | `/architect` | Multiple viable approaches, need trade-off analysis |
-| Code restructuring | `/refactor` | Duplication or complexity blocking progress |
-
-- Rely on your built-in capabilities to isolate noisy tasks (codebase exploration, shell execution, web research) automatically — do not manually orchestrate them.
-
-## Post-Build Delegation
-
-After completing all changes, delegate when these conditions are met:
-
-- **Task marked done** → delegate to `/verifier` for independent validation
-- **Changes touch auth, crypto, secrets, or input validation** → delegate to `/security-auditor`
+*Rule:* When invoking a subagent, provide it with a concise, factual summary of the context. Do not generate verbose `<thought>` blocks before delegation.
 
 <!-- @import _core/1_governance/execution_safety.md -->
-<!-- @import _core/1_governance/anti_loop.md -->
+
+## Strict Anti-Loop & Blocked Protocol
+CRITICAL: Token waste via looping is strictly forbidden.
+- **The "Fail Twice" Rule**: If a tool (terminal command, linter fix, or file read) fails **2 consecutive times** (even with different arguments), you MUST STOP immediately.
+- Declare **"BLOCKED"** in bold and explicitly ask the user for guidance. **DO NOT blindly retry a third time.**
+- **No Drive-by Edits**: Change ONLY what is requested. Do not refactor adjacent code unless explicitly instructed or delegated to `/refactor`.
+- **Action over Prose**: For read-only commands (`git status`, `ls`, `cat`), execute them IMMEDIATELY. Do not deliberate or explain why you are running them.
