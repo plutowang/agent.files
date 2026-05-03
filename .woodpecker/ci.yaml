@@ -1,0 +1,59 @@
+---
+# ════════════════════════════════════════════════
+# Zig version — single source of truth
+# Change these values when upgrading Zig:
+variables:
+  - &zig_default "0.16.0"
+  - &zig_versions [ "0.16.0" ]
+# ════════════════════════════════════════════════
+
+when:
+  - event: [push, pull_request]
+    branch: [main, develop]
+
+matrix:
+  ZIG_VERSION: *zig_versions
+
+steps:
+  - name: setup zig
+    image: alpine:latest
+    commands:
+      - apk add --no-cache curl xz
+      - mkdir -p .zig
+      - |
+        if [ ! -f ".zig/zig" ]; then
+          curl -L "https://ziglang.org/download/$ZIG_VERSION/zig-x86_64-linux-$ZIG_VERSION.tar.xz" | tar xJ -C .zig --strip-components=1
+        fi
+
+  - name: zig fmt check
+    image: alpine:latest
+    when:
+      matrix:
+        ZIG_VERSION: *zig_default
+    depends_on: [ setup zig ]
+    commands:
+      - ./.zig/zig fmt --check .
+
+  - name: zig build
+    image: alpine:latest
+    when:
+      matrix:
+        ZIG_VERSION: *zig_default
+    depends_on: [ setup zig, zig fmt check ]
+    commands:
+      - ./.zig/zig build
+
+  - name: zig build release
+    image: alpine:latest
+    when:
+      matrix:
+        ZIG_VERSION: *zig_default
+    depends_on: [ setup zig, zig build ]
+    commands:
+      - ./.zig/zig build -Doptimize=ReleaseFast
+  - name: markdown lint
+    image: node:25-alpine
+    commands:
+      - npm install -g markdownlint-cli
+      - markdownlint . --ignore node_modules --ignore .git
+  

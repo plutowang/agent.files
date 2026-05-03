@@ -1,5 +1,16 @@
 # Agentic Unified Prompt Compiler (AUPC)
 
+[![Hosted on Codeberg](https://img.shields.io/badge/Hosted_on-Codeberg-2185d0?logo=codeberg)](https://codeberg.org/bwang-dev/agent.files) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+| Platform           | Status                                                                                                                                                                                                 |
+| :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Codeberg CI**    | [![Codeberg](https://ci.codeberg.org/api/badges/bwang-dev/agent.files/status.svg?branch=main)](https://ci.codeberg.org/bwang-dev/agent.files)                                                          |
+| **GitHub Actions** | [![GitHub](https://img.shields.io/github/actions/workflow/status/plutowang/agent.files/ci.yml?branch=main&label=build&logo=github)](https://github.com/plutowang/agent.files/actions/workflows/ci.yml) |
+
+> **Note:** The canonical repository for this project is hosted on [Codeberg](https://codeberg.org/bwang-dev/agent.files). This GitHub repository is maintained solely as a read-only mirror. Please open issues and pull requests on Codeberg.
+
+<!-- -->
+
 > **Infrastructure as Code (IaC) for AI Agent Prompts.**
 
 AUPC is a centralized, compiler-driven framework for managing, scaling, and deploying AI agent instructions across multiple IDEs and agentic platforms.
