@@ -53,6 +53,7 @@
     "doom_loop": "deny",
     "external_directory": {
       "~/projects/**": "allow",
+      "~/.config/opencode/skills/**": "allow",
       "*": "deny"
     },
     "bash": {
