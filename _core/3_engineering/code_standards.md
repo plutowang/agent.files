@@ -25,6 +25,19 @@
 - Functions should do one thing and their name should say what that thing is.
 - No abbreviations unless universally understood in the domain (e.g., `URL`, `HTTP`, `ID`).
 
+### Control Flow
+
+- Avoid deep nesting. Limit control flow depth to a maximum of 3 levels (if/for/switch).
+- Use guard clauses (early returns/continues) to flatten conditional nesting. Invert conditions — handle error/edge cases first, keep the happy path at the top level.
+- In loops, use `continue` to skip iterations early instead of wrapping the body in an `if`; use `break` to exit early instead of a flag variable.
+- If logic requires deeper nesting, decompose it into well-named helper functions.
+
+### Function Design
+
+- Functions should be cohesive and self-contained. A single well-structured function is preferable to a chain of tiny, single-purpose fragments.
+- Only extract a helper function when the logic is genuinely shared (used in 2+ call sites) or when the extracted piece represents a clearly distinct, independently nameable responsibility.
+- Avoid extracting one-line or two-line functions unless they encapsulate a non-obvious operation (e.g., a complex computation or a cross-cutting concern like logging/error-wrapping).
+
 ### No Shortcuts
 
 - No `TODO` or `FIXME` in production code without a linked tracking issue.

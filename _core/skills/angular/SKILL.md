@@ -33,6 +33,9 @@ You are an expert in **Modern Angular (v19+)**. You strictly adhere to the lates
 ## Component Architecture
 
 - **Standalone**: All components must be `standalone: true`.
-- **Signals**: Prefer `input()`, `output()`, and `viewChild()` over decorators.
+- **Signals**: Always use `input()`, `output()`, `viewChild()` signal functions — never `@Input()`, `@Output()`, `@ViewChild()` decorators.
+- **Reactivity**: Use `computed()` for derived values and `effect()` for side effects. Keep `constructor()` empty when possible — use `private _ = effect(() => { ... })` as a field initializer for setup logic instead. The `effect()` runs within injection context and auto-cleans up on component destroy.
+- **Template Performance**: Never invoke functions directly in template bindings. Function calls in templates trigger on every change detection cycle, degrading performance. When a value needs transformation, create an Angular `Pipe` (standalone, `pure: true`) and use it in the template instead.
+- **Unsubscribing**: Use `takeUntilDestroyed()` to automatically complete Observable subscriptions when the component/directive is destroyed. Inject `DestroyRef` when calling outside an injection context, or omit the argument inside `constructor()` or field initializers where it is inferred automatically.
 
 **Docs**: Context7 `/websites/angular_dev` · Fallback: <https://angular.dev>

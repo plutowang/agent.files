@@ -2,9 +2,9 @@
 
 ### Extraction Discipline
 
-- **Only extract when the piece has a clear, cohesive purpose and a meaningful name.**
-- Prefer extracting **shared logic** (used in 2+ places) over extracting unique logic just to shorten a function.
-- Avoid splitting functions too small — each extracted function must justify its existence.
+- **Only extract when the piece is genuinely shared** (used in 2+ places). Do NOT extract unique logic just to shorten a function.
+- **Do NOT fragment functions into tiny pieces.** A 5-line function that calls three 2-line helpers is worse than a self-contained 20-line function. Each extracted function must have a clear, independent responsibility and a meaningful name.
+- **Avoid splitting functions too small** — each extracted function must justify its existence. If the extracted block cannot be named clearly by *what* it does (not *how*), do not extract it.
 
 ### Pattern Catalog
 

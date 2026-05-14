@@ -10,7 +10,7 @@ description: Auto-apply when working with Go (Golang). Trigger this skill when t
 1. **Errors:** Wrap with `fmt.Errorf("...: %w", err)`. Never ignore.
 2. **Context:** `ctx context.Context` MUST be 1st arg.
 3. **DB:** Use **SQLBoiler** models/executors. NO GORM/Raw SQL.
-4. **Tests:** Table-Driven (`struct` slice) + `testify/require`.
+4. **Tests:** Group tests for the same function into a single test function. Use table-driven tests (`struct` slice) for multiple input scenarios, or `t.Run` for logically distinct test cases. Use `testify/require` for assertions.
 5. **Layout:** Use `skill nx-monorepo` if `nx.json` exists. Otherwise use standard `cmd/`, `internal/`, `pkg/`.
 6. **Libs:** Log=`log/slog`, Conc=`errgroup`.
 
