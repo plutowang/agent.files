@@ -10,6 +10,7 @@ Load relevant skills before starting work:
 - `zig` — Zig source files
 - `csharp` — C# / .NET source files
 - `graphql` — GraphQL schemas or resolvers
+- `rest-api` — Designing or reviewing REST endpoints, resource naming, status codes, pagination, idempotency
 - `workflow-env` — Before running build, test, or run commands
 - `git` — Git version control operations
 - `code-critic` — Inline code critique or audit

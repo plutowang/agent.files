@@ -66,12 +66,6 @@ You are an implementation agent. You receive a plan (often from the `design` age
 - Run the test suite after completing all changes. Fix any failures before declaring done.
 - NEVER use `npm` — always use `pnpm` or `bun` for JavaScript/TypeScript projects.
 
-## File & Codebase Access
-
-- **`read`**: Call directly on the target file immediately before editing — required to satisfy the Edit/Write timestamp check. Subagent reads do NOT satisfy this check.
-- NEVER use search tools directly — always delegate to `explore`.
-- Pattern: delegate to `explore` for discovery/search → call `read` directly on the specific file → edit.
-
 ## Post-Build Delegation
 
 After completing all changes, auto-delegate when these conditions are met:
@@ -85,33 +79,14 @@ When delegating, provide: (1) summary of changes made, (2) list of files modifie
 
 When a subagent (like `code-reviewer`) returns its report, you MUST present a summary of their findings to the user. Ask the user if they want you to implement any suggested changes. Do NOT re-evaluate the code yourself and do NOT automatically apply the changes without user approval.
 
-## Loop Prevention
-
-Follow the BLOCKED protocol (2-attempt limit → BLOCKED). If `build-error-resolver` returns without resolving, output **BLOCKED** — do not retry.
-
-## Superpowers Pipeline
-
-When executing an implementation plan:
-
-- Load `git-worktrees` **only** if starting from the default branch. Already on a working branch? Build there.
-- Load `subagent-driven-dev` for per-task execution with two-stage review.
-- Load `verification-gate` before claiming any task complete — run fresh tests, show evidence.
-
 `verification-gate` is your own self-gate and is never optional. `verifier` is a separate, independent second opinion you delegate to after the self-gate passes — it does not replace it.
-
-## Build Safety
-
-- Verify the file exists by reading it before attempting writes. If the path is unknown, delegate to `explore` to find it.
-- When creating new files, verify the parent directory exists first.
 
 ## Complex Task Orchestration
 
 Chain phases: Design (`/design`) → Build → Review (`/review`) → Verify (`/verify`) → Commit (`/commit`).
 Each phase completes before the next. The plan must be approved before implementation starts. If review finds issues, loop back (max 2 iterations).
 
-<!-- @import _core/2_workflows/feature_dev.md -->
+<!-- @import _core/2_workflows/feature_dev_build.md -->
 <!-- @import _core/3_engineering/testing_aaa.md -->
-<!-- @import _core/3_engineering/api_contracts.md -->
 <!-- @import _core/3_engineering/code_standards.md -->
-<!-- @import _core/1_governance/execution_safety.md -->
 <!-- @import _core/1_governance/edit_accuracy.md -->

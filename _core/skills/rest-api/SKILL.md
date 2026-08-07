@@ -84,6 +84,10 @@ Use a consistent error response format across all endpoints:
 }
 ```
 
+**Never expose stack traces, internal file paths, database errors, or implementation details in an error response.** Log
+them server-side and return the opaque `traceId` instead — it is the only safe way to correlate a client report with a
+server log.
+
 ### Standard Error Codes
 
 | HTTP Status | Code                  | Use Case                              |

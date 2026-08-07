@@ -10,6 +10,7 @@
   ],
   "autoupdate": false,
   "instructions": [
+    "./rules/critical-invariants.md",
     "./rules/agent-constraints.md"
   ],
   "permission": {
@@ -43,7 +44,7 @@
       "**/config.example.*": "allow"
     },
     "edit": "ask",
-    "glob": "allow",
+    "glob": "deny",
     "grep": "deny",
     "task": "ask",
     "webfetch": "allow",
@@ -493,6 +494,7 @@
     "build":                { "model": "{env:OPENCODE_MODEL_FLASH}" },
     "design":               { "model": "{env:OPENCODE_MODEL_FLASH}" },
     "plan":                 { "disable": true },
+    "evolver":              { "disable": true },
     "debug":                { "model": "{env:OPENCODE_MODEL_PRO}" },
     "explore":              { "model": "{env:OPENCODE_MODEL_LITE}" },
     "docs":                 { "model": "{env:OPENCODE_MODEL_LITE}" },

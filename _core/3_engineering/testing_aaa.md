@@ -13,7 +13,7 @@
 - One logical assertion per test. Test one behavior, not one function.
 - Test names should describe the scenario and expected outcome: `should_return_404_when_user_not_found`.
 
-### TDD Iron Law
+### TDD Iron Law ⏸ (IV)
 
 **NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST.** Write code before a test? Delete it. Start over.
 

@@ -2,23 +2,22 @@
 
 ## Agent Orchestration
 
-The `build` and `design` agents auto-delegate to specialized subagents:
+Delegate only to a subagent your own permissions allow. The `Callable by` column is authoritative — a delegation outside it will be refused.
 
-| Trigger                     | Subagent               | When                                                                          |
-| --------------------------- | ---------------------- | ----------------------------------------------------------------------------- |
-| Codebase search / Web fetch | `explore`              | Need to find files, search code, or retrieve web documentation                |
-| Design decision             | `architect`            | Multiple viable approaches (design phase only)                                |
+| Trigger | Subagent | Callable by | When |
+| --- | --- | --- | --- |
+| Discovery | `explore` | build, design, docs, debug, build-error-resolver | Any file discovery, pattern search, or documentation retrieval |
+| Design decision | `architect` | design | Two or more genuinely different approaches are viable |
+| Restructuring | `refactor` | build, design | Duplication or complexity is blocking progress |
+| Build failure | `build-error-resolver` | build | Two failed attempts → delegate once; if that also fails, BLOCKED ⏸ (III) |
+| Security-sensitive | `security-reviewer` | build | Auth, crypto, secrets, or input validation touched |
+| Broad change | `code-reviewer` | build | Changes touching more than 3 files, or critical paths (auth, data, API) |
+| Claimed complete | `verifier` | build | Skeptical validation before declaring done |
+| Docs stale | `docs` | build | After significant implementation |
 
-| Build failure               | `build-error-resolver`  | After 2 failed build/test attempts                                            |
-| Security-sensitive code     | `security-reviewer`     | Auth, crypto, secrets, input validation touched                               |
-| Code restructuring          | `refactor`             | Duplication or complexity blocking progress                                   |
-| Broad code changes          | `code-reviewer`        | Build completed changes touching >3 files or critical paths (auth, data, API)|
-| Task claimed completed      | `verifier`             | Skeptical validation of implementations and tests before declaring done       |
-| Docs need updating          | `docs`                 | After significant implementation                                              |
+**User-initiated only:** `debug`.
 
-**User-initiated only:** `debug` (invoke explicitly when needed)
-
-The integrated Superpowers pipeline flows through design → build agents: brainstorming and writing-plans during design, subagent-driven-dev with TDD during implementation, and verification-gate before completion. Each phase loads the relevant skill automatically — skills are listed in the manifest above.
+The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`.
 
 ## Delegation Format
 

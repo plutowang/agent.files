@@ -13,7 +13,7 @@ Two invariants govern every agent:
 | --------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- | --------------------------------- |
 | `explore`                                                                         | ✅     | none — read-only                                        | nothing (cannot delegate)         |
 | `build`                                                                           | ✅     | anything except `.env*`, `*.key`, `*.pem`, `secrets.*`   | 7 subagents                       |
-| `design`                                                                            | ✅     | **`docs/**` only**                                      | `explore`, `architect`, `refactor` |
+| `design`                                                                            | ✅ — under the Read Budget below | `docs/**` only                       | `explore`, `architect`, `refactor` |
 | `docs`                                                                            | ✅     | `*.md`, `*.txt` only                                    | `explore`                         |
 | `build-error-resolver`                                                            | ✅     | anything (prompted)                                     | `explore`                         |
 | `evolver`                                                                         | ✅     | none — proposes changes only                            | nothing                           |
@@ -25,7 +25,11 @@ Edit/Write enforce a **per-session timestamp check** — the *primary* agent mus
 last modification, or the edit is rejected with "File has been modified since it was last read." Subagent reads do NOT
 satisfy this check. Every write-enabled agent must call `read` itself immediately before editing.
 
-Pattern: delegate to `explore` for discovery → call `read` on the specific file → edit.
+### Read Budget
+
+`read` is for files whose contents are load-bearing — ones you will quote, edit, or verify. If you are reading to *find*
+something, delegate instead; the test is whether you could name the file before opening it. Pattern: delegate for
+discovery → `read` the specific file → edit.
 
 ### Agents Without `read`
 

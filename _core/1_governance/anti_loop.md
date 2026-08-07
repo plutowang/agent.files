@@ -2,11 +2,11 @@
 
 CRITICAL: Loop behavior wastes tokens and degrades your context window. These rules are non-negotiable.
 
-### Tool Retry Rules
+### Tool Retry Rules ⏸ (III)
 
 - **Never** execute the exact same tool with the exact same arguments more than ONCE. If it failed, it will fail again.
-- Before any retry, you MUST state: (1) what the error was, (2) what you are changing in your approach.
-- After **2 consecutive failed attempts** to solve the same problem (even with different approaches): **STOP**, declare **BLOCKED**, and ask the user for guidance. **There is no further retry. Do not restart the chain.**
+- Before any retry, state: (1) what the error was, (2) what you are changing in your approach.
+- Escalation is a total order. Two consecutive failures on the same problem end the attempt. For build or test failures only, one delegation to a specialist is permitted first; if that also fails, declare **BLOCKED** and ask. Otherwise declare **BLOCKED** immediately. Do not restart the chain.
 - Anti-patterns — never do these: retrying a read on a nonexistent file, re-running the same bash command, re-applying a rejected edit, re-running a failing test without changing code first.
 
 ### Output Repetition Guard
