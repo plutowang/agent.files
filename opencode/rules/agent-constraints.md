@@ -13,7 +13,7 @@ Two invariants govern every agent:
 | --------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- | --------------------------------- |
 | `explore`                                                                         | ✅     | none — read-only                                        | nothing (cannot delegate)         |
 | `build`                                                                           | ✅     | anything except `.env*`, `*.key`, `*.pem`, `secrets.*`   | 7 subagents                       |
-| `plan`                                                                            | ✅     | **`docs/**` only**                                      | `explore`, `architect`, `refactor` |
+| `design`                                                                            | ✅     | **`docs/**` only**                                      | `explore`, `architect`, `refactor` |
 | `docs`                                                                            | ✅     | `*.md`, `*.txt` only                                    | `explore`                         |
 | `build-error-resolver`                                                            | ✅     | anything (prompted)                                     | `explore`                         |
 | `evolver`                                                                         | ✅     | none — proposes changes only                            | nothing                           |

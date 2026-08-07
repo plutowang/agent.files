@@ -9,6 +9,7 @@ permission:
   edit:
     "*": "deny"
     "docs/**": "allow"
+    "*docs/**": "allow"
   skill:
     "*": "allow"
     "git-worktrees": "deny"

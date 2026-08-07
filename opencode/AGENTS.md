@@ -2,12 +2,13 @@
 
 ## Agent Orchestration
 
-The `build` and `plan` agents auto-delegate to specialized subagents:
+The `build` and `design` agents auto-delegate to specialized subagents:
 
 | Trigger                     | Subagent               | When                                                                          |
 | --------------------------- | ---------------------- | ----------------------------------------------------------------------------- |
 | Codebase search / Web fetch | `explore`              | Need to find files, search code, or retrieve web documentation                |
-| Design decision             | `architect`            | Multiple viable approaches (plan agent only)                                 |
+| Design decision             | `architect`            | Multiple viable approaches (design phase only)                                |
+
 | Build failure               | `build-error-resolver`  | After 2 failed build/test attempts                                            |
 | Security-sensitive code     | `security-reviewer`     | Auth, crypto, secrets, input validation touched                               |
 | Code restructuring          | `refactor`             | Duplication or complexity blocking progress                                   |
@@ -17,7 +18,7 @@ The `build` and `plan` agents auto-delegate to specialized subagents:
 
 **User-initiated only:** `debug` (invoke explicitly when needed)
 
-The integrated Superpowers pipeline flows through plan → build agents: brainstorming and writing-plans during design, subagent-driven-dev with TDD during implementation, and verification-gate before completion. Each phase loads the relevant skill automatically — skills are listed in the manifest above.
+The integrated Superpowers pipeline flows through design → build agents: brainstorming and writing-plans during design, subagent-driven-dev with TDD during implementation, and verification-gate before completion. Each phase loads the relevant skill automatically — skills are listed in the manifest above.
 
 ## Delegation Format
 

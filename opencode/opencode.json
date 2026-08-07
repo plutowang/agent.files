@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "plan",
+  "default_agent": "design",
   "share": "disabled",
   "subagent_depth": 3,
   "plugin": [
@@ -491,7 +491,8 @@
     "title":                { "model": "{env:OPENCODE_MODEL_LITE}" },
     "compaction":           { "model": "{env:OPENCODE_MODEL_FLASH}" },
     "build":                { "model": "{env:OPENCODE_MODEL_FLASH}" },
-    "plan":                 { "model": "{env:OPENCODE_MODEL_FLASH}" },
+    "design":               { "model": "{env:OPENCODE_MODEL_FLASH}" },
+    "plan":                 { "disable": true },
     "debug":                { "model": "{env:OPENCODE_MODEL_PRO}" },
     "explore":              { "model": "{env:OPENCODE_MODEL_LITE}" },
     "docs":                 { "model": "{env:OPENCODE_MODEL_LITE}" },

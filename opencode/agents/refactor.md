@@ -1,5 +1,5 @@
 ---
-description: "Use when restructuring code without changing behavior. Invoked by plan or build to produce a structured refactor plan — does NOT execute changes. Work from parent-provided context — no direct file access."
+description: "Use when restructuring code without changing behavior. Invoked during planning or implementation to produce a structured refactor plan — does NOT execute changes. Work from parent-provided context — no direct file access."
 mode: subagent
 temperature: 0.3
 steps: 35

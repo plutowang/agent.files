@@ -21,7 +21,7 @@ We use HTML comments to inject reusable markdown blocks:
 
 **Nested Import Logic (CRITICAL TO UNDERSTAND):**
 The compiler supports recursive (nested) imports. 
-1. Host Shells (e.g., `opencode/agents/plan.md`) import high-level core modules.
+1. Host Shells (e.g., `opencode/agents/design.md`) import high-level core modules.
 2. Core modules (e.g., `_core/2_workflows/feature_dev.md`) can import lower-level core modules (e.g., `_core/1_governance/hitl_gates.md`).
 3. **When modifying or auditing:** You must trace these import chains to understand the final compiled context of any given agent. Do not duplicate rules in a Host Shell if they are already being injected via a nested import.
 
