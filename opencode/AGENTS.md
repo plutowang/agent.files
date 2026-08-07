@@ -1,5 +1,3 @@
-<!-- @import _core/2_workflows/feature_dev.md -->
-
 <!-- @import _core/1_governance/skills_manifest.md -->
 
 ## Agent Orchestration
@@ -41,5 +39,4 @@ When delegating, provide structured context:
 <!-- @import _core/1_governance/hitl_gates.md -->
 <!-- @import _core/1_governance/execution_safety.md -->
 <!-- @import _core/1_governance/anti_loop.md -->
-<!-- @import _core/2_workflows/error_triage.md -->
 <!-- @import _core/2_workflows/communication.md -->

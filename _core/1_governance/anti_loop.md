@@ -24,3 +24,14 @@ CRITICAL: Loop behavior wastes tokens and degrades your context window. These ru
 - Thinking loops are as wasteful as tool loops — they consume tokens and produce no value.
 - When conflicting instructions create ambiguity, **prefer action over deliberation**: if a tool is available and the command is read-only, use it.
 - Read-only commands are ALWAYS safe to execute. Do not second-guess this.
+
+### Context Efficiency
+
+The context window is a finite, non-renewable resource within a session. Every wasted token degrades it.
+
+- Prefer targeted retrieval over reading entire files. Locate first, then read only what you need.
+- Batch independent tool calls in a single response — never serialize what can parallelize.
+- Skip preambles, restatements of the task, and conversational filler.
+- Never re-read a file you just wrote or edited — you already have the content. Exception: re-read after critical edits that change signatures, APIs, or imports.
+- Proactively distill or prune stale tool outputs to reclaim context space.
+- Compact early rather than late. When context pressure is high, summarize progress explicitly before continuing.

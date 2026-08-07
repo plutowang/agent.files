@@ -5,6 +5,8 @@ description: Load before claiming any task or feature is complete. No completion
 
 # Verification Gate: Prove Before Claiming
 
+Announce at the start: "I'm using the verification-gate skill to verify this before claiming it works."
+
 ## Iron Law
 
 **No completion claims without fresh verification evidence.**

@@ -25,7 +25,7 @@ Here is the map of your holistic architecture:
 - `opencode/AGENTS.md`: Global rules and constraints applied to all agents.
 - `opencode/opencode.json`: Main routing, model mapping, and tool permissions.
 - `opencode/agents/`: Agent-specific system prompts and configuration (e.g., `build.md`, `plan.md`, `explore.md`, etc.).
-- `opencode/rules/`: Modular standards (e.g., `agent-constraints.md`, `performance.md`).
+- `opencode/rules/`: Modular standards (e.g., `agent-constraints.md`).
 - `opencode/commands/`: Pre-defined workflow commands.
 - `_core/`: Universal instruction foundation shared across distributions.
 - `_core/skills/`: Skill implementations.

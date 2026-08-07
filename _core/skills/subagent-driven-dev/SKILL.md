@@ -7,6 +7,8 @@ description: Load when executing an implementation plan with independent tasks. 
 
 Execute an implementation plan by dispatching a fresh subagent for each task. Each task undergoes two-stage review: spec compliance first, then code quality.
 
+Announce at the start: "I'm using the subagent-driven-dev skill to execute this plan task by task."
+
 ## Why
 
 - Fresh context per task — no pollution from previous tasks

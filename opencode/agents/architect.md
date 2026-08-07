@@ -1,5 +1,5 @@
 ---
-description: "Use when the task requires system design, architecture decisions, or evaluating multiple technical approaches. Auto-invoke from plan agent for design-heavy tasks. Work from parent-provided context — no direct file access."
+description: "Use when the task requires system design, architecture decisions, or evaluating multiple technical approaches. Auto-invoke during planning for design-heavy tasks. Work from parent-provided context — no direct file access."
 mode: subagent
 temperature: 0.3
 steps: 35
@@ -9,6 +9,8 @@ permission:
   grep: deny
   edit: deny
   webfetch: deny
+  task: deny
+  question: deny
   bash:
     "rm*": deny
     "mv*": deny

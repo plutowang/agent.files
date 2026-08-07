@@ -9,6 +9,8 @@ permission:
   grep: deny
   edit: deny
   webfetch: deny
+  task: deny
+  question: deny
   bash:
     "rm*": deny
     "mv*": deny

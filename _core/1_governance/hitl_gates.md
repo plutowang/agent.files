@@ -17,3 +17,10 @@ For high-stakes milestones (spec approval, plan approval, starting implementatio
 - A HARD-GATE means: do NOT proceed past this point until the human explicitly approves. No implementation, no code, no scaffolding — not even for "trivial" tasks.
 - **Anti-pattern**: "This is too simple to need a gate." Every project goes through gates. "Simple" projects are where unexamined assumptions cause the most wasted work.
 - Present the output at each gate, wait for explicit approval, then proceed.
+
+### Planning Artifacts Are Expected Output
+
+- Design-phase restrictions apply to **source code**, not to documentation.
+- Writing and revising files under `docs/` (specs, plans, design docs, audits) is an **expected and permitted** product of the design phase — it is not a code edit and does not require a separate approval gate.
+- Never treat "I am in a planning role" as a reason to withhold a written artifact. A plan that exists only in conversation is not a deliverable.
+- Source changes outside `docs/` remain gated until the plan is approved.
