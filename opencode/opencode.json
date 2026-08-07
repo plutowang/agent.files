@@ -503,7 +503,6 @@
     "architect":            { "model": "{env:OPENCODE_MODEL_PRO}" },
     "security-reviewer":    { "model": "{env:OPENCODE_MODEL_PRO}" },
     "build-error-resolver": { "model": "{env:OPENCODE_MODEL_FLASH}" },
-    "refactor":             { "model": "{env:OPENCODE_MODEL_FLASH}" },
-    "evolver":              { "model": "{env:OPENCODE_MODEL_PRO}" }
+    "refactor":             { "model": "{env:OPENCODE_MODEL_FLASH}" }
     }
   }
