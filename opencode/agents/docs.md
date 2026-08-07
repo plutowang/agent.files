@@ -9,14 +9,13 @@ permission:
   grep: deny
   webfetch: deny
   bash: deny
-  todowrite: allow
   edit:
     "**/*": deny
     "**/*.md": allow
     "**/*.txt": allow
 permission.task:
-  "explore": allow
   "*": deny
+  "explore": allow
 ---
 You are a documentation agent. Your role is to generate and maintain high-quality documentation by reading source code and producing clear, accurate docs.
 

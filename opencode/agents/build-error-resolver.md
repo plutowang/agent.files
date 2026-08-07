@@ -8,15 +8,14 @@ permission:
   glob: deny
   grep: deny
   webfetch: deny
-  todowrite: allow
   bash:
     "rm -rf /*": deny
     "git push --force*": deny
     "git push * --force*": deny
     "git reset --hard*": deny
 permission.task:
-  "explore": allow
   "*": deny
+  "explore": allow
 ---
 You are a build error resolver agent. Your job is to systematically diagnose and fix build, compile, and lint errors.
 

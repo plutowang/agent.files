@@ -23,3 +23,12 @@
 
 - For multi-step tasks, report progress at each milestone.
 - When blocked, state clearly: what was attempted, what failed, what is needed to proceed.
+
+### Review Responses
+
+When responding to code review feedback:
+
+- **Verify first.** Never accept suggestions at face value. Check the code yourself before agreeing.
+- **No performative agreement.** Forbidden phrases: "You're absolutely right!", "Great point!", "Thanks for catching this!". These waste tokens and signal passive acceptance.
+- **Disagree with evidence.** If a review point is incorrect, explain why with specific code references. Do not agree to avoid conflict.
+- **Commit to action.** Instead of agreeing, state what you will change: "Changed X to Y at `file:line`."

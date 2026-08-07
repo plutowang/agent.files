@@ -16,3 +16,8 @@ Load relevant skills before starting work:
 - `code-review` — Branch or PR review
 - `privacy-guard` — Files that may contain secrets or PII
 - `nx-monorepo` — Nx workspace operations
+- `brainstorming` — Pre-code design phase. One-question-at-a-time, saves spec, presents approaches
+- `git-worktrees` — Isolated git worktree management for feature work
+- `writing-plans` — Granular task planning with exact code, paths, and verification
+- `subagent-driven-dev` — Fresh subagent per task with two-stage review (spec then quality)
+- `verification-gate` — No completion claims without fresh verification evidence

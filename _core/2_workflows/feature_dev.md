@@ -4,15 +4,23 @@ Production-ready solutions. Polyglot: Go, Rust, Zig, TypeScript, Python, C#, Ang
 
 ## The Development Loop
 
-Every non-trivial task follows this cycle:
+Every non-trivial task follows this pipeline. The plan agent handles steps 1–5; the build agent handles steps 6–10.
 
-1. **Gather Context** — Read existing code, understand the architecture, identify affected areas. Search before reading; read before writing.
-2. **Plan** — Break the task into discrete, ordered steps. Each step should be independently verifiable. Include complexity estimates.
-3. **⏸ Approve** — Present the plan to the human. Wait for explicit approval before proceeding. Never skip this step for non-trivial changes.
-4. **Implement** — Execute the plan step by step. Make targeted edits over full rewrites. One concern per change.
-5. **Verify** — Run tests, linters, type-checkers. Confirm no regressions. Check the verification checklist.
-6. **⏸ Report** — Present results to the human. Summarize what was done, what was verified, and any remaining concerns.
-7. **Commit** — Only when explicitly instructed. Follow git workflow standards.
+**Plan Agent (design & approval):**
+
+1. **Gather Context** — Read existing code, understand the architecture, identify affected areas.
+2. **Brainstorm & Design** — Load `brainstorming` skill. Ask one question at a time. Propose 2-3 approaches. Write spec to `docs/specs/`. Self-review.
+3. **⏸ HITL: Approve Spec** — Present the spec. Wait for explicit human approval. Never skip this HARD-GATE.
+4. **Write Implementation Plan** — Load `writing-plans` skill. Break into 2–5 minute tasks with exact file paths, code, and verification steps. Zero placeholders.
+5. **⏸ HITL: Approve Plan** — Present the plan. Wait for explicit human approval.
+
+**Build Agent (execution & verification):**
+
+1. **Isolate Workspace** — Load `git-worktrees` skill. Create or verify isolated worktree.
+2. **Execute (Subagent-Driven)** — Load `subagent-driven-dev` skill. Fresh subagent per task. Per task: TDD (RED→GREEN→REFACTOR) + two-stage review (spec compliance, then code quality).
+3. **Verify** — Load `verification-gate` skill. No completion claims without fresh verification evidence. Run tests, linters, type-checkers.
+4. **⏸ HITL: Report** — Present results to the human. Summarize what was done, what was verified, and any remaining concerns.
+5. **Commit/Finish** — Only when explicitly instructed. Follow git workflow standards.
 
 ## Development Principles
 

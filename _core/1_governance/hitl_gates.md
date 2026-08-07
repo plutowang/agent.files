@@ -9,3 +9,11 @@
 - When a fix requires a design decision (which pattern, which API, which library).
 - When you're uncertain about the intended behavior.
 - When trade-offs exist that only the user can decide.
+
+### HARD-GATE Protocol
+
+For high-stakes milestones (spec approval, plan approval, starting implementation), use **HARD-GATE** markers:
+
+- A HARD-GATE means: do NOT proceed past this point until the human explicitly approves. No implementation, no code, no scaffolding — not even for "trivial" tasks.
+- **Anti-pattern**: "This is too simple to need a gate." Every project goes through gates. "Simple" projects are where unexamined assumptions cause the most wasted work.
+- Present the output at each gate, wait for explicit approval, then proceed.

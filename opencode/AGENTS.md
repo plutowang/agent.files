@@ -19,6 +19,8 @@ The `build` and `plan` agents auto-delegate to specialized subagents:
 
 **User-initiated only:** `debug` (invoke explicitly when needed)
 
+The integrated Superpowers pipeline flows through plan → build agents: brainstorming and writing-plans during design, subagent-driven-dev with TDD during implementation, and verification-gate before completion. Each phase loads the relevant skill automatically — skills are listed in the manifest above.
+
 ## Delegation Format
 
 When delegating, provide structured context:
@@ -27,7 +29,7 @@ When delegating, provide structured context:
 
 1. What was attempted and the current state
 2. The exact error message or output (if applicable)
-3. Relevant file paths and line numbers
+3. Relevant file paths, line numbers, AND complete file contents required for the task
 4. What has already been tried (to avoid re-exploration)
 
 **Subagent returns:**
