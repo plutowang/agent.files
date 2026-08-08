@@ -8,5 +8,3 @@
 
 <!-- @import _core/4_refactoring/extraction_patterns.md -->
 <!-- @import _core/4_refactoring/smell_detection.md -->
-<!-- @import _core/1_governance/hitl_gates.md -->
-<!-- @import _core/1_governance/anti_loop.md -->

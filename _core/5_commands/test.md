@@ -7,4 +7,3 @@
 5. ⏸ Present the proposed test plan to the user before writing any test files.
 
 <!-- @import _core/3_engineering/testing_aaa.md -->
-<!-- @import _core/1_governance/hitl_gates.md -->

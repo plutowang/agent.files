@@ -1,7 +1,5 @@
-
 ---
 description: "Supreme Agent OS Core: Development principles, explicit subagent routing, execution sandboxing, and strict anti-loop guards."
-globs: *
 alwaysApply: true
 ---
 # Supreme Agent OS Core Directives

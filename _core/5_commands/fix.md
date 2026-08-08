@@ -8,5 +8,3 @@
 6. Verify all existing tests pass and the new test passes.
 
 <!-- @import _core/3_engineering/code_standards.md -->
-<!-- @import _core/1_governance/hitl_gates.md -->
-<!-- @import _core/1_governance/anti_loop.md -->

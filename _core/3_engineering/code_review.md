@@ -2,7 +2,7 @@
 
 1. **Read the Changes** — Understand what was implemented and why.
 2. **Check Correctness** — Logic errors, edge cases, off-by-one, null/nil handling.
-3. **Check Security** — Injection vectors (SQL, XSS, command), hardcoded secrets, unsafe input handling, improper auth checks. Flag for security-reviewer delegation if concerns found.
+3. **Check Security** — Injection vectors (SQL, XSS, command), hardcoded secrets, unsafe input handling, improper auth checks. Flag security concerns for dedicated security review.
 4. **Check Performance** — Algorithmic complexity (O(n^2) in hot paths), memory leaks, unoptimized queries, unnecessary allocations.
 5. **Check Types** — Strict typing, no `any` or equivalent escape hatches, proper null/optional handling, correct generic constraints.
 6. **Check Quality** — Naming, duplication, complexity, error handling, test coverage.

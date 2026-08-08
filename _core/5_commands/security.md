@@ -8,4 +8,3 @@
 6. ⏸ Report findings categorized by severity with file:line references and specific remediation.
 
 <!-- @import _core/3_engineering/security_audit.md -->
-<!-- @import _core/1_governance/hitl_gates.md -->
