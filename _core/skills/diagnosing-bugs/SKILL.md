@@ -64,7 +64,9 @@ A hypothesis you cannot state a prediction for is a guess — discard or sharpen
 
 ## Phase 4 — Instrument
 
-Each probe must map to a specific prediction from Phase 3. Change **one variable at a time**. Prefer a debugger breakpoint over ten log statements. Tag every temporary log with a unique prefix (e.g., `[DBG-a4f2]`) so cleanup is a single search. For performance regressions, measure first — establish a baseline, then bisect.
+Each probe must map to a specific prediction from Phase 3. Prefer a debugger breakpoint over ten log statements. Tag every temporary log with a unique prefix (e.g., `[DBG-a4f2]`) so cleanup is a single search. For performance regressions, measure first — establish a baseline, then bisect.
+
+When the reproduction loop is **human-mediated** (full-stack apps requiring manual interaction), batch all hypothesis probes in a single instrumentation pass — each reproduction costs minutes of human time. Output a capture command the user runs to collect tagged output into a file the agent can read (e.g., `go run ./cmd/server 2>&1 | tee ./tmp/debug-session.log`). Change one variable at a time only when the feedback loop is unattended.
 
 ## Phase 5 — Fix and Regression Test
 

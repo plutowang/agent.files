@@ -26,6 +26,7 @@ Un-cited claims are speculation — mark them clearly or remove them.
 Write findings to a single Markdown file saved where the repo keeps such notes. Match existing conventions; if none exist, state where you put it.
 
 Structure:
+
 - **Question** — what was asked
 - **Findings** — answers with citations
 - **Sources** — consolidated list of all cited sources
