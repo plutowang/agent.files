@@ -10,14 +10,14 @@ Delegate only to a subagent your own permissions allow. The `Callable by` column
 | Design decision | `architect` | design | Two or more genuinely different approaches are viable |
 | Restructuring | `refactor` | build, design | Duplication or complexity is blocking progress |
 | Build failure | `build-error-resolver` | build | Two failed attempts → delegate once; if that also fails, BLOCKED ⏸ (III) |
-| Security-sensitive | `security-reviewer` | build | Auth, crypto, secrets, or input validation touched |
-| Broad change | `code-reviewer` | build | Changes touching more than 3 files, or critical paths (auth, data, API) |
+| Security-sensitive | `security-reviewer` | build, design | Auth, crypto, secrets, or input validation touched |
+| Broad change | `code-reviewer` | build, design | Changes touching more than 3 files, or critical paths (auth, data, API) |
 | Claimed complete | `verifier` | build | Skeptical validation before declaring done |
 | Docs stale | `docs` | build | After significant implementation |
 
 **User-initiated only:** `debug`.
 
-The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`.
+The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`, with `test-driven-development` active throughout implementation.
 
 ## Delegation Format
 

@@ -22,5 +22,7 @@ Load relevant skills before starting work:
 - `writing-plans` — Granular task planning with exact code, paths, and verification
 - `subagent-driven-dev` — Delegated task-by-task execution with two-stage review (spec then quality)
 - `verification-gate` — No completion claims without fresh verification evidence
+- `test-driven-development` — Write tests first, watch them fail, then implement minimal code. No production code without a failing test.
+- `receiving-code-review` — Use when receiving code review feedback. Verify before implementing. No performative agreement.
 
 Design-phase and execution-phase skills are scoped to their phase — if a skill will not load, you are outside its phase and should not be using it.

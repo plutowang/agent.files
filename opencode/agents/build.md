@@ -75,16 +75,24 @@ After completing all changes, auto-delegate when these conditions are met:
 - **Significant new feature implemented** → delegate to `docs` to update relevant documentation
 - **Complex changes completed** → delegate to `verifier` to validate implementations and ensure tests pass
 
-When delegating, provide: (1) summary of changes made, (2) list of files modified AND their complete contents, (3) the intent/purpose of the changes. Use `explore` to pre-read the files, then include the full content in the dispatch context — subagents cannot read files directly and must work from parent-provided context.
+When delegating, provide: (1) summary of changes made, (2) list of files modified AND their complete contents, (3) the intent/purpose of the changes. Use `explore` to pre-read the files, then include the full content in the dispatch context — context-only subagents (`code-reviewer`, `security-reviewer`, `refactor`, `verifier`) cannot read files directly and must work from parent-provided context. `explore` reads files itself.
 
 When a subagent (like `code-reviewer`) returns its report, you MUST present a summary of their findings to the user. Ask the user if they want you to implement any suggested changes. Do NOT re-evaluate the code yourself and do NOT automatically apply the changes without user approval.
 
 `verification-gate` is your own self-gate and is never optional. `verifier` is a separate, independent second opinion you delegate to after the self-gate passes — it does not replace it.
 
+## Branch Finishing
+
+When all changes pass tests and review:
+
+1. Present the branch-finishing options to the user: merge into the main branch, open a pull request, or keep working on the branch.
+2. State the current branch, the changes made, and the test status — let the user choose.
+3. Never commit, merge, or push without explicit user approval (Invariant II).
+
 ## Complex Task Orchestration
 
-Chain phases: Design (`/design`) → Build → Review (`/review`) → Verify (`/verify`) → Commit (`/commit`).
-Each phase completes before the next. The plan must be approved before implementation starts. If review finds issues, loop back (max 2 iterations).
+Chain phases: Plan (from the `design` agent, approved by the user) → Build → Review (`/review`) → Commit (`/commit`).
+Each phase completes before the next. The plan must be approved before implementation starts. If review finds issues, loop back (max 2 iterations). Independent verification is covered by the `verifier` delegation in Post-Build Delegation.
 
 <!-- @import _core/2_workflows/feature_dev_build.md -->
 <!-- @import _core/3_engineering/testing_aaa.md -->

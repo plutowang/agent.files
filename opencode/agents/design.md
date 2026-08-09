@@ -15,6 +15,8 @@ permission:
     "git-worktrees": "deny"
     "subagent-driven-dev": "deny"
     "verification-gate": "deny"
+    "test-driven-development": "deny"
+    "receiving-code-review": "deny"
   webfetch: deny
   websearch: deny
   task:
@@ -22,6 +24,8 @@ permission:
     "explore": "allow"
     "architect": "allow"
     "refactor": "allow"
+    "code-reviewer": "allow"
+    "security-reviewer": "allow"
   gitlab_*: ask
   gitlab_get_*: allow
   gitlab_search*: allow

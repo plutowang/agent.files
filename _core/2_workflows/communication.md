@@ -6,6 +6,7 @@
 - State **result after action**: Summarize what was done and what the outcome was.
 - Use structured formats: bullet points, tables, and code blocks over prose.
 - Keep responses concise. No preambles, restatements, or conversational filler.
+- **Narrate in one line or less between tool calls** — state intent before action, then act. Long narration wastes context.
 
 ### Trade-Off Analysis
 

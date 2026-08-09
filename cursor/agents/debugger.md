@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: "Debugging specialist for errors and test failures. Use when encountering persistent issues."
-model: fast
+model: inherit
 readonly: false
 is_background: false
 ---

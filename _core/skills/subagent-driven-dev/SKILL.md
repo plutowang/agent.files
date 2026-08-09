@@ -37,6 +37,37 @@ Announce at the start: "I'm using the subagent-driven-dev skill to execute this 
 
 Spec compliance review **must** pass before starting code quality review. Never reverse this order — spec issues make code quality review wasteful.
 
+## Progress Ledger
+
+Maintain a running log under a `## Progress` heading in the plan file so state survives context compaction:
+
+```text
+[IN_PROGRESS] Task 3/7 — "Add auth middleware" — dispatched to implementer at 14:32
+[DONE]        Task 3/7 — spec review passed, quality review passed
+[FAILED]      Task 4/7 — review failed (missing edge case) — retry 1: context clarified
+```text
+
+Update the ledger after every dispatch and every review. When resuming after compaction, the ledger is the source of truth.
+
+## Fix Loop
+
+If a task fails review, retry with escalating fixes — max 3 retries:
+
+| Retry | Action |
+| ----- | ------ |
+| 1 | Clarify context or requirements, re-dispatch |
+| 2 | Split the task into smaller pieces |
+| 3 | Dispatch with a more capable model |
+
+After 3 failed retries, escalate to the human: the plan or the approach itself is wrong.
+
+## Parallel Diagnosis (Allowed)
+
+Parallel subagents are permitted for **diagnosis only** — never for parallel implementation:
+
+- Independent failure domains (different files, different services, different hypotheses) each get their own investigation subagent; dispatch them in one response so they run concurrently.
+- Implementation stays strictly serial: one implementer, one task at a time. Never split implementation work across parallel agents.
+
 ## Red Flags
 
 - Never skip reviews (either stage)

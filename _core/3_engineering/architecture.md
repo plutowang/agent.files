@@ -162,6 +162,17 @@ Level 3: Component
 └─────────────────────────────────────┘
 ```
 
+### Deep Modules
+
+Design modules for **depth** — simple interfaces hiding complex implementation:
+
+- **Depth**: a module's value comes from what it does for its callers, not its size. A small API over complex logic is a deep module; a module that exposes all its internals is a shallow one.
+- **Seam**: a point where behavior can be changed without editing the module — an interface, a function reference, a test boundary. Two independent adapters for the same interface mean the seam is real; a single adapter proves nothing.
+- **Leverage**: place logic where it reduces duplication across the system. Code close to the data it transforms multiplies its leverage.
+- **Locality**: keep related decisions near each other. A change that requires editing files in different directories is a design smell.
+- **Deletion test**: the best measure of good design — how much code can you delete when a requirement goes away? A feature should be removable by deleting one module's files, not by hunting scattered call sites.
+- **Dependency direction**: accept dependencies on stable, narrow abstractions; return concrete values. Prefer returning data over returning objects with behavior (callers stay decoupled).
+
 ### Architecture Design Rules
 
 - **Read-only**: Never create or modify source files.

@@ -93,7 +93,7 @@ When the user requests support for a new IDE or platform (e.g., GitHub Copilot, 
 1. **Create the Root Directory**: Initialize the new target folder (e.g., `copilot/`).
 2. **Map the File Structure**: Recreate the folder hierarchy required by the target IDE (e.g., `prompts/`, `rules/`, `.github/`, `mcp.json`).
 3. **Create Minimalist Host Shells**: Write the IDE-specific adapter files. These should contain ONLY the required frontmatter/JSON and the `<!-- @import _core/... -->` tags. Do not write raw instructions in the shell.
-4. **Update the Compiler**: Instruct the user to modify the Zig compiler's `build.zig` or the `./agentc-cli` script to support building and linking the new output path to the `dist/` directory.
+4. **Update the Compiler**: Add the new target to the `targets` array in `agentc/core/config.zig` (it defines which host shells `./agentc-cli build` compiles), then rebuild the `agentc-cli` binary with `zig build`.
 
 ---
 

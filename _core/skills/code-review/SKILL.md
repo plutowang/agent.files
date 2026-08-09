@@ -347,10 +347,10 @@ Create a structured code review report with:
    - Tests: ✅ Passed / ❌ Failed
    - Brief summary of failures
 4. **Strengths**: What was done well
-5. **Issues by Priority**:
+5. **Issues by Priority** (vocabulary matches the code review standards: Critical / Warning / Suggestion):
    - 🔴 **Critical**: Must fix before merging (bugs, security issues, failed checks)
-   - 🟡 **Important**: Should address (performance, maintainability)
-   - 🟢 **Suggestions**: Nice to have improvements
+   - 🟡 **Warning**: Should address (performance, maintainability)
+   - 🟢 **Suggestion**: Nice to have improvements
 6. **Detailed Findings**: For each issue include:
    - File and line reference
    - A question framing the concern (e.g., "Could this cause X?" or "Would it help to Y?")

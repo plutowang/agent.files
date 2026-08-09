@@ -13,6 +13,13 @@ permission:
   question: deny
   bash:
     "*": ask
+    "go test*": allow
+    "pnpm test*": allow
+    "bun test*": allow
+    "cargo test*": allow
+    "zig build test*": allow
+    "dotnet test*": allow
+    "pytest*": allow
     "rm*": deny
     "mv*": deny
     "cp*": deny

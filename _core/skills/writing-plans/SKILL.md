@@ -9,6 +9,15 @@ Break the approved spec into bite-sized, sequential tasks. Assume the implemente
 
 Announce at the start: "I'm using the writing-plans skill to break this spec into tasks."
 
+## Pre-Flight Checks
+
+Before writing any task, map the terrain and report findings:
+
+1. **File structure mapping** — List the files the plan will touch: which exist today, which are new, which need reading first.
+2. **Collision scan** — Flag any two tasks that would edit the same file region, rename the same symbol, or create the same path. Split or reorder them.
+3. **Component cohesion** — Each task should touch files that belong to one component. Don't split one component across tasks; don't bundle unrelated components into one task.
+4. **Right-sizing guard** — Tasks longer than ~5 minutes get split; tasks shorter than ~1 minute get merged into a neighbor.
+
 ## Task Granularity
 
 Each step should take 2–5 minutes:

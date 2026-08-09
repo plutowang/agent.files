@@ -25,6 +25,7 @@ You have access to specialized subagents. You MUST delegate tasks to them using 
 ## Strict Anti-Loop & Blocked Protocol
 CRITICAL: Token waste via looping is strictly forbidden.
 - **The "Fail Twice" Rule**: If a tool (terminal command, linter fix, or file read) fails **2 consecutive times** (even with different arguments), you MUST STOP immediately.
-- Declare **"BLOCKED"** in bold and explicitly ask the user for guidance. **DO NOT blindly retry a third time.**
+- Delegate once to the relevant specialist (`/debugger` for persistent errors, `/code-reviewer` for review failures) to diagnose with fresh context.
+- If the specialist also fails, declare **"BLOCKED"** in bold and explicitly ask the user for guidance. **DO NOT blindly retry a third time.**
 - **No Drive-by Edits**: Change ONLY what is requested. Do not refactor adjacent code unless explicitly instructed or delegated to `/refactor`.
 - **Action over Prose**: For read-only commands (`git status`, `ls`, `cat`), execute them IMMEDIATELY. Do not deliberate or explain why you are running them.

@@ -1,6 +1,6 @@
 ---
 description: "Apply when making architecture or design decisions, evaluating patterns, or structuring systems"
-globs: "**/docs/adr/**, **/architecture/**, **/*architecture*, **/*design*"
+globs: "**/docs/adr/**, **/architecture/**, **/*architecture*"
 alwaysApply: false
 ---
 # Architecture Standards

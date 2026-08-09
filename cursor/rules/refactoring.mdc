@@ -1,6 +1,6 @@
 ---
 description: "Apply when restructuring or refactoring code without changing behavior"
-globs: "**/*.{ts,tsx,js,jsx,go,rs,zig,cs,py,html}"
+globs: "**/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.go, **/*.rs, **/*.zig, **/*.cs, **/*.py, **/*.html"
 alwaysApply: false
 ---
 # Refactoring Standards

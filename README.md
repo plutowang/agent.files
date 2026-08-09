@@ -70,7 +70,7 @@ Enjoy a frictionless, universally synchronized AI coding experience!
 
 Platform-agnostic software engineering rules, workflows, and shared skills. *Never contains IDE-specific mechanics.*
 
-### The Host Shells (`opencode/`, `cursor/`, `copilot/`)
+### The Host Shells (`opencode/`, `cursor/`)
 
 The physical bodies. They assemble their prompts via macros and handle platform-specific routing.
 

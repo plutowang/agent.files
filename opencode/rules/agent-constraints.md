@@ -16,7 +16,7 @@ Two invariants govern every agent:
 | `design`                                                                            | ✅ — under the Read Budget below | `docs/**` only                       | `explore`, `architect`, `refactor` |
 | `docs`                                                                            | ✅     | `*.md`, `*.txt` only                                    | `explore`                         |
 | `build-error-resolver`                                                            | ✅     | anything (prompted)                                     | `explore`                         |
-| `evolver`                                                                         | ✅     | none — proposes changes only                            | nothing                           |
+| `evolver` (disabled — kept for future re-arm)                                      | ✅     | none — proposes changes only                            | nothing                           |
 | `architect`, `code-reviewer`, `verifier`, `refactor`, `security-reviewer`, `debug` | ❌     | none                                                    | `explore` where permitted         |
 
 ### Reading Before Editing

@@ -17,6 +17,8 @@
 
 **NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST.** Write code before a test? Delete it. Start over.
 
+**Violating the letter is violating the spirit.** "Tests after achieve the same result" is not a technical argument — it is rationalization. A test that never failed proves nothing.
+
 #### RED — Write Failing Test
 
 - Write one minimal test showing expected behavior. Clear name. Real code, minimal mocks.
@@ -34,6 +36,17 @@
 
 Tests written after code prove nothing — they pass immediately and may test the wrong thing. Test-first forces discovery of edge cases before implementation, prevents regressions, and documents behavior.
 
+#### Red Flags — Stop and Restart
+
+Any of these means: delete the code and restart with TDD.
+
+- Production code written before a test
+- Test passes on first run (you tested existing behavior)
+- Can't explain why the test failed
+- "Keep this code as reference" while writing tests
+- Rationalizing "just this once"
+- Tests added after implementation "to catch up"
+
 #### Rationalizations (Do Not Use)
 
 | Excuse                      | Reality                                                      |
@@ -44,6 +57,19 @@ Tests written after code prove nothing — they pass immediately and may test th
 | "Deleting code is wasteful" | Sunk cost fallacy. Untested code is technical debt.          |
 | "Need to explore first"     | Throw away exploration, start with TDD.                      |
 | "TDD will slow me down"     | Debugging without tests is slower than TDD.                  |
+| "Keep it as reference"      | You will adapt it — that is testing after. Delete means delete. |
+| "Tests after do the same"   | Tests-after verify the code you remembered to check, not the behavior you'd have discovered. |
+| "Manual test is faster"     | Manual doesn't prove edge cases and can't be re-run.         |
+| "Existing code has no tests"| You are improving it — start with the new code.              |
+
+#### When Stuck
+
+| Problem                     | Solution                                                     |
+| --------------------------- | ------------------------------------------------------------ |
+| Don't know how to test      | Write the wished-for API and the assertion first. Ask the human if still stuck. |
+| Test too complicated        | The design is too complicated. Simplify the interface.       |
+| Must mock everything        | The code is too coupled. Use dependency injection.           |
+| Test setup is huge          | Extract helpers. Still complex? Simplify the design.         |
 
 ### When to Write Tests
 
@@ -51,6 +77,16 @@ Tests written after code prove nothing — they pass immediately and may test th
 - Bug fixes: write a failing test that reproduces the bug BEFORE fixing it.
 - Refactors: verify existing tests pass before AND after. Add tests if coverage gaps exist.
 - Skip tests only for: generated code, trivial getters/setters, one-off scripts.
+
+### TDD Verification Checklist
+
+Before marking TDD work complete:
+
+- [ ] Every new function/method has a test
+- [ ] Watched each test fail for the expected reason (feature missing, not a typo)
+- [ ] Wrote minimal code to pass (no extra features, no unrelated refactors)
+- [ ] All tests pass, output pristine (no errors or warnings)
+- [ ] Edge cases and error paths covered
 
 ### Coverage & Priority
 
