@@ -11,7 +11,7 @@ Announce at the start: "I'm using the brainstorming skill to turn this into a sp
 
 ## HARD-GATE
 
-Do NOT implement anything — no code, no scaffolding — until the spec is written and the human explicitly approves it. This applies to every project, regardless of perceived simplicity.
+Do NOT implement anything — no code, no scaffolding — until the spec is written and the human explicitly approves it. This applies to every project, regardless of perceived simplicity. Single-file bug fixes, typos, and straightforward test additions are exempt from spec creation per Invariant I; load `writing-plans` only for work that benefits from a full plan.
 
 ## Process
 
