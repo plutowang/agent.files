@@ -11,7 +11,7 @@ Code review requires technical evaluation, not emotional performance.
 
 **Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
 
-The Review Responses doctrine (communication standards) already bans performative agreement — this skill extends it with the full reception workflow. Apply both together.
+Performative agreement ("You're absolutely right!", "Great point!") wastes tokens and signals passive acceptance — this skill extends that principle with the full reception workflow.
 
 ## The Response Pattern
 
@@ -24,7 +24,7 @@ WHEN receiving code review feedback:
 4. EVALUATE: Technically sound for THIS codebase?
 5. RESPOND: Technical acknowledgment or reasoned pushback
 6. IMPLEMENT: One item at a time, test each
-```text
+```
 
 ## Handling Unclear Feedback
 
@@ -34,7 +34,7 @@ IF any item is unclear:
   ASK for clarification on unclear items
 
 WHY: Items may be related. Partial understanding = wrong implementation.
-```text
+```
 
 ## Source-Specific Handling
 
@@ -55,7 +55,7 @@ BEFORE implementing:
 IF suggestion seems wrong: push back with technical reasoning
 IF can't easily verify: say so — "I can't verify this without [X]. Should I investigate or ask?"
 IF conflicts with prior human decisions: stop and discuss with the human first
-```text
+```
 
 ## YAGNI Check for "Professional" Features
 
@@ -65,7 +65,7 @@ IF a reviewer suggests "implementing properly":
 
   IF unused: "This isn't used anywhere. Remove it (YAGNI)?"
   IF used: then implement properly
-```text
+```
 
 ## Implementation Order
 
@@ -78,7 +78,7 @@ FOR multi-item feedback:
      - Complex fixes (refactoring, logic)
   3. Test each fix individually
   4. Verify no regressions
-```text
+```
 
 ## When To Push Back
 
@@ -101,7 +101,7 @@ Push back when:
 
 ❌ "You're absolutely right!" / "Great point!" / "Thanks for catching that!"
 ❌ ANY gratitude expression — actions speak. State the fix instead.
-```text
+```
 
 ## If You Pushed Back and Were Wrong
 
@@ -109,7 +109,7 @@ Push back when:
 ✅ "You were right — I checked [X] and it does [Y]. Implementing now."
 
 ❌ Long apologies / defending the pushback / over-explaining
-```text
+```
 
 State the correction factually and move on.
 

@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Use when explicitly asked to review a git branch, Pull Request (PR), Merge Request (MR), or perform a pre-merge review. Do not use for inline code critiques.
+description: Use when asked to review a branch, Pull Request (PR), Merge Request (MR), inline code snippet, or perform a pre-merge review. Covers full branch reviews and lightweight snippet critique.
 license: MIT
 ---
 
@@ -12,120 +12,60 @@ Perform comprehensive code reviews of a branch against the base branch, providin
 
 Activate this skill when:
 
-- The user types "review" or "code review"
+- The user types "review", "code review", "critique", or "analyze"
 - The user types "review BRANCH-NAME" to review a specific branch
+- The user asks to review a specific code snippet, function, or file
 - The user asks to review a branch, pull request, or merge request
 - Analyzing code changes before merging
 - Performing code quality assessments
 - Checking for security vulnerabilities or performance issues
 - Reviewing branch diffs
 
-**Two Review Modes:**
+**Three Review Modes:**
 
-1. **Current Branch Review** (default when no branch specified)
+1. **Snippet Review** — review a specific code block or snippet for bugs, security issues, and code quality
+2. **Current Branch Review** (default when no branch specified)
    - Reviews all changes in current branch (committed + uncommitted)
    - Includes staged and unstaged changes
    - Runs automated checks (linters, formatters, tests)
 
-2. **Other Branch Review** (when branch name specified)
+3. **Other Branch Review** (when branch name specified)
    - Uses git worktree for non-disruptive review
    - Reviews only committed changes from that branch
    - Leaves your current work untouched
+
+## Snippet Review Mode
+
+When reviewing a code snippet rather than a full branch, focus on:
+
+- **Security**: Injections, exposed secrets, unsanitized input.
+- **Performance**: O(n²) loops, memory leaks, unoptimized queries.
+- **Types**: Strict typing (no `any`), correct error handling.
+- **Logic**: Edge cases, off-by-one errors, incorrect assumptions.
+
+Output findings in three tiers:
+
+- 🔴 **Critical** — Bugs, security vulnerabilities, panics.
+- 🟡 **Warning** — Performance issues, messy logic, missing error handling.
+- 🟢 **Suggestion** — Naming, formatting, style improvements.
+
+For each finding, include the file and line reference, frame it as a question (e.g., "Could this cause X?"), and provide a corrected example only if requested. Do not review the full branch — this mode is for the provided snippet only.
 
 ## Branch Selection
 
 ### Branch Name Provided
 
-**If a branch name is provided** (e.g., "review feature/payment"):
-
-1. Fetch latest from origin: `git fetch origin`
-2. Set up a git worktree for the branch (see Worktree Setup below)
-3. Proceed with the review in the worktree
-4. Clean up the worktree after review is complete
+When a branch name is given, use `skill git-worktrees` for isolated workspace setup. Fetch latest, create the worktree, and perform all review operations within it. Clean up the worktree after the review.
 
 ### No Branch Specified (Current Branch)
 
-**If no branch name is provided** (e.g., just "review"):
+Review the current branch in place:
 
-1. Review the current branch as-is in the current directory
-2. **Include uncommitted changes**:
+1. **Include uncommitted changes**:
    - Staged changes: `git diff --cached`
    - Unstaged changes: `git diff`
-3. **Run automated quality checks** (linters, formatters, tests)
-4. Do not create a worktree or switch branches
-
-### Worktree Setup for Non-Disruptive Reviews
-
-When reviewing a branch that isn't the current branch, use a git worktree to avoid disturbing the current working state:
-
-1. Create a worktree directory at `<repo-root>/.worktrees/<branch-name>`:
-
-   ```bash
-   git worktree add .worktrees/<branch-name> origin/<branch-name>
-   ```
-
-2. Perform all review operations within the worktree directory
-3. After the review is complete, remove the worktree:
-
-   ```bash
-   git worktree remove .worktrees/<branch-name>
-   ```
-
-**Important**: Always use the worktree path when reading files or running git commands during the review. This ensures the user's current work remains untouched.
-
-### Dependency Installation in Worktrees
-
-When setting up a worktree, install dependencies if you need to run checks (tests, type checking, linting):
-
-1. **Detect package manager**: Check for `pnpm-lock.yaml`, `Cargo.lock`, `go.mod`
-2. **Install dependencies**:
-
-   ```bash
-   cd <worktree-path> && pnpm install
-   ```
-
-3. **Run checks** (optional, if needed for thorough review)
-
-**When to install dependencies:**
-
-- When you need to run tests, type checking, or linting
-- When reviewing changes that affect build or compilation
-- When the review requires verifying the code actually works
-
-**When to skip dependency installation:**
-
-- Simple reviews that only need to examine diffs
-- Quick reviews of documentation or config changes
-
-### Worktree Error Handling
-
-**If the worktree already exists:**
-
-```bash
-git worktree remove .worktrees/<branch-name> --force 2>/dev/null || true
-git worktree add .worktrees/<branch-name> origin/<branch-name>
-```
-
-**If no matching branch is found:**
-
-- Inform the user that no branch was found
-- List available branches that might be related (partial matches)
-- Ask the user to provide the exact branch name
-
-**Always clean up worktrees:**
-
-- Even if the review encounters errors, attempt to clean up the worktree
-- Use `git worktree list` to verify cleanup was successful
-- Mention the worktree path being removed during cleanup
-
-### .gitignore Recommendation
-
-The `.worktrees` directory should be added to `.gitignore` if not already present. Check and suggest adding it if missing:
-
-```bash
-# Code review worktrees
-.worktrees/
-```
+2. **Run automated quality checks** (linters, formatters, tests)
+3. Do not create a worktree or switch branches
 
 ## Analyze Branch Context
 
@@ -179,20 +119,6 @@ git diff $MERGE_BASE..HEAD
 
 - `git diff origin/main..HEAD` shows ALL differences between main and HEAD, which includes changes from OTHER branches that were merged into main after this branch was created
 - `git diff $(git merge-base origin/main HEAD)..HEAD` shows ONLY the changes introduced in THIS branch
-
-**Example:**
-
-```bash
-main:    A---B---C---D---E  (where D and E are from other merged branches)
-              \
-feature:       X---Y---Z  (this is what we want to review)
-
-# WRONG: git diff origin/main..HEAD
-# Shows: differences from E to Z (includes D and E changes we don't care about)
-
-# CORRECT: git diff $(git merge-base origin/main HEAD)..HEAD
-# Shows: only X, Y, Z changes (merge-base is B)
-```
 
 **Always use the merge-base approach for:**
 
@@ -375,7 +301,6 @@ After completing the review:
 1. Display the complete review report in markdown format
 2. Provide actionable next steps based on findings
 3. If critical issues found, highlight them prominently
-4. If a worktree was used, mention the cleanup path (e.g., `.worktrees/<branch-name>`) when removing it
 
 ## Feedback Style: Questions, Not Directives
 
@@ -403,16 +328,3 @@ After completing the review:
 - Questions invite explanation rather than defensiveness
 - They acknowledge uncertainty in the reviewer's understanding
 - They create a conversation rather than a checklist
-
-## Important Notes
-
-- **CRITICAL: Only review changes from THIS branch** - use `git merge-base` to isolate branch-specific changes. Never comment on code that was changed in other branches.
-- **Two review modes**: current branch includes uncommitted changes; other branches use worktrees.
-- **Exclude lock files** from review (pnpm-lock.yaml, go.sum, Cargo.lock, etc.).
-- **Automated checks**: Run with 5-minute timeout each using `gtimeout` or `timeout`. Continue review even if they fail.
-- **Worktree cleanup**: Always remove worktree after review and mention the path being removed.
-- **Frame feedback as questions** to encourage dialogue.
-- **Be constructive and specific** in feedback.
-- **Provide code examples** for suggested improvements.
-- **Prioritize issues clearly** using severity levels.
-- **Check security and performance** implications.

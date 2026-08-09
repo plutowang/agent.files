@@ -1,40 +1,16 @@
 ## Error Recovery
 
-### Systematic Debugging (4-Phase)
+### Debugging
 
-Before any fix, complete all four phases:
+For hard bugs that resist a first-glance fix, use `skill diagnosing-bugs` — a disciplined 6-phase loop (feedback loop → reproduce → hypothesise → instrument → fix → post-mortem).
 
-#### Phase 1: Root Cause Investigation
-
-- Read error messages and stack traces completely — they often contain the exact solution
-- Reproduce the issue consistently. Document exact steps
-- Check recent changes (commits, dependencies, configuration, environment)
-- In multi-component systems: add diagnostic instrumentation at each boundary to identify which layer fails
-- Trace data flow backward from the symptom to find the originating source
-
-#### Phase 2: Pattern Analysis
-
-- Find working examples of similar code in the same codebase
-- Compare working vs. broken: list every difference, however small
-- Understand dependencies: what config, environment, or assumptions does this component need?
-
-#### Phase 3: Hypothesis and Testing
-
-- Form a single, specific hypothesis: "I think X is the root cause because Y"
-- Make the smallest possible change to test the hypothesis. One variable at a time
-- If the hypothesis is wrong, form a new one — don't pile on fixes
-
-#### Phase 4: Implementation
-
-- Write a failing test case that reproduces the bug (follow TDD Iron Law)
-- Implement a single fix addressing the root cause
-- Verify the fix resolves the issue and no other tests break
+For quick error triage (build failures, type errors, import errors), follow the escalation chain below.
 
 ### When Fixes Keep Failing
 
 - **Hard threshold**: after **2 independent fix attempts** for the same problem, escalate (per Invariant III). Present the analysis to the human and question the design — do not attempt a third fix.
 - If 2+ independent fixes fail with the **same pattern** (each fix reveals a new problem in a different place), this signals an architectural issue, not a bug. Stop fixing symptoms — question the design.
-- If your human partner redirects you ("Stop guessing", "Is that not happening?", "Ultrathink this"), return to Phase 1.
+- If your human partner redirects you ("Stop guessing", "Is that not happening?", "Ultrathink this"), return to root cause — re-read the full error output and reproduce the issue before forming a new hypothesis.
 
 #### Rationalization Red Flags
 
