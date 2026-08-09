@@ -4,6 +4,7 @@ temperature: 0.2
 steps: 30
 permission:
   read: allow
+  question: allow
   glob: deny
   grep: deny
   edit:

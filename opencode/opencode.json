@@ -79,6 +79,7 @@
       "git commit*": "deny",
       "git push*": "deny",
       "git rebase*": "deny",
+      "git stash*": "deny",
       "git status": "allow",
       "git diff*": "allow",
       "git log*": "allow",
