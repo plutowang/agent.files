@@ -17,6 +17,7 @@ Load relevant skills before starting work:
 - `diagnosing-bugs` — Disciplined 6-phase diagnosis loop for hard bugs and performance regressions
 - `domain-modeling` — Build and sharpen a project's domain model, glossary, and architectural decisions
 - `privacy-guard` — Files that may contain secrets or PII
+- `research` — Investigates topics against primary sources with cited findings
 - `nx-monorepo` — Nx workspace operations
 - `brainstorming` — Pre-code design phase. One-question-at-a-time, saves spec, presents approaches
 - `git-worktrees` — Decide whether an isolated workspace is needed before implementation
