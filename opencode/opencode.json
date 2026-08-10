@@ -4,9 +4,11 @@
   "share": "disabled",
   "subagent_depth": 3,
   "plugin": [
-    "@tarquinen/opencode-dcp@3.1.2",
+    "@tarquinen/opencode-dcp@3.1.14",
     "@tarquinen/opencode-smart-title@0.1.7",
-    "@franlol/opencode-md-table-formatter@0.0.6"
+    "@franlol/opencode-md-table-formatter@0.0.6",
+    "cc-safety-net@2.0.0",
+    "@ramtinj95/opencode-tokenscope@1.8.1"
   ],
   "autoupdate": false,
   "instructions": [
@@ -55,7 +57,8 @@
     "external_directory": {
       "*": "deny",
       "~/projects/**": "allow",
-      "~/.config/opencode/skills/**": "allow"
+      "~/.config/opencode/skills/**": "allow",
+      "/var/folders/**/T/opencode/tokenscope-*/**": "allow"
     },
     "bash": {
       "*": "ask",
