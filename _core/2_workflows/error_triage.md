@@ -1,39 +1,31 @@
 ## Error Recovery
 
-### Systematic Debugging (4-Phase)
+### Debugging
 
-Before any fix, complete all four phases:
+For hard bugs that resist a first-glance fix, use `skill diagnosing-bugs` — a disciplined 6-phase loop (feedback loop → reproduce → hypothesise → instrument → fix → post-mortem).
 
-#### Phase 1: Root Cause Investigation
-
-- Read error messages and stack traces completely — they often contain the exact solution
-- Reproduce the issue consistently. Document exact steps
-- Check recent changes (commits, dependencies, configuration, environment)
-- In multi-component systems: add diagnostic instrumentation at each boundary to identify which layer fails
-- Trace data flow backward from the symptom to find the originating source
-
-#### Phase 2: Pattern Analysis
-
-- Find working examples of similar code in the same codebase
-- Compare working vs. broken: list every difference, however small
-- Understand dependencies: what config, environment, or assumptions does this component need?
-
-#### Phase 3: Hypothesis and Testing
-
-- Form a single, specific hypothesis: "I think X is the root cause because Y"
-- Make the smallest possible change to test the hypothesis. One variable at a time
-- If the hypothesis is wrong, form a new one — don't pile on fixes
-
-#### Phase 4: Implementation
-
-- Write a failing test case that reproduces the bug (follow TDD Iron Law)
-- Implement a single fix addressing the root cause
-- Verify the fix resolves the issue and no other tests break
+For quick error triage (build failures, type errors, import errors), follow the escalation chain below.
 
 ### When Fixes Keep Failing
 
+- **Hard threshold**: after **2 independent fix attempts** for the same problem, escalate (per Invariant III). Present the analysis to the human and question the design — do not attempt a third fix.
 - If 2+ independent fixes fail with the **same pattern** (each fix reveals a new problem in a different place), this signals an architectural issue, not a bug. Stop fixing symptoms — question the design.
-- If your human partner redirects you ("Stop guessing", "Is that not happening?", "Ultrathink this"), return to Phase 1.
+- If your human partner redirects you ("Stop guessing", "Is that not happening?", "Ultrathink this"), return to root cause — re-read the full error output and reproduce the issue before forming a new hypothesis.
+
+#### Rationalization Red Flags
+
+| Excuse | Reality |
+| ------ | ------- |
+| "One more attempt" | That is attempt N+1 of the same approach. Stop. |
+| "It's probably just X" | Hypotheses need evidence. Return to Phase 1. |
+| "I've seen this before" | Verify against the current error output — don't pattern-match. |
+| "The fix is obvious" | If it were, it would have worked. Root-cause it. |
+| "Tests are flaky" | Re-run in isolation. Flaky tests are bugs too. |
+
+#### Defense in Depth
+
+- Fix at every boundary: validate inputs where they enter, handle errors where they surface, check invariants where state changes. Never rely on a single guard.
+- After a fix, trace the full data path once more — the root cause often hides at a second boundary the same bug class hits next.
 
 ### Escalation Chain
 
@@ -43,12 +35,10 @@ When something fails, follow this sequence:
 2. **Fix in dependency order** — Resolve errors in this order: imports → types → logic → tests.
 3. **Verify after each fix** — Re-run checks after every change. Never assume a fix worked.
 4. **Alternate approach** — If the first fix fails, try ONE different approach.
-5. **Escalate** — If 2 consecutive attempts fail, **STOP** and ask for help. Do not continue guessing.
+5. **Escalate** — Then stop and ask for help. The attempt limit and retry discipline are defined in the anti-loop rules; do not invent a different threshold here.
 
 ### Error Recovery Principles
 
-- **Never retry the same thing.** If an approach failed, something must change before retrying.
-- **State what changed.** Before each retry, explicitly state: (1) what the error was, (2) what is different in this attempt.
 - **Fail fast, fail loud.** Surface errors immediately rather than working around them silently.
 - **Ask, don't guess.** When the fix requires a design decision or behavioral understanding, ask the human rather than guessing.
 

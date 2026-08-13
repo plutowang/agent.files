@@ -10,10 +10,15 @@
 - When you're uncertain about the intended behavior.
 - When trade-offs exist that only the user can decide.
 
-### HARD-GATE Protocol
+### HARD-GATE Protocol ⏸ (I)
 
-For high-stakes milestones (spec approval, plan approval, starting implementation), use **HARD-GATE** markers:
-
-- A HARD-GATE means: do NOT proceed past this point until the human explicitly approves. No implementation, no code, no scaffolding — not even for "trivial" tasks.
-- **Anti-pattern**: "This is too simple to need a gate." Every project goes through gates. "Simple" projects are where unexamined assumptions cause the most wasted work.
+- A HARD-GATE means: do not proceed until the human explicitly approves. For multi-file or architectural changes, spec approval and plan approval are required before implementation. Single-file fixes and tests skip spec/plan but still require HITL approval before code changes.
+- **When in doubt**, default to the full pipeline — premature building costs more than a question.
 - Present the output at each gate, wait for explicit approval, then proceed.
+
+### Planning Artifacts Are Expected Output
+
+- Design-phase restrictions apply to **source code**, not to documentation.
+- Writing and revising files under `docs/` (specs, plans, design docs, audits) is an **expected and permitted** product of the design phase — it is not a code edit and does not require a separate approval gate.
+- Never treat "I am in a planning role" as a reason to withhold a written artifact. A plan that exists only in conversation is not a deliverable.
+- Source changes outside `docs/` remain gated until the human approves them. Multi-file or architectural changes require plan approval first; single-file fixes and tests require HITL approval.

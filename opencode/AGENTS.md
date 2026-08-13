@@ -1,25 +1,23 @@
-<!-- @import _core/2_workflows/feature_dev.md -->
-
 <!-- @import _core/1_governance/skills_manifest.md -->
 
 ## Agent Orchestration
 
-The `build` and `plan` agents auto-delegate to specialized subagents:
+Delegate only to a subagent your own permissions allow. The `Callable by` column is authoritative — a delegation outside it will be refused.
 
-| Trigger                     | Subagent               | When                                                                          |
-| --------------------------- | ---------------------- | ----------------------------------------------------------------------------- |
-| Codebase search / Web fetch | `explore`              | Need to find files, search code, or retrieve web documentation                |
-| Design decision             | `architect`            | Multiple viable approaches (plan agent only)                                 |
-| Build failure               | `build-error-resolver`  | After 2 failed build/test attempts                                            |
-| Security-sensitive code     | `security-reviewer`     | Auth, crypto, secrets, input validation touched                               |
-| Code restructuring          | `refactor`             | Duplication or complexity blocking progress                                   |
-| Broad code changes          | `code-reviewer`        | Build completed changes touching >3 files or critical paths (auth, data, API)|
-| Task claimed completed      | `verifier`             | Skeptical validation of implementations and tests before declaring done       |
-| Docs need updating          | `docs`                 | After significant implementation                                              |
+| Trigger | Subagent | Callable by | When |
+| --- | --- | --- | --- |
+| Discovery | `explore` | build, design, docs, debug, build-error-resolver | Any file discovery, pattern search, or documentation retrieval |
+| Design decision | `architect` | design | Two or more genuinely different approaches are viable |
+| Restructuring | `refactor` | build, design | Duplication or complexity is blocking progress |
+| Build failure | `build-error-resolver` | build | Two failed attempts → delegate once; if that also fails, BLOCKED ⏸ (III) |
+| Security-sensitive | `security-reviewer` | build, design | Auth, crypto, secrets, or input validation touched |
+| Broad change | `code-reviewer` | build, design | Changes touching more than 3 files, or critical paths (auth, data, API) |
+| Claimed complete | `verifier` | build | Skeptical validation before declaring done |
+| Docs stale | `docs` | build | After significant implementation |
 
-**User-initiated only:** `debug` (invoke explicitly when needed)
+**User-initiated only:** `debug`.
 
-The integrated Superpowers pipeline flows through plan → build agents: brainstorming and writing-plans during design, subagent-driven-dev with TDD during implementation, and verification-gate before completion. Each phase loads the relevant skill automatically — skills are listed in the manifest above.
+The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`, with `test-driven-development` active throughout implementation.
 
 ## Delegation Format
 
@@ -41,5 +39,4 @@ When delegating, provide structured context:
 <!-- @import _core/1_governance/hitl_gates.md -->
 <!-- @import _core/1_governance/execution_safety.md -->
 <!-- @import _core/1_governance/anti_loop.md -->
-<!-- @import _core/2_workflows/error_triage.md -->
 <!-- @import _core/2_workflows/communication.md -->

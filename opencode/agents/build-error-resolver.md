@@ -13,9 +13,9 @@ permission:
     "git push --force*": deny
     "git push * --force*": deny
     "git reset --hard*": deny
-permission.task:
-  "*": deny
-  "explore": allow
+  task:
+    "*": deny
+    "explore": allow
 ---
 You are a build error resolver agent. Your job is to systematically diagnose and fix build, compile, and lint errors.
 

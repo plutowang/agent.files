@@ -1,6 +1,6 @@
 ---
 name: workflow-env
-description: Auto-apply before running any common CLI build, test, or run commands (e.g., npm, pnpm, yarn, bun, make, just, cargo, go, dotnet, docker, terraform, kubectl, dev, start, deploy, serve, lint, format, compile, or bundle).
+description: Auto-apply before any build, test, or run command. Validates env.sh before running build, test, or run commands.
 ---
 
 # Environment Loading Protocol

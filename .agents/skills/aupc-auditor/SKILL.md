@@ -34,7 +34,11 @@ Please meticulously scan the codebase against these 5 dimensions:
 - **Overthinking Triggers**: Are there toxic, process-blocking phrases in Cursor shells (e.g., "Wait for my explicit approval", "Write a detailed Markdown plan", "Consider 3 options") that will cause the model to burn Reasoning Tokens unnecessarily?
 
 ### 3. The OpenCode Permission Audit (Deadlock Guard)
-- **Permission vs. Prompt Conflicts**: Does an OpenCode agent have a tool denied in its YAML (e.g., `permission.task: "explore": deny`), but its markdown prompt explicitly tells it to "delegate to explore"?
+- **Valid Key Set (CHECK THIS FIRST)**: Every key inside a `permission:` block MUST be one of exactly these 13: `read`, `edit`, `glob`, `grep`, `bash`, `task`, `skill`, `lsp`, `question`, `webfetch`, `websearch`, `external_directory`, `doom_loop`. An unrecognised key (e.g. `list`, `todowrite`) is a **silent no-op** — it looks like a restriction and enforces nothing. Never recommend a key outside this set.
+- **Nesting**: `task` and every other key must be nested under `permission:`. A dotted top-level key such as `permission.task:` is invalid YAML-as-config and is ignored entirely, leaving the agent unrestricted.
+- **Absence Is A Grant**: Unspecified keys default to `allow`. When auditing, treat a missing key as a granted capability, never as a restriction.
+- **Pattern Order**: The last matching pattern wins. In every map the broad pattern must come FIRST — `{"*": "deny", "explore": "allow"}` allows only `explore`; the reverse order allows everything. Flag any specific `allow` that sits before a broader `ask`/`deny` covering it, because the specific rule is dead.
+- **Permission vs. Prompt Conflicts**: Does an agent have a tool denied in its permission block, but its markdown prompt explicitly tells it to use that tool (e.g. `read: deny` alongside "read the log files")?
 - **Edit Accuracy Isolation**: Is the OpenCode-specific workaround macro (`_core/1_governance/edit_accuracy.md`) accidentally imported into read-only agents (like `explore.md` or `verifier.md`) or global files (`AGENTS.md`)? It MUST ONLY be in write-enabled agents.
 
 ### 4. The DRY Audit (Eliminating Redundancy)
@@ -57,3 +61,20 @@ You are conducting an audit. **DO NOT modify or rewrite any files yet.**
    - **[ISSUE]** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` contains `[Toxic Phrase/Misalignment]`.
    - **[FIX]**: Remove/Edit line [X] from file [Y]. Add macro [Z].
 4. **WAIT**: Stop and wait for my explicit "Approved" command before executing any of the cleanup actions.
+
+---
+
+## AUDIT NOTES (known-benign findings — do NOT re-report)
+
+These have been reviewed and deliberately left in place. Flagging them again wastes an audit cycle.
+
+| Location | Apparent violation | Why it is benign |
+| --- | --- | --- |
+| `_core/3_engineering/testing_aaa.md` | "Need to explore first" | Ordinary English verb in a rationalizations table, not a tool reference. |
+| `_core/skills/zig/migrations/0.16.md` | 7 hits for `glob` | All are substrings of "global" in Zig language prose. |
+| `_core/1_governance/edit_accuracy.md` | "Prefer Edit over Write" | Names two tools, but this macro is imported exclusively by write-enabled host shells. Verified: no read-only agent and no Cursor shell imports it. |
+| `_core/skills/` tree | Never referenced by an `<!-- @import -->` tag | By design. The compiler copies this tree verbatim into each target's `skills/` directory; it is shipped, not inlined. |
+
+### Runtime vs. compile-time duplication
+
+The compiler's cycle guard is a recursion stack, not a memo cache, so it does not de-duplicate. That is irrelevant in practice: every `_core/` macro is a leaf, so no diamond imports exist within a single output file. Duplication that reaches an agent comes from the **host runtime** injecting a global instructions file alongside a shell that already imports the same macro. Fix it by choosing one owner per macro — global or shell — never by deleting an `<!-- @import -->` tag and replacing it with prose.

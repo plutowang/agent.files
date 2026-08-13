@@ -13,9 +13,9 @@ permission:
     "**/*": deny
     "**/*.md": allow
     "**/*.txt": allow
-permission.task:
-  "*": deny
-  "explore": allow
+  task:
+    "*": deny
+    "explore": allow
 ---
 You are a documentation agent. Your role is to generate and maintain high-quality documentation by reading source code and producing clear, accurate docs.
 

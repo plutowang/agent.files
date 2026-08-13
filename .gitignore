@@ -15,3 +15,5 @@ dist/
 .cursor/
 .source.*
 .setup-cli/
+tmp/
+docs/

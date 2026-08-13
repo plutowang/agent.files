@@ -7,6 +7,17 @@ description: Load after spec approval, before touching code. Creates granular im
 
 Break the approved spec into bite-sized, sequential tasks. Assume the implementer has zero context — provide everything they need inline.
 
+Announce at the start: "I'm using the writing-plans skill to break this spec into tasks."
+
+## Pre-Flight Checks
+
+Before writing any task, map the terrain and report findings:
+
+1. **File structure mapping** — List the files the plan will touch: which exist today, which are new, which need reading first.
+2. **Collision scan** — Flag any two tasks that would edit the same file region, rename the same symbol, or create the same path. Split or reorder them.
+3. **Component cohesion** — Each task should touch files that belong to one component. Don't split one component across tasks; don't bundle unrelated components into one task.
+4. **Right-sizing guard** — Tasks longer than ~5 minutes get split; tasks shorter than ~1 minute get merged into a neighbor.
+
 ## Task Granularity
 
 Each step should take 2–5 minutes:
@@ -53,4 +64,9 @@ After writing, check:
 
 ## Execution Handoff
 
-After saving the plan to `docs/plans/`, hand off to `subagent-driven-dev` for execution.
+Save the plan to `docs/plans/YYYY-MM-DD-<slug>.md`, then choose the execution path by size:
+
+- **1–3 tasks** — execute inline in this session, one task at a time, with a verification checkpoint after each. Do not spin up delegated execution for work this small.
+- **4+ tasks, or tasks that are genuinely independent** — hand off to `subagent-driven-dev` so each task gets fresh context and two-stage review.
+
+State which path you chose and why before starting.

@@ -28,7 +28,10 @@
             "Shell(eval*)",
             "Shell(git commit*)",
             "Shell(git push*)",
-            "Shell(git rebase*)"
+            "Shell(git rebase*)",
+            "Shell(git -C* commit*)",
+            "Shell(git -C* push*)",
+            "Shell(git -C* rebase*)"
         ]
     },
     "hasChangedDefaultModel": true,

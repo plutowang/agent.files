@@ -1,8 +1,10 @@
 ---
 name: review-code
-description: Perform a code review on the active file with severity-based findings
+description: Delegate code review to the code-reviewer agent. Use "/review" to auto-detect the base branch. Use "/review against <branch>" to specify it.
 ---
 
-Perform a thorough code review on the currently active editor tab.
+Delegate to `/code-reviewer` to review the current branch against a base branch.
 
-<!-- @import _core/5_commands/review.md -->
+If the user specifies "against <branch>", pass <branch> as the target base.
+
+Otherwise, instruct the code-reviewer to auto-detect the default branch (main or master) as the base.

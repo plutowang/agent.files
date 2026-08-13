@@ -30,16 +30,25 @@ OpenCode agents are defined using YAML frontmatter followed by Markdown instruct
 
 Permissions control what tools the agent can execute autonomously. Values can be: `"ask"`, `"allow"`, or `"deny"`.
 
-- **`permission`**: Controls basic tools.
-  - `edit`: File modification.
-  - `webfetch`: Internet access.
-  - `bash`: Terminal access. Can use glob patterns (e.g., `"rm*": deny`, `"git diff": allow`).
-- **`permission.task`**: Controls which *other subagents* this agent can invoke. Uses glob patterns. Setting to `deny` removes that subagent from this agent's visibility.
+- **`permission`**: Controls tool access. Every key nests under this single block. The valid keys are exactly `read`, `edit`, `glob`, `grep`, `bash`, `task`, `skill`, `lsp`, `question`, `webfetch`, `websearch`, `external_directory`, `doom_loop`.
+  - `edit`: File modification — one key covering `edit`, `write`, and `apply_patch`.
+  - `read` / `glob` / `grep`: File and codebase access.
+  - `webfetch` / `websearch`: Internet access.
+  - `bash`: Terminal access. Accepts patterns (e.g., `"rm*": deny`, `"git diff": allow`).
+  - `task`: Controls which *other subagents* this agent can invoke, keyed by subagent name. `deny` removes that subagent from this agent's visibility entirely.
+  - `skill` / `question` / `lsp`: Skill loading, asking the user, and language-server queries.
+  - `external_directory` / `doom_loop`: Safety guards — touching paths outside the project, and the same call repeating 3× with identical input.
+
+Three rules that decide whether a permission block actually works:
+
+1. **Unspecified keys default to `allow`.** An absent key is a *grant*, not a restriction.
+2. **The last matching pattern wins.** Always write the broad pattern first: `{"*": "deny", "explore": "allow"}` allows only `explore`, whereas the reverse order allows everything.
+3. **An unrecognised key is a silent no-op, not an error.** A line like `list: deny` reads as a restriction and enforces nothing. Check every key against the valid set above.
 
 ### CRITICAL: The Timestamp Workaround
 
 OpenCode has a strict security mechanism for the `edit` and `write` tools.
-If an agent requires the ability to modify files, it **MUST** also have `read: true` in its tools list. Furthermore, the prompt MUST explicitly instruct the agent to **call `read` on a file immediately before modifying it**. Subagent reads (e.g., from `explore`) do NOT satisfy this timestamp check.
+If an agent requires the ability to modify files, it **MUST** also have `read: allow` in its permission block. Furthermore, the prompt MUST explicitly instruct the agent to **call `read` on a file immediately before modifying it**. Subagent reads (e.g., from `explore`) do NOT satisfy this timestamp check.
 
 ---
 

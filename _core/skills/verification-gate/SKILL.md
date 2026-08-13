@@ -5,6 +5,8 @@ description: Load before claiming any task or feature is complete. No completion
 
 # Verification Gate: Prove Before Claiming
 
+Announce at the start: "I'm using the verification-gate skill to verify this before claiming it works."
+
 ## Iron Law
 
 **No completion claims without fresh verification evidence.**
@@ -23,18 +25,36 @@ For every task marked complete:
 
 ## Evidence Required
 
-- Test output showing all tests pass (include the command and result)
-- Build/compile output showing no errors
-- Lint output showing no issues
-- Manual verification notes if automated tests don't exist
+| Claim | Evidence |
+| ----- | -------- |
+| Tests pass | Full command + output, all green |
+| Build succeeds | Full command + output, zero errors |
+| Lint clean | Full command + output, no issues |
+| Manual verification | What was checked, how, and the result |
+| Refactor safe | Before/after test runs, both green |
+| Subagent done | Independent re-run of its commands |
 
-## Red Flags
+## Rationalization Prevention
 
-- Claiming completion from memory ("tests passed earlier")
-- Skipping verification because "the change was small"
-- Reporting partial output that hides failures or warnings
-- Accepting "close enough" instead of full pass
-- "I already ran that" — run it again, show the output
+| Excuse | Reality |
+| ------ | ------- |
+| "The change was small" | Small changes break builds. Verify it. |
+| "I already ran that" | Run it again, right now, and show the output. |
+| "Tests passed earlier" | Memory is not evidence. Fresh output only. |
+| "Close enough" | Full pass or it isn't done. |
+| "Only one line changed" | One line can break a contract. Verify it. |
+| "The subagent said it passed" | Their claim is not your evidence. Verify independently. |
+| "Output is too long to check" | Read it all — partial output hides failures. |
+
+Violating the spirit of verification is violating the rule. Creative reinterpretation to skip evidence is a red flag.
+
+## Delegation Verification
+
+When a subagent claims completion, do not pass the claim through:
+
+1. Ask for its verification output (commands + results).
+2. Re-run the critical commands yourself in this session.
+3. Only then relay the claim with your own evidence attached.
 
 ## When Verification Fails
 

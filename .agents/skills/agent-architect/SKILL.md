@@ -21,8 +21,8 @@ We use HTML comments to inject reusable markdown blocks:
 
 **Nested Import Logic (CRITICAL TO UNDERSTAND):**
 The compiler supports recursive (nested) imports. 
-1. Host Shells (e.g., `opencode/agents/plan.md`) import high-level core modules.
-2. Core modules (e.g., `_core/2_workflows/feature_dev.md`) can import lower-level core modules (e.g., `_core/1_governance/hitl_gates.md`).
+1. Host Shells (e.g., `opencode/agents/design.md`) import high-level core modules.
+2. Core modules (e.g., `_core/5_commands/fix.md`) can import lower-level core modules (e.g., `_core/1_governance/anti_loop.md`).
 3. **When modifying or auditing:** You must trace these import chains to understand the final compiled context of any given agent. Do not duplicate rules in a Host Shell if they are already being injected via a nested import.
 
 ---
@@ -93,7 +93,7 @@ When the user requests support for a new IDE or platform (e.g., GitHub Copilot, 
 1. **Create the Root Directory**: Initialize the new target folder (e.g., `copilot/`).
 2. **Map the File Structure**: Recreate the folder hierarchy required by the target IDE (e.g., `prompts/`, `rules/`, `.github/`, `mcp.json`).
 3. **Create Minimalist Host Shells**: Write the IDE-specific adapter files. These should contain ONLY the required frontmatter/JSON and the `<!-- @import _core/... -->` tags. Do not write raw instructions in the shell.
-4. **Update the Compiler**: Instruct the user to modify the Zig compiler's `build.zig` or the `./agentc-cli` script to support building and linking the new output path to the `dist/` directory.
+4. **Update the Compiler**: Add the new target to the `targets` array in `agentc/core/config.zig` (it defines which host shells `./agentc-cli build` compiles), then rebuild the `agentc-cli` binary with `zig build`.
 
 ---
 

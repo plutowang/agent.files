@@ -1,104 +1,68 @@
 # Agent Constraints
 
-## File & Codebase Access
+## Capability Model
 
-**CRITICAL: `explore` is the SOLE agent authorized to use `glob`, `grep`, and `webfetch`.** These tools are disabled at
-the tool-permission level for all other agents — this is not just policy, it is enforced by the runtime.
+Two invariants govern every agent:
 
-**Special case — `build` agent**: `build` has `read` enabled because the Edit/Write tools enforce a per-session
-timestamp check: a file must be read by the **primary agent** before it can be edited. Subagent reads (via `explore`) do
-NOT satisfy this check. Therefore `build` must call `read` directly before editing any file.
+1. **Discovery and web retrieval belong to `explore` alone.** `glob`, `grep`, and `webfetch` are denied to every other
+   agent at the permission level. Delegate all searching, pattern matching, and documentation fetching to `explore`.
+2. **Reading is available to agents that edit or plan.** `read` is not a privilege reserved for one agent — it is
+   granted wherever a file's exact contents are load-bearing.
 
-### Tool-Level Enforcement Architecture
+| Agent                                                                             | `read` | `edit` scope                                            | Delegates to                      |
+| --------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- | --------------------------------- |
+| `explore`                                                                         | ✅     | none — read-only                                        | nothing (cannot delegate)         |
+| `build`                                                                           | ✅     | anything except `.env*`, `*.key`, `*.pem`, `secrets.*`   | 7 subagents                       |
+| `design`                                                                            | ✅ — under the Read Budget below | `docs/**` only                       | `explore`, `architect`, `refactor` |
+| `docs`                                                                            | ✅     | `*.md`, `*.txt` only                                    | `explore`                         |
+| `build-error-resolver`                                                            | ✅     | anything (prompted)                                     | `explore`                         |
+| `evolver` (disabled — kept for future re-arm)                                      | ✅     | none — proposes changes only                            | nothing                           |
+| `architect`, `code-reviewer`, `verifier`, `refactor`, `security-reviewer`, `debug` | ❌     | none                                                    | `explore` where permitted         |
 
-| Tool      | `explore` | `build`                            | All other agents |
-| --------- | --------- | ---------------------------------- | ---------------- |
-| `read`    | ✅ enabled | ✅ enabled (required for Edit/Write) | ❌ disabled      |
-| `glob`    | ✅ enabled | ❌ disabled                         | ❌ disabled      |
-| `grep`    | ✅ enabled | ❌ disabled                         | ❌ disabled      |
-| `webfetch`| ✅ enabled | ❌ disabled                         | ❌ disabled      |
+### Reading Before Editing
 
-### Build Agent
+Edit/Write enforce a **per-session timestamp check** — the *primary* agent must have called `read` on a file after its
+last modification, or the edit is rejected with "File has been modified since it was last read." Subagent reads do NOT
+satisfy this check. Every write-enabled agent must call `read` itself immediately before editing.
 
-The `build` agent has `read` enabled. Use it as follows:
+### Read Budget
 
-- **`read`**: Call directly before editing any file — required to satisfy the Edit/Write timestamp check
-- **`glob`, `grep`, `webfetch`**: NEVER use directly — always delegate to `explore` via Task
-- Pattern: delegate to `explore` for discovery/search → call `read` directly on the specific file → edit
+`read` is for files whose contents are load-bearing — ones you will quote, edit, or verify. If you are reading to *find*
+something, delegate instead; the test is whether you could name the file before opening it. Pattern: delegate for
+discovery → `read` the specific file → edit.
 
-### All Other Primary Agents
+### Agents Without `read`
 
-The `plan`, `debug`, `docs`, `code-reviewer`, `architect`, `security-reviewer`, `build-error-resolver`, and `refactor`
-agents have `read`, `glob`, `grep`, and `webfetch` **disabled at the tool level**:
+`architect`, `code-reviewer`, `verifier`, `refactor`, `security-reviewer`, and `debug` work from **parent-provided
+context**. The dispatching agent must include complete file contents in the dispatch. If context is missing, report the
+gap to the parent — do not guess, and do not attempt a denied tool.
 
-- **ALL** file reading, codebase searches, and web fetches **MUST** be delegated to the `explore` subagent via the
-  `Task` tool
-- `explore` has explicit overrides in its own prompt to ignore delegation rules, preventing infinite recursion
+### The Retrieval Agent Is Exempt
 
-### Edit Tool Usage
+These delegation rules bind *callers* of the retrieval agent. The retrieval agent itself is exempt and must use its own
+tools directly — it cannot delegate to itself.
 
-The Edit/Write tools enforce a **per-session timestamp check**: the primary agent must have called `read` on a file
-after its last modification, or the edit will be rejected with "File has been modified since it was last read."
+### No File Reading via Bash
 
-- **`build` agent**: call `read` directly on the target file immediately before editing
-- **All other agents**: cannot edit files — only `build`, `build-error-resolver`, `refactor`, and `docs` have write
-  tools enabled
+Never use `bash` with `cat`, `head`, `tail`, or similar to read file contents. Use `read` if you have it; otherwise
+delegate to `explore`.
 
-### No Direct File Reading via Bash
+### Web Access Intent
 
-Do not use `bash` with `cat`, `head`, `tail`, or similar commands to read file contents — always delegate to `explore`
-via `Task`.
+`webfetch` is denied outside `explore`, and the MCP documentation tools are held to the same intent: **no arbitrary
+browsing.** Fetch library, API, and CLI documentation — not general web content.
 
 ---
 
 ## Code Execution
 
-### Python Execution Guard
+`python` and `python3` are blocked at the permission level — Python can silently exfiltrate secrets through network
+calls, environment reads, or file access, even for tasks as innocent as JSON validation.
 
-**NEVER** run `python` or `python3` directly. It is blocked at the permission level. Running Python scripts can silently
-exfiltrate secrets via network calls, environment variable reads, or file system access — even for seemingly innocent
-tasks like JSON validation.
-
-#### Preferred Alternative: jq
-
-For JSON tasks, always prefer `jq`:
-
-```bash
-# Validate JSON syntax
-jq . file.json
-
-# Validate from stdin
-echo '{"key": "val"}' | jq .
-
-# Extract a field
-jq '.key' file.json
-```
-
-#### Exception: Docker Sandbox
-
-If Python is absolutely required, run it **inline** inside an isolated Docker container — no script file needed:
-
-```bash
-# Inline one-liner (preferred)
-docker run --rm --network none -i python:3-alpine python -c "<your code here>"
-
-# Multi-line via heredoc stdin
-docker run --rm --network none -i python:3-alpine python - <<'EOF'
-# your python code here
-EOF
-
-# Only if file I/O is needed: mount minimum directory as read-only
-docker run --rm --network none -i -v "$(pwd):/work:ro" -w /work python:3-alpine python -c "<your code here>"
-```
-
-**Rules for Docker Python:**
-
-- `--rm` — container destroyed after use (clean environment)
-- `--network none` — no internet access whatsoever
-- `-i` — allows stdin piping for inline code
-- Use inline `-c` or heredoc stdin — **never write a `.py` file first**
-- If a mount is needed, use `:ro` (read-only) and mount only the minimum directory
-- **Never mount** directories containing secrets: `~/.ssh`, `~/.kube`, `~/.config`, `.env` parent dirs
+- **JSON**: use `jq` (`jq . file.json`, `jq '.key' file.json`).
+- **Anything else**: if Python is genuinely unavoidable, run it inline in a throwaway network-less sandbox. The exact
+  invocation is in the Runtime Safety rules of the global instructions — never write a `.py` file first, and never mount
+  a directory that could contain secrets.
 
 ---
 

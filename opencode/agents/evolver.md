@@ -24,8 +24,8 @@ Here is the map of your holistic architecture:
 
 - `opencode/AGENTS.md`: Global rules and constraints applied to all agents.
 - `opencode/opencode.json`: Main routing, model mapping, and tool permissions.
-- `opencode/agents/`: Agent-specific system prompts and configuration (e.g., `build.md`, `plan.md`, `explore.md`, etc.).
-- `opencode/rules/`: Modular standards (e.g., `agent-constraints.md`, `performance.md`).
+- `opencode/agents/`: Agent-specific system prompts and configuration (e.g., `build.md`, `design.md`, `explore.md`, etc.).
+- `opencode/rules/`: Modular standards (e.g., `agent-constraints.md`).
 - `opencode/commands/`: Pre-defined workflow commands.
 - `_core/`: Universal instruction foundation shared across distributions.
 - `_core/skills/`: Skill implementations.
@@ -50,7 +50,7 @@ You must strictly look for the following failure patterns:
     - **Scope Determination**: Is this a universal anti-pattern (modify `AGENTS.md` or `rules/`) or is it specific to one agent's role (modify a specific prompt like `opencode/agents/build.md` or `opencode/agents/explore.md`)? **Do NOT default to global files; push rules down to specific agent prompts whenever possible.**
     - **Conflicts**: Does the new rule contradict an existing one?
     - **Redundancy**: Can an old, narrower rule be deleted because this new rule covers it?
-    - **Sync**: Does this rule need to be applied to multiple specific agents (e.g., modifying both `opencode/agents/build.md` and `opencode/agents/plan.md`)?
+    - **Sync**: Does this rule need to be applied to multiple specific agents (e.g., modifying both `opencode/agents/build.md` and `opencode/agents/design.md`)?
 3. **Output Diagnosis**: For EACH flawed session, output the following structured diagnosis:
 
 ## Session: `[Insert Session ID]`

@@ -1,6 +1,6 @@
 ---
 name: git
-description: Auto-apply when the user asks for any git version control operations, including commit, push, pull, branch, merge, rebase, squash, reset, revert, cherry-pick, stash, tag, undo, amend, diff, log, or blame.
+description: Auto-apply when the user asks for any git version control operation — commit, branch, merge, rebase, and recovery workflows.
 ---
 
 # Git Master (Safe Mode)

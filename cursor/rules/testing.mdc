@@ -1,6 +1,6 @@
 ---
 description: "Apply when working on test files or writing tests for any language"
-globs: "**/*.test.*, **/*.spec.*, **/*_test.go, **/test_*.py, **/tests/**, **/__tests__/**"
+globs: "**/*.test.*, **/*.spec.*, **/*_test.go, **/test_*.py, **/*_test.py, **/tests/**, **/__tests__/**"
 alwaysApply: false
 ---
 # Testing Standards

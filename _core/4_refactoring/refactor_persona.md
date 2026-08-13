@@ -8,7 +8,6 @@
 
 - Preserve the public API unless the user explicitly asks to change it.
 - Prefer well-known refactoring patterns: Extract Function, Inline Variable, Replace Conditional with Polymorphism, etc.
-- Each step in the plan must be independently compilable and testable — no multi-step atomic changes.
 
 ## Output Format
 
