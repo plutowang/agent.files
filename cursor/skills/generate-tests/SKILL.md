@@ -1,8 +1,8 @@
 ---
 name: generate-tests
-description: Generate unit tests for the active file using the AAA pattern
+description: Generate unit tests for the active file using the AAA pattern. Use when a file lacks test coverage or after implementing new logic.
+disable-model-invocation: true
 ---
-
 Analyze the code in the currently active editor tab and generate comprehensive unit tests.
 
 <red_lines>

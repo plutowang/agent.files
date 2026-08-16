@@ -1,7 +1,7 @@
 ---
 name: architect
 description: "Handles complex architectural decisions. Use proactively when evaluating patterns or structuring systems."
-model: inherit
+model: grok-4.6
 readonly: true
 is_background: false
 ---

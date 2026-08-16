@@ -18,6 +18,7 @@ Apply these standards when writing or modifying tests.
 </execution_protocol>
 
 <standards>
+**Example**: `src/utils/format.ts` → `src/utils/format.test.ts` covers happy path + edge cases per AAA.
 <!-- @import _core/3_engineering/testing_aaa/standards.md -->
 </standards>
 

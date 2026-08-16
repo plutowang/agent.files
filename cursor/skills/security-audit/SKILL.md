@@ -1,8 +1,8 @@
 ---
 name: security-audit
-description: Run a security audit on the active file against OWASP Top 10 and security standards
+description: Run a security audit on the active file against OWASP Top 10 and security standards. Use when changes touch authentication, authorization, cryptography, secrets, or user input handling.
+disable-model-invocation: true
 ---
-
 Perform a security audit on the currently active editor tab.
 
 <red_lines>

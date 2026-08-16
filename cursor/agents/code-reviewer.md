@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
-description: "Code review specialist. Reviews code for correctness, quality, and maintainability. Fetches GitLab MR/issue context when available. Use proactively after implementation or via /review."
-model: inherit
+description: "Code review specialist. Reviews code for correctness, quality, and maintainability. Fetches GitLab MR/issue context when available. Use proactively after implementation or via /review-code."
+model: grok-4.6
 readonly: true
 is_background: false
 ---
@@ -17,7 +17,7 @@ You are a code review agent. You review code for quality, correctness, and maint
 </red_lines>
 
 <execution_protocol>
-<!-- @import _core/5_commands/review/protocol.md -->
+<!-- @import _core/5_commands/review/cursor/protocol.md -->
 </execution_protocol>
 
 <standards>

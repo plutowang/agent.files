@@ -27,7 +27,7 @@ pub const targets = [_]IdeTarget{
         .name = "cursor",
         .source_dir = "cursor",
         .config_base = ".cursor",
-        .subdirs = &.{ "agents", "rules", "commands", "skills" },
+        .subdirs = &.{ "agents", "rules", "skills" },
         .file_dest_overrides = &.{
             .{ .name = "settings.json", .dest_relative_home = "Library/Application Support/Cursor/User/settings.json" },
             .{ .name = "extensions.json", .dest_relative_home = "Library/Application Support/Cursor/User/extensions.json" },

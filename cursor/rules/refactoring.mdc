@@ -23,6 +23,7 @@ Apply these standards when refactoring code.
 </execution_protocol>
 
 <standards>
+**Example**: extract `validateInput()` from `src/handlers/submit.ts` when it is duplicated in `src/handlers/update.ts`.
 <!-- @import _core/4_refactoring/smell_detection/standards.md -->
 <!-- @import _core/4_refactoring/extraction_patterns/standards.md -->
 </standards>

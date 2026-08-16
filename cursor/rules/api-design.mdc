@@ -12,5 +12,6 @@ Apply these standards when designing or modifying API endpoints.
 </execution_protocol>
 
 <standards>
+**Example**: `src/api/handlers/order.ts` — `GET /orders/:id` returns 404 JSON with an error key when missing.
 <!-- @import _core/3_engineering/api_contracts/standards.md -->
 </standards>

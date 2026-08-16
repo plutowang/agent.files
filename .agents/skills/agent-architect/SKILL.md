@@ -81,7 +81,7 @@ When maintaining the `cursor/` host shell, enforce these rules for both engines.
 
 ### Engine 2: Isolated Subagents (`.cursor/agents/*.md`)
 - **Required Frontmatter**: MUST contain `name`, `description`, `model`, `readonly`, and `is_background`.
-- **Cost Efficiency**: `model: fast` for high-volume tasks (verifier, debugger); `model: inherit` for deep reasoning (architect, security).
+- **Cost Efficiency**: Cursor removed `model: fast` in 2026 — keep `model: inherit` unless a project directive pins specific models (current directive: `composer-2.5`/`grok-4.6` only).
 - **Context Isolation**: Subagents start with a clean context window. Prompts must explicitly instruct the agent to gather context first.
 
 ---

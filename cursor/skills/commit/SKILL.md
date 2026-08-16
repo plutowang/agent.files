@@ -1,8 +1,8 @@
 ---
 name: commit
-description: Generate a conventional commit message from current changes
+description: Generate a conventional commit message from current changes. Use when you want a compliant, well-formatted commit message for the current work.
+disable-model-invocation: true
 ---
-
 <red_lines>
 <!-- @import _core/5_commands/commit/redlines.md -->
 </red_lines>

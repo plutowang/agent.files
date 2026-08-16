@@ -1,8 +1,8 @@
 ---
 name: fix-bug
-description: Diagnose and fix a bug in the active file with test-first approach
+description: Diagnose and fix a bug in the active file with a test-first approach. Use when a bug is reported, a test fails, or behavior diverges from expectations.
+disable-model-invocation: true
 ---
-
 Analyze the code in the currently active editor tab and fix the reported issue.
 
 <red_lines>

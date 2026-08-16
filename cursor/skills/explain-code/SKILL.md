@@ -1,8 +1,8 @@
 ---
 name: explain-code
-description: Explain the logic, architecture, and design decisions in the active file
+description: Explain the logic, architecture, and design decisions in the active file. Use when you need to understand unfamiliar or complex code.
+disable-model-invocation: true
 ---
-
 Analyze the code in the currently active editor tab and provide a clear explanation of:
 
 <red_lines>

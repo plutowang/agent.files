@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: "Debugging specialist for errors and test failures. Use when encountering persistent issues."
-model: inherit
+model: grok-4.6
 readonly: false
 is_background: false
 ---
