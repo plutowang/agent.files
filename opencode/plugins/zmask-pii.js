@@ -56,12 +56,16 @@ function warnOnce(err) {
     // console.warn is intentionally NOT used: plugin stdout/stderr writes
     // corrupt the TUI render (opencode issue #8639). Toast = user-visible;
     // app.log = structured server log.
-    sdkClient?.app?.log?.({
-      body: { service: "zmask-pii", level: "warn", message },
-    })?.catch(() => {})
-    sdkClient?.tui?.showToast?.({
-      body: { title: "zmask-pii", message, variant: "warning" },
-    })?.catch(() => {})
+    sdkClient?.app
+      ?.log?.({
+        body: { service: "zmask-pii", level: "warn", message },
+      })
+      ?.catch(() => {})
+    sdkClient?.tui
+      ?.showToast?.({
+        body: { title: "zmask-pii", message, variant: "warning" },
+      })
+      ?.catch(() => {})
     warned = true
   }
 }
