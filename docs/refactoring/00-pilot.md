@@ -81,7 +81,7 @@
 | 14 | Messy/complex code → delegate `refactor` for plan; test-first discipline; test break = stop and report; report to user before delegating | `<execution_protocol>` → step 5 | 100% Preserved |
 | 15 | Verify imports updated after adding references (most common build failure) | `<formatting_and_memory>` → bullet 4 | 100% Preserved |
 | 16 | Run test suite after all changes; fix failures before done | `<formatting_and_memory>` → bullet 5 | 100% Preserved |
-| 17 | NEVER npm; use pnpm or bun | `<red_lines>` → bullet 2 | 100% Preserved |
+| 17 | NEVER npm; use pnpm | `<red_lines>` → bullet 2 | 100% Preserved |
 | 18 | Post-build delegation: >3 files → code-reviewer; auth/crypto/secrets/validation → security-reviewer; significant feature → docs; complex → verifier | `<execution_protocol>` → step 6 | 100% Preserved |
 | 19 | Delegation context: summary + files with complete contents + intent; explore pre-reads; context-only subagents work from parent context | `<formatting_and_memory>` → bullet 6 | 100% Preserved |
 | 20 | Subagent report → present summary, ask user; no self-re-evaluation, no auto-apply | `<formatting_and_memory>` → bullet 7 | 100% Preserved |

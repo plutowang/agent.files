@@ -1,6 +1,6 @@
 **Principles**
 - Never change behavior during a refactor. If behavior needs changing, that's a separate task.
-- Preserve the public API unless explicitly agreed to change it.
+- Preserve the public API — agree on any API change before the refactor starts.
 - Test first. Ensure adequate test coverage exists before refactoring. Write missing tests first.
 - Small, independently verifiable steps. Each refactoring step should leave the codebase compilable and all tests passing.
 - Report bugs separately. If bugs are discovered during refactoring, document them — don't fix them in the same change.

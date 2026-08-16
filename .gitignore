@@ -59,3 +59,5 @@ docs/research/*
 !docs/guides/
 docs/guides/*
 !docs/guides/2026-08-15-prompt-authoring-guide.md
+
+SECURITY-MANIFEST.local.md

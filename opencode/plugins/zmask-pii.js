@@ -11,7 +11,7 @@
 // Failure model: fail-open. Missing/broken binary, non-zero exit, empty
 // stdout, timeout, or any line-mismatch → original text is sent unmasked.
 // A spawn-level failure disables masking for the rest of the process
-// (one warning) — no repeated per-string spawns.
+// (one user toast + one server-log entry) — no repeated per-string spawns.
 //
 // Hooks:
 // - experimental.chat.messages.transform — per model-loop step on the same
@@ -28,6 +28,7 @@ const SPAWN_TIMEOUT_MS = 10000
 const cache = new Map() // original text -> masked text
 let warned = false
 let disabled = false
+let sdkClient = null
 
 // NOTE: opencode's plugin sandbox rejects node:fs/node:url imports, so the
 // path is derived with plain URL parsing only. Bun resolves module symlinks
@@ -51,7 +52,16 @@ function resolveBinary(options) {
 
 function warnOnce(err) {
   if (!warned) {
-    console.warn(`[zmask-pii] masking skipped: ${err?.message ?? err}`)
+    const message = `masking skipped: ${err?.message ?? err}`
+    // console.warn is intentionally NOT used: plugin stdout/stderr writes
+    // corrupt the TUI render (opencode issue #8639). Toast = user-visible;
+    // app.log = structured server log.
+    sdkClient?.app?.log?.({
+      body: { service: "zmask-pii", level: "warn", message },
+    })?.catch(() => {})
+    sdkClient?.tui?.showToast?.({
+      body: { title: "zmask-pii", message, variant: "warning" },
+    })?.catch(() => {})
     warned = true
   }
 }
@@ -171,7 +181,8 @@ function collectRefs(value, refs, parent, key) {
   }
 }
 
-export default async function ZmaskPiiPlugin(_input, options = {}) {
+export default async function ZmaskPiiPlugin(input, options = {}) {
+  sdkClient = input?.client
   const binary = resolveBinary(options)
   return {
     "experimental.chat.messages.transform": async (_input, output) => {

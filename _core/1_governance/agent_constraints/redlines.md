@@ -1,10 +1,10 @@
 **No File Reading via Shell**
 
-Never use shell commands with `cat`, `head`, `tail`, or similar to read file contents. Use the read tool if you have it; otherwise delegate to the retrieval agent.
+Never use shell commands with `cat`, `head`, `tail`, or similar to read file contents. Use the read tool if you have it; otherwise delegate to the explore agent.
 
 **Web Access Intent**
 
-Web fetching is denied outside the retrieval agent, and the MCP documentation tools are held to the same intent: **no arbitrary browsing.** Fetch library, API, and CLI documentation — not general web content.
+Web fetching is restricted to the explore agent; every other agent must not fetch web content. MCP documentation tools are held to the same intent: **no arbitrary browsing.** Fetch library, API, and CLI documentation — not general web content.
 
 **Code Execution**
 
@@ -12,6 +12,7 @@ Web fetching is denied outside the retrieval agent, and the MCP documentation to
 
 - **JSON**: use `jq` (`jq . file.json`, `jq '.key' file.json`).
 - **Anything else**: if Python is genuinely unavoidable, run it inline in a throwaway network-less sandbox. The exact invocation is in the Runtime Safety rules of the global instructions — never write a `.py` file first, and never mount a directory that could contain secrets.
+- NEVER install global dependencies in any language — no `pip install`, `npm i -g`, `pnpm add -g`, `cargo install`, `go install`, `gem install`, `brew install`, `apt install`. If a tool is genuinely necessary, install it inside a docker container (network allowed for that step only) and run it inside the network-isolated container.
 
 **Privacy & Secret Handling**
 

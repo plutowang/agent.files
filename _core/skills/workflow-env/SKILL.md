@@ -22,7 +22,7 @@ Before any build/run/deploy command, check for `env.sh`:
 
 **Applies To**
 
-- Node: `pnpm`, `bun` scripts (`dev`, `build`, `start`)
+- Node: `pnpm` scripts (`dev`, `build`, `start`)
 - Compilers: `zig`, `go`, `cargo`, `dotnet`
 - Task runners: `make`, `just`, `rake`
 - Infra: `docker`, `docker-compose`, `terraform`, `kubectl`

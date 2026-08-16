@@ -1,16 +1,17 @@
 {
   "mcpServers": {
     "playwright": {
-      "command": "bunx",
+      "command": "pnpm",
       "args": [
-        "@playwright/mcp@0.0.68"
+        "dlx",
+        "@playwright/mcp@latest"
       ]
     },
     "sequential-thinking": {
-      "command": "bunx",
+      "command": "pnpm",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking@2025.12.18"
+        "dlx",
+        "@modelcontextprotocol/server-sequential-thinking@latest"
       ]
     },
     "context7": {
@@ -20,17 +21,18 @@
       }
     },
     "gitlab": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "mcp-remote@0.1.38",
+        "dlx",
+        "mcp-remote@latest",
         "${env:GITLAB_INSTANCE_URL}/api/v4/mcp"
       ]
     },
     "excel": {
-      "command": "bunx",
+      "command": "pnpm",
       "args": [
-        "--yes",
-        "@negokaz/excel-mcp-server@0.12.0"
+        "dlx",
+        "@negokaz/excel-mcp-server@latest"
       ],
       "env": {
         "EXCEL_MCP_PAGING_CELLS_LIMIT": "4000"

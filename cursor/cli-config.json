@@ -6,7 +6,13 @@
     "permissions": {
         "allow": [
             "Shell(ls)",
-            "Shell(git -C)"
+            "Shell(git -C)",
+            "Shell(curl localhost*)",
+            "Shell(curl http://localhost*)",
+            "Shell(curl https://localhost*)",
+            "Shell(curl 127.0.0.1*)",
+            "Shell(curl http://127.0.0.1*)",
+            "Shell(curl https://127.0.0.1*)"
         ],
         "deny": [
             "Read(**/.env)",
@@ -22,10 +28,11 @@
             "Read(**/.kube/config)",
             "Read(**/.npmrc)",
             "Read(**/.netrc)",
-            "Shell(curl*)",
             "Shell(wget*)",
             "Shell(sudo*)",
             "Shell(eval*)",
+            "Shell(python*)",
+            "Shell(python3*)",
             "Shell(git commit*)",
             "Shell(git push*)",
             "Shell(git rebase*)",

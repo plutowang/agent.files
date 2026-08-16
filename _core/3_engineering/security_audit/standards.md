@@ -38,3 +38,16 @@ When reviewing or writing code that handles user input, authentication, or data 
 - Pin dependency versions explicitly.
 - Audit dependencies for known CVEs regularly.
 - Minimize the dependency surface — fewer dependencies mean fewer attack vectors.
+
+**Download-and-Execute Pattern Set** — when auditing, scan for these patterns (case-insensitive) and flag any hit that instructs fetching and executing remote code:
+- `curl`/`wget` piped to any shell or interpreter (`| bash/sh/zsh/python/node/ruby/perl/php/go run`)
+- `eval "$(curl …)"` / `source <(curl …)` / `python3 <(curl …)`
+- PowerShell: `Invoke-Expression`, `IEX`, `DownloadString`, `irm`, `iex`
+- Installer scripts: `install.sh`, `get-pip.py`, `rustup-init`, `nvm`, `oh-my-zsh`, `curl -fsSL`
+- Remote-fetch runners: `pip install <url/git+>`, `pipx run`, `uvx`, `go run <url>`, `npx`, `pnpm dlx` — flag; official pinned tools = MEDIUM
+- `git clone` followed by execution in the same instruction block
+- Docker/image pulls executed by prompts (network-isolated sandbox = LOW, document)
+- Remote URLs ending in script extensions (`.sh`, `.ps1`, `.py`, `.rb`) or `raw.githubusercontent.com`
+- Toolchain installers: `rustup`, `pyenv`, `asdf`, `mise`, `fnm`
+- Global installers: `pip install`, `npm i -g`, `pnpm add -g`, `cargo install`, `go install`, `gem install`, `brew install`, `apt install` — flag; container-install = LOW, document
+- Accepted exceptions: `pnpm dlx cdk` (aws skill), `go run github.com/99designs/gqlgen generate` (graphql skill)

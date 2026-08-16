@@ -12,7 +12,7 @@
 
 **Error Reporting**
 - When reporting errors: state the error, state the cause (if known), state the next action.
-- One clear statement per error — don't rephrase the same point multiple times.
+- One clear statement per error: error, cause, next action.
 - Include relevant context (file paths, line numbers, error messages) in reports.
 
 **Progress Updates**

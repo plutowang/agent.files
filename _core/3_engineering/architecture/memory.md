@@ -1,56 +1,15 @@
 **Decision Templates**
 
-**Architecture Decision Record (ADR)**
+**ADR** — record each decision as:
 
 ```markdown
 # ADR-XXX: [Title]
-
-## Status
-[Proposed | Accepted | Deprecated | Superseded]
-
-## Context
-What is the problem? What are the forces at play?
-
-## Decision
-What are we doing?
-
-## Consequences
-- **Positive**: [benefits]
-- **Negative**: [trade-offs]
-- **Neutral**: [risks that need monitoring]
+## Status: [Proposed | Accepted | Deprecated | Superseded]
+## Context: problem + forces
+## Decision: what are we doing
+## Consequences: Positive / Negative / Neutral
 ```
 
-**Trade-Off Matrix**
+**Trade-Off Matrix** — compare options: table of weighted criteria (e.g., Complexity 3, Performance 2, Maintainability 3, Team Familiarity 2) × options scored /5, with a weighted-score row. **Decision**: [Winner] — justified by [specific trade-offs accepted].
 
-| Criteria (Weight) | Option A | Option B | Option C |
-| --- | --- | --- | --- |
-| Complexity (3) | 2/5 | 4/5 | 3/5 |
-| Performance (2) | 4/5 | 3/5 | 3/5 |
-| Maintainability (3) | 4/5 | 2/5 | 4/5 |
-| Team Familiarity (2) | 5/5 | 2/5 | 4/5 |
-| **Weighted Score** | **47** | **40** | **46** |
-
-**Decision**: [Winner] — justified by [specific trade-offs accepted].
-
-**C4 Model Visualization**
-
-```bash
-Level 1: Context
-┌─────────────────────────────────────┐
-│         System Under Design          │
-│  [Users, External Systems]           │
-└─────────────────────────────────────┘
-
-Level 2: Container
-┌──────────┐  ┌──────────┐  ┌──────────┐
-│   API     │  │  Worker  │  │   DB     │
-└──────────┘  └──────────┘  └──────────┘
-
-Level 3: Component
-┌─────────────────────────────────────┐
-│         API Service                  │
-│  ┌──────────┐  ┌──────────────┐    │
-│  │ Controller│  │   Service    │   │
-│  └──────────┘  └──────────────┘    │
-└─────────────────────────────────────┘
-```
+**C4 Model** — visualize at 3 levels: Context (system + users/external systems), Container (API/Worker/DB boxes), Component (services inside one container). One diagram per level, arrows for dependencies (c4model.com).

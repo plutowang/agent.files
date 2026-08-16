@@ -21,7 +21,7 @@ A discipline for hard bugs. Skip phases only when explicitly justified.
 Ways to construct one, in roughly descending order of preference:
 
 1. **Failing test** at whatever seam reaches the bug — unit, integration, end-to-end.
-2. **HTTP script** (curl or similar) against a running dev server.
+2. **HTTP script** (curl or similar) against a running dev server — local diagnostic requests, not general web fetching.
 3. **CLI invocation** with a fixture input, diffing output against a known-good snapshot.
 4. **Headless browser script** — drives the UI, asserts on DOM or console output.
 5. **Replay a captured trace** — save a real request or event log to disk; replay it through the code path in isolation.

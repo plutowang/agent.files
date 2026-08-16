@@ -402,6 +402,26 @@ describe("zmask-pii plugin", () => {
     return false
   }
 
+  test("spawn failure surfaces a user toast and a server log entry", async () => {
+    const showToast = mock(async () => true)
+    const appLog = mock(async () => true)
+    const input = {
+      client: { tui: { showToast }, app: { log: appLog } },
+    }
+    behavior = "enotfound"
+    const hooks = await pluginModule.default(input, undefined)
+    const output = {
+      messages: [{ info: {}, parts: [textPart("[EMAIL_REDACTED]")] }],
+    }
+    await hooks["experimental.chat.messages.transform"]({}, output)
+    expect(showToast).toHaveBeenCalledTimes(1)
+    const toastArg = showToast.mock.calls[0][0]
+    expect(toastArg.body.variant).toBe("warning")
+    expect(toastArg.body.message).toContain("masking skipped")
+    expect(appLog).toHaveBeenCalledTimes(1)
+    expect(output.messages[0].parts[0].text).toBe("[EMAIL_REDACTED]")
+  })
+
   test.skipIf(!binaryRunnable(bundledBinary()))(
     "integration: bundled binary masks email and IP",
     () => {
