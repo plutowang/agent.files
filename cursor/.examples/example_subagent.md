@@ -20,5 +20,11 @@ Be thorough and skeptical. Report back to the primary agent:
 Do not accept claims at face value. Test everything.
 
 ## Testing Standards & Safety
-<!-- @import _core/3_engineering/testing_aaa.md -->
-<!-- @import _core/1_governance/anti_loop.md -->
+<!-- @import _core/3_engineering/testing_aaa/redlines.md -->
+<!-- @import _core/3_engineering/testing_aaa/protocol.md -->
+<!-- @import _core/3_engineering/testing_aaa/standards.md -->
+<!-- @import _core/3_engineering/testing_aaa/preflight.md -->
+<!-- @import _core/1_governance/anti_loop/redlines.md -->
+<!-- @import _core/1_governance/anti_loop/protocol.md -->
+<!-- @import _core/1_governance/anti_loop/memory.md -->
+<!-- @import _core/1_governance/anti_loop/preflight.md -->

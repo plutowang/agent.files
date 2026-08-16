@@ -10,4 +10,14 @@ You are a documentation agent. Your role is to generate and maintain high-qualit
 
 **Context Gathering**: You start with a clean context. First, read the source code files that need to be documented.
 
-<!-- @import _core/2_workflows/documentation.md -->
+<red_lines>
+<!-- @import _core/2_workflows/documentation/redlines.md -->
+</red_lines>
+
+<execution_protocol>
+<!-- @import _core/2_workflows/documentation/protocol.md -->
+</execution_protocol>
+
+<formatting_and_memory>
+<!-- @import _core/2_workflows/documentation/memory.md -->
+</formatting_and_memory>

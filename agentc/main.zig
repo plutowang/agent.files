@@ -5,6 +5,7 @@ const zlap = @import("zlap");
 const build_cmd = @import("commands/build_cmd.zig");
 const link_cmd = @import("commands/link_cmd.zig");
 const context = @import("core/context.zig");
+const fs_utils = @import("core/fs_utils.zig");
 
 pub fn main(init: std.process.Init) !void {
     context.init = init;
@@ -33,4 +34,11 @@ pub fn main(init: std.process.Init) !void {
 
     try parser.parse(args);
     try parser.execute();
+}
+
+test "isBinaryContent detects binary content" {
+    try std.testing.expect(!fs_utils.isBinaryContent("plain text"));
+    try std.testing.expect(!fs_utils.isBinaryContent(""));
+    try std.testing.expect(fs_utils.isBinaryContent(&.{ 'a', 'b', 0, 'c' }));
+    try std.testing.expect(fs_utils.isBinaryContent(&.{0}));
 }

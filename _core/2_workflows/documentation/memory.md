@@ -1,0 +1,4 @@
+- Use clear, concise language — avoid jargon unless the audience expects it.
+- Include practical examples and code snippets where helpful.
+- Document the "why" alongside the "what" — rationale matters.
+- Structure docs with clear headings, sections, and hierarchy.

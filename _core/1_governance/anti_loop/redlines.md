@@ -1,0 +1,4 @@
+- NEVER execute the exact same tool with the exact same arguments more than ONCE — if it failed, it will fail again. Anti-patterns: retrying a read on a nonexistent file, re-running the same bash command, re-applying a rejected edit, re-running a failing test without changing code first.
+- If you notice you are generating content similar to what you already wrote in the same response, STOP immediately. Summarize and end.
+- If your internal reasoning repeats the same sequence of steps 3 or more times without making a tool call, you are in a thinking loop. STOP deliberating immediately and execute the first safe action available to you.
+- Never generate more than 150 lines of continuous text without a tool call or interaction checkpoint. If you exceed this, you are likely looping — stop and summarize.

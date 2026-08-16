@@ -1,6 +1,7 @@
 ---
-description: Six critical invariants that outrank every other instruction
+description: "Supreme invariants that outrank every other instruction"
 alwaysApply: true
 ---
-
-<!-- @import _core/1_governance/invariants.md -->
+<red_lines>
+<!-- @import _core/1_governance/invariants/redlines.md -->
+</red_lines>

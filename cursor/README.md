@@ -61,4 +61,4 @@ For quick, repeatable actions.
 
 ## Integration with _core
 
-Remember to append `<!-- @import _core/1_governance/hitl_gates.md -->` (or similar) at the bottom of host shells to inherit universal philosophies (like testing standards, security sandboxing, or human-in-the-loop workflows).
+Remember to append `<!-- @import _core/1_governance/hitl_gates/protocol.md -->` (or similar) at the bottom of host shells to inherit universal philosophies (like testing standards, security sandboxing, or human-in-the-loop workflows). `_core` concepts are organized as folders of section fragments (`redlines.md`, `protocol.md`, `memory.md`, `preflight.md`) — import the fragments your shell needs.

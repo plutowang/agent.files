@@ -7,12 +7,10 @@ alwaysApply: false
 
 Apply these standards when designing or modifying API endpoints.
 
-- REST: nouns for resources, HTTP verbs for actions, kebab-case URLs, version in path (`/api/v1/`).
-- Consistent error format: `{ error: { code, message, details? } }`. Correct status codes.
-- Validate at the boundary. Reject early. Sanitize before storage.
-- Rate limit all public endpoints. `429` + `Retry-After` header.
-- Cursor-based pagination for list endpoints.
-
+<execution_protocol>
 **Interlock**: When designing new endpoints or modifying API contracts, you MUST delegate to `/architect` to evaluate the design.
+</execution_protocol>
 
-<!-- @import _core/3_engineering/api_contracts.md -->
+<standards>
+<!-- @import _core/3_engineering/api_contracts/standards.md -->
+</standards>

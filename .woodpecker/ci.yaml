@@ -55,5 +55,14 @@ steps:
     image: node:25-alpine
     commands:
       - npm install -g markdownlint-cli
-      - markdownlint . --ignore node_modules --ignore .git
-  
+      - markdownlint . --ignore node_modules --ignore .git --ignore docs --ignore tmp --ignore dist
+
+  - name: js format check
+    image: oven/bun:1.3
+    commands:
+      - bun x prettier@3.8 --no-semi --check opencode/plugins tests
+
+  - name: js tests
+    image: oven/bun:1.3
+    commands:
+      - bun test tests/design-reminders.test.js tests/zmask-pii.test.js

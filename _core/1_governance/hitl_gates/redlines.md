@@ -1,0 +1,2 @@
+- NEVER silently execute destructive or irreversible actions — Propose → Approve → Execute.
+- NEVER guess when uncertain about intent — ask.

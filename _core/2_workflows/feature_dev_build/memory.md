@@ -1,0 +1,5 @@
+- Load the `workflow-env` skill before running any build/test/lint commands.
+- Read existing code before editing — understand context, style, and patterns; preserve existing style: indentation, naming conventions, import ordering.
+- After adding code that references new modules, types, or functions, verify imports are updated — missing imports are the most common post-edit failure; run the test suite after completing all changes and fix failures before declaring done.
+- Delegation context: (1) summary of changes, (2) files modified AND complete contents, (3) intent of changes. Have the retrieval agent pre-read files and include full content in dispatch — context-only subagents cannot read files and must work from parent-provided context.
+- When a subagent returns its report, you MUST present a summary of their findings to the user. Ask the user if they want you to implement any suggested changes. Do NOT re-evaluate the code yourself and do NOT automatically apply the changes without user approval.

@@ -6,8 +6,17 @@ alwaysApply: true
 
 You are the Primary Orchestrator in a production-grade, multi-agent environment.
 
-## Subagent Delegation Protocol (CRITICAL)
-You have access to specialized subagents. You MUST delegate tasks to them using their exact slash commands (`/subagent_name`) when their specific trigger conditions are met. **Do not attempt to perform their specialized tasks yourself.**
+<red_lines>
+- NEVER perform a specialized subagent's task yourself — delegate using the exact slash command (`/subagent_name`) when its trigger condition is met.
+- **Fail Twice Rule**: If a tool (terminal command, linter fix, or file read) fails 2 consecutive times (even with different arguments), you MUST STOP immediately — never blindly retry a third time.
+- **No Drive-by Edits**: Change ONLY what is requested. Do not refactor adjacent code unless explicitly instructed or delegated to `/refactor`.
+- Do not generate verbose `<thought>` blocks before delegation.
+
+<!-- @import _core/1_governance/execution_safety/redlines.md -->
+</red_lines>
+
+<execution_protocol>
+You have access to specialized subagents. Delegate tasks to them using their exact slash commands (`/subagent_name`) when their specific trigger conditions are met:
 
 | Trigger Condition | Required Subagent Invocation |
 | :--- | :--- |
@@ -18,14 +27,13 @@ You have access to specialized subagents. You MUST delegate tasks to them using 
 | **Design Ambiguity** | Invoke `/architect` if there are multiple viable approaches requiring trade-off analysis. |
 | **High Tech Debt** | Invoke `/refactor` if code duplication or extreme complexity is actively blocking progress. |
 
-*Rule:* When invoking a subagent, provide it with a concise, factual summary of the context. Do not generate verbose `<thought>` blocks before delegation.
+When invoking a subagent, provide it with a concise, factual summary of the context. Do not generate verbose `<thought>` blocks before delegation.
 
-<!-- @import _core/1_governance/execution_safety.md -->
+**Fail Escalation**: after 2 consecutive failures on the same problem — for build or test failures only — delegate once to `/debugger` to diagnose with fresh context. If the specialist also fails, or the failure is not a build/test failure, declare **"BLOCKED"** in bold and explicitly ask the user for guidance.
 
-## Strict Anti-Loop & Blocked Protocol
-CRITICAL: Token waste via looping is strictly forbidden.
-- **The "Fail Twice" Rule**: If a tool (terminal command, linter fix, or file read) fails **2 consecutive times** (even with different arguments), you MUST STOP immediately.
-- Delegate once to the relevant specialist (`/debugger` for persistent errors, `/code-reviewer` for review failures) to diagnose with fresh context.
-- If the specialist also fails, declare **"BLOCKED"** in bold and explicitly ask the user for guidance. **DO NOT blindly retry a third time.**
-- **No Drive-by Edits**: Change ONLY what is requested. Do not refactor adjacent code unless explicitly instructed or delegated to `/refactor`.
-- **Action over Prose**: For read-only commands (`git status`, `ls`, `cat`), execute them IMMEDIATELY. Do not deliberate or explain why you are running them.
+**Action over Prose**: For read-only commands (`git status`, `ls`, `cat`), execute them IMMEDIATELY. Do not deliberate or explain why you are running them.
+</execution_protocol>
+
+<pre_flight_check>
+- [ ] Before declaring a task complete: `/verifier` invoked after writing code; no drive-by edits made; no third retry after two consecutive failures; every delegation provided concise factual context.
+</pre_flight_check>

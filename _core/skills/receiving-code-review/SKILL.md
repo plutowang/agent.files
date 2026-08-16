@@ -5,15 +5,23 @@ description: Use when receiving code review feedback, before implementing sugges
 
 # Code Review Reception
 
-## Overview
+<red_lines>
+
+- **Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
+- Performative agreement ("You're absolutely right!", "Great point!") wastes tokens and signals passive acceptance — ANY gratitude expression; actions speak, state the fix instead.
+- IF any item is unclear: STOP — ask for clarification before implementing anything; items may be related. Partial understanding = wrong implementation.
+- ❌ Long apologies / defending the pushback / over-explaining after being wrong.
+- IF suggestion seems wrong: push back with technical reasoning.
+- IF can't easily verify: say so — "I can't verify this without [X]. Should I investigate or ask?"
+- IF conflicts with prior human decisions: stop and discuss with the human first.
+</red_lines>
+
+<execution_protocol>
+**Overview**
 
 Code review requires technical evaluation, not emotional performance.
 
-**Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
-
-Performative agreement ("You're absolutely right!", "Great point!") wastes tokens and signals passive acceptance — this skill extends that principle with the full reception workflow.
-
-## The Response Pattern
+**The Response Pattern**
 
 ```text
 WHEN receiving code review feedback:
@@ -26,24 +34,14 @@ WHEN receiving code review feedback:
 6. IMPLEMENT: One item at a time, test each
 ```
 
-## Handling Unclear Feedback
+**Source-Specific Handling**
 
-```text
-IF any item is unclear:
-  STOP - do not implement anything yet
-  ASK for clarification on unclear items
-
-WHY: Items may be related. Partial understanding = wrong implementation.
-```
-
-## Source-Specific Handling
-
-### From the human
+**From the human**
 
 - Trusted — implement after understanding. Still ask if scope is unclear.
 - No performative agreement. Skip to action or technical acknowledgment.
 
-### From external reviewers
+**From external reviewers**
 
 ```text
 BEFORE implementing:
@@ -51,13 +49,9 @@ BEFORE implementing:
   2. Check: breaks existing functionality?
   3. Check: reason for the current implementation?
   4. Check: does the reviewer understand the full context?
-
-IF suggestion seems wrong: push back with technical reasoning
-IF can't easily verify: say so — "I can't verify this without [X]. Should I investigate or ask?"
-IF conflicts with prior human decisions: stop and discuss with the human first
 ```
 
-## YAGNI Check for "Professional" Features
+**YAGNI Check for "Professional" Features**
 
 ```text
 IF a reviewer suggests "implementing properly":
@@ -67,7 +61,7 @@ IF a reviewer suggests "implementing properly":
   IF used: then implement properly
 ```
 
-## Implementation Order
+**Implementation Order**
 
 ```text
 FOR multi-item feedback:
@@ -80,7 +74,7 @@ FOR multi-item feedback:
   4. Verify no regressions
 ```
 
-## When To Push Back
+**When To Push Back**
 
 Push back when:
 
@@ -93,27 +87,24 @@ Push back when:
 
 **How:** Technical reasoning, not defensiveness. Ask specific questions. Reference working tests. Involve the human for architectural conflicts.
 
-## Acknowledging Correct Feedback
+**Acknowledging Correct Feedback**
 
 ```text
 ✅ "Fixed. [brief description of what changed]"
 ✅ [Just fix it and show the code]
-
-❌ "You're absolutely right!" / "Great point!" / "Thanks for catching that!"
-❌ ANY gratitude expression — actions speak. State the fix instead.
 ```
 
-## If You Pushed Back and Were Wrong
+**If You Pushed Back and Were Wrong**
 
 ```text
 ✅ "You were right — I checked [X] and it does [Y]. Implementing now."
-
-❌ Long apologies / defending the pushback / over-explaining
 ```
 
 State the correction factually and move on.
+</execution_protocol>
 
-## Common Mistakes
+<formatting_and_memory>
+**Common Mistakes**
 
 | Mistake | Fix |
 | ------- | --- |
@@ -124,3 +115,4 @@ State the correction factually and move on.
 | Avoiding pushback | Technical correctness > comfort |
 | Partial implementation | Clarify all items first |
 | Can't verify, proceed anyway | State the limitation, ask for direction |
+</formatting_and_memory>

@@ -1,0 +1,5 @@
+- Minimal scope — change only what the plan requires, no drive-by refactors; treat the plan as a blueprint: execute exactly what it specifies, never reinterpret, expand scope, or redesign — if the plan is wrong, surface the issue and stop.
+- NEVER use `npm` — always `pnpm` or `bun` for JavaScript/TypeScript projects; no new dependencies without user approval.
+- NEVER commit, merge, or push without explicit user approval (Invariant II).
+- No bare throws and no swallowed errors — handle or propagate every error with context.
+- Never rewrite entire files unless explicitly asked — make targeted edits.

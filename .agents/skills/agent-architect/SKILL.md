@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Agent Architect Core Knowledge Base
 
-**SCOPE CONSTRAINT (CRITICAL):** 
+**SCOPE CONSTRAINT (CRITICAL):**
 You have been invoked as the Principal Maintainer of the `agent.files` repository. This skill ONLY applies when the user is explicitly requesting changes to the Agent OS configuration files (prompts, rules, agent definitions) located within this specific repository. If the user is asking you to write regular software code for a different project, IGNORE THIS DOCUMENT.
 
 ---
@@ -20,9 +20,9 @@ We use HTML comments to inject reusable markdown blocks:
 `<!-- @import path/to/file.md -->`
 
 **Nested Import Logic (CRITICAL TO UNDERSTAND):**
-The compiler supports recursive (nested) imports. 
+The compiler supports recursive (nested) imports.
 1. Host Shells (e.g., `opencode/agents/design.md`) import high-level core modules.
-2. Core modules (e.g., `_core/5_commands/fix.md`) can import lower-level core modules (e.g., `_core/1_governance/anti_loop.md`).
+2. Core modules (e.g., `_core/5_commands/fix.md`) can import lower-level core modules (e.g., `_core/1_governance/anti_loop/redlines.md`).
 3. **When modifying or auditing:** You must trace these import chains to understand the final compiled context of any given agent. Do not duplicate rules in a Host Shell if they are already being injected via a nested import.
 
 ---
@@ -56,7 +56,7 @@ To edit or maintain this project, you must strictly respect the boundary between
 When editing files in `_core/`, you MUST adhere to the Lexical Ban to ensure cross-platform compatibility.
 
 - **Forbidden Words in `_core/`**: `glob`, `grep`, `Task` tool, `build` subagent, `YAML frontmatter`, `@Codebase`, `.mdc`.
-- **Built-in Subagent Awareness**: IDEs like Cursor natively provide `Explore`, `Bash`, and `Browser` subagents with automatic routing. Rules MUST NOT manually micromanage their invocation (e.g., "Delegate to the explore subagent"). 
+- **Built-in Subagent Awareness**: IDEs like Cursor natively provide `Explore`, `Bash`, and `Browser` subagents with automatic routing. Rules MUST NOT manually micromanage their invocation (e.g., "Delegate to the explore subagent").
 - **How to write**: Write goal-oriented instructions. Instead of "Use the explore subagent to search", write "Thoroughly analyze the codebase". Instead of "Run git status using the bash tool", write "Run git status."
 
 ---
@@ -65,7 +65,7 @@ When editing files in `_core/`, you MUST adhere to the Lexical Ban to ensure cro
 
 When maintaining the `opencode/` host shells, enforce these rules to prevent execution deadlocks:
 - **Permission Alignment**: Prompt instructions MUST perfectly align with the YAML permission blocks defined in the shell. Do not instruct an agent to use a tool or subagent (e.g., `/architect`) if it is denied in its YAML.
-- **Edit Accuracy Isolation**: The `_core/1_governance/edit_accuracy.md` macro contains OpenCode-specific workaround mechanics (read timestamp checks). It MUST ONLY be imported by write-enabled agents (e.g., `build.md`, `refactor.md`, `docs.md`, `build-error-resolver.md`). Never import it into read-only agents or global files.
+- **Edit Accuracy Isolation**: The `_core/1_governance/edit_accuracy/memory.md` fragment contains OpenCode-specific workaround mechanics (read timestamp checks). It MUST ONLY be imported by write-enabled agents (e.g., `build.md`, `refactor.md`, `docs.md`, `build-error-resolver.md`). Never import it into read-only agents or global files.
 
 ---
 
@@ -106,3 +106,12 @@ When the user requests an architectural change to this repository:
 3. **Plan**: Output a structured Markdown plan detailing exactly which files will be touched, and the exact text/macros to be added, removed, or modified.
 4. **WAIT**: Stop and ask the user for explicit approval before writing to the file system.
 5. **Compile**: After making approved changes, remind the user to run `./agentc-cli build` and `./agentc-cli link <ide>`.
+
+**Authoring rules (2026-08-15, research-backed):**
+
+- **State each rule once.** Keep each policy in one place and state each rule once — import, never restate. Repeated statements of the same rule degrade adherence and cause over-asking (OpenAI GPT-5.x prompting guidance, https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6).
+- **Rule-count budget.** Keep each compiled prompt under ~40 rules — compliance collapses as rule count grows, beginning in single digits for weak models (arXiv:2608.12426; arXiv:2607.19257). If a shell exceeds it, dedup and trim before adding.
+
+## 8. Authoring Guide (2026-08-15)
+
+For creating or modifying prompts, skills, rules, agents, or commands: follow `docs/guides/2026-08-15-prompt-authoring-guide.md`. It codifies the canonical format spec, density/line budgets, dedup and zero-loss audit rules, the new-fragment workflow, and the research foundations for every rule above. Load it whenever this skill is invoked.

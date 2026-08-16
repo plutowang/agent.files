@@ -9,7 +9,17 @@ Break the approved spec into bite-sized, sequential tasks. Assume the implemente
 
 Announce at the start: "I'm using the writing-plans skill to break this spec into tasks."
 
-## Pre-Flight Checks
+<red_lines>
+**Zero Placeholders** — these are plan failures, never use them:
+
+- "TBD", "TODO", "implement later"
+- "Add appropriate error handling" (without specifics)
+- "Write tests for the above" (without actual test code)
+- References to types or functions not defined in any task
+</red_lines>
+
+<execution_protocol>
+**Pre-Flight Checks**
 
 Before writing any task, map the terrain and report findings:
 
@@ -18,13 +28,13 @@ Before writing any task, map the terrain and report findings:
 3. **Component cohesion** — Each task should touch files that belong to one component. Don't split one component across tasks; don't bundle unrelated components into one task.
 4. **Right-sizing guard** — Tasks longer than ~5 minutes get split; tasks shorter than ~1 minute get merged into a neighbor.
 
-## Task Granularity
+**Task Granularity**
 
 Each step should take 2–5 minutes:
 
 - Write the failing test → Run to confirm it fails → Implement minimal code → Run to confirm it passes → Commit
 
-## Task Structure
+**Task Structure**
 
 Each task must include:
 
@@ -33,16 +43,7 @@ Each task must include:
 - **Exact verification commands** with expected output
 - **Commit message** for the task
 
-## Zero Placeholders
-
-These are plan failures — never use them:
-
-- "TBD", "TODO", "implement later"
-- "Add appropriate error handling" (without specifics)
-- "Write tests for the above" (without actual test code)
-- References to types or functions not defined in any task
-
-## Plan Header
+**Plan Header**
 
 Start every plan with:
 
@@ -54,7 +55,7 @@ Start every plan with:
 **Tech Stack:** [Key technologies]
 ```
 
-## Self-Review
+**Self-Review**
 
 After writing, check:
 
@@ -62,7 +63,7 @@ After writing, check:
 2. **Placeholder scan** — No TBD, TODO, or vague instructions
 3. **Type consistency** — Names and signatures match across tasks
 
-## Execution Handoff
+**Execution Handoff**
 
 Save the plan to `docs/plans/YYYY-MM-DD-<slug>.md`, then choose the execution path by size:
 
@@ -70,3 +71,4 @@ Save the plan to `docs/plans/YYYY-MM-DD-<slug>.md`, then choose the execution pa
 - **4+ tasks, or tasks that are genuinely independent** — hand off to `subagent-driven-dev` so each task gets fresh context and two-stage review.
 
 State which path you chose and why before starting.
+</execution_protocol>

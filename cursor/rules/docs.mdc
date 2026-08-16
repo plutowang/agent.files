@@ -1,16 +1,20 @@
 ---
-description: "Apply when creating or updating documentation files, READMEs, or inline docs"
-globs: "**/*.md, **/docs/**, **/*.txt"
+description: "Apply when writing or updating documentation"
+globs: "**/*.md, **/*.txt"
 alwaysApply: false
 ---
 # Documentation Standards
 
 Apply these standards when writing or updating documentation.
 
-- Read source code thoroughly before documenting. Document what exists, not what should exist.
-- Write for the target audience: developers who will use or maintain this code.
-- Include practical examples and code snippets where helpful.
+<red_lines>
+<!-- @import _core/2_workflows/documentation/redlines.md -->
+</red_lines>
 
-**Interlock**: When updating documentation after significant code changes, you MUST delegate to `/docs` to ensure accuracy and completeness.
+<execution_protocol>
+<!-- @import _core/2_workflows/documentation/protocol.md -->
+</execution_protocol>
 
-<!-- @import _core/2_workflows/documentation.md -->
+<formatting_and_memory>
+<!-- @import _core/2_workflows/documentation/memory.md -->
+</formatting_and_memory>

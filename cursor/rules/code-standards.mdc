@@ -7,13 +7,15 @@ alwaysApply: false
 
 Apply these standards when writing or reviewing production code.
 
-- Use the strictest type system available. No `any`, no type suppression, no implicit conversions.
-- Never suppress errors silently. Every error must be handled, propagated, or explicitly acknowledged.
-- Validate all inputs at system boundaries. Assume external data is malformed until proven otherwise.
-- Names describe *what*, not *how*. No abbreviations unless universally understood.
-- No `TODO` without a linked issue. No debug statements. No magic numbers. No commented-out code.
+<red_lines>
+<!-- @import _core/3_engineering/code_standards/redlines.md -->
+</red_lines>
 
+<execution_protocol>
 **Interlock**: After changes touch >3 files or critical paths (auth, data, API), you MUST delegate to `/code-reviewer` for quality review.
 **Interlock**: When encountering persistent build errors or test failures that require systematic root cause analysis, you MUST delegate to `/debugger` for diagnosis.
+</execution_protocol>
 
-<!-- @import _core/3_engineering/code_standards.md -->
+<standards>
+<!-- @import _core/3_engineering/code_standards/standards.md -->
+</standards>

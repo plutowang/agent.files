@@ -4,6 +4,8 @@
   "share": "disabled",
   "subagent_depth": 3,
   "plugin": [
+    "./plugins/design-reminders.js",
+    "./plugins/zmask-pii.js",
     "@tarquinen/opencode-dcp@3.1.14",
     "@tarquinen/opencode-smart-title@0.1.7",
     "@franlol/opencode-md-table-formatter@0.0.6",
@@ -383,7 +385,7 @@
   "mcp": {
     "playwright": {
       "type": "local",
-      "command": ["bunx", "@playwright/mcp@0.0.68"],
+      "command": ["bunx", "@playwright/mcp@0.0.79"],
       "enabled": false
     },
     "sequential-thinking": {
@@ -391,7 +393,7 @@
       "command": [
         "bunx",
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking@2025.12.18"
+        "@modelcontextprotocol/server-sequential-thinking@2026.7.4"
       ],
       "enabled": true
     },
@@ -493,7 +495,7 @@
   },
   "small_model": "{env:OPENCODE_MODEL_SMALL}",
   "agent": {
-    "title":                { "model": "{env:OPENCODE_MODEL_LITE}" },
+    "title":                { "model": "{env:OPENCODE_MODEL_SMALL}" },
     "compaction":           { "model": "{env:OPENCODE_MODEL_FLASH}" },
     "build":                { "model": "{env:OPENCODE_MODEL_FLASH}" },
     "design":               { "model": "{env:OPENCODE_MODEL_FLASH}" },

@@ -7,15 +7,24 @@ description: Auto-apply when working with GraphQL. Trigger this skill when the u
 
 You are an expert in **GraphQL API Design and Implementation**. You strictly adhere to Schema-First development and performance best practices.
 
-## 1. Design Protocol (Schema-First)
+<red_lines>
+
+- **MANDATORY**: Use **Dataloaders** for all nested relation fields.
+- **Check**: If a resolver hits the DB in a loop/list, reject it.
+- **Solution**: Batch IDs and fetch once.
+- Use the `ID` scalar for all entity identifiers. Never use internal database IDs directly in the schema.
+</red_lines>
+
+<standards>
+**Design Protocol (Schema-First)**
 
 - **Definition**: Always define `.graphql` schema files (SDL) **before** writing resolvers.
 - **Mutations**: Use specific Input types (`CreateUserInput`) and Result types (`CreateUserPayload`).
 - **Error Handling**: Prefer **Union Types** for domain errors (e.g., `union CreateUserResult = User | EmailTakenError`) over throwing top-level exceptions.
 
-## 2. Schema Best Practices
+**Schema Best Practices**
 
-### Naming Conventions
+**Naming Conventions**
 
 - **Fields & Arguments**: `camelCase`
 - **Types**: `PascalCase`
@@ -23,7 +32,7 @@ You are an expert in **GraphQL API Design and Implementation**. You strictly adh
 - **Enums**: `UPPER_SNAKE_CASE` for values
 - **Avoid abbreviations**: `userProfile` not `usrPrfl`
 
-### Nullability
+**Nullability**
 
 - Default to **nullable** fields for resilience
 - Use non-null (`!`) only when the client can **strictly rely** on the field's presence
@@ -32,7 +41,7 @@ You are an expert in **GraphQL API Design and Implementation**. You strictly adh
   - `email: String` — may be null (optional)
   - `createdAt: Time!` — always has a value
 
-### Global Object Identification
+**Global Object Identification**
 
 Implement the `Node` interface for all top-level objects:
 
@@ -48,13 +57,9 @@ type User implements Node {
 }
 ```
 
-### IDs
+**Pagination — Relay Connections**
 
-Use the `ID` scalar for all entity identifiers. Never use internal database IDs directly in the schema.
-
-## 3. Pagination — Relay Connections
-
-Use **Relay Cursor Connections** for all list fields. Never use offset-based pagination.
+Use **Relay Cursor Connections** for all list fields:
 
 ```graphql
 type UserConnection {
@@ -81,7 +86,7 @@ type Query {
 }
 ```
 
-### Sorting
+**Sorting**
 
 Use standardized input types and enums:
 
@@ -107,9 +112,9 @@ type Query {
 }
 ```
 
-## 4. Mutations
+**Mutations**
 
-### Input & Payload Patterns
+**Input & Payload Patterns**
 
 Always use specific Input and Payload types:
 
@@ -138,7 +143,7 @@ type Mutation {
 }
 ```
 
-### Idempotent Mutations
+**Idempotent Mutations**
 
 Use `verbById` or `verbByFilter` for idempotent operations:
 
@@ -149,9 +154,9 @@ type Mutation {
 }
 ```
 
-## 5. Error Handling
+**Error Handling**
 
-### Union Error Pattern
+**Union Error Pattern**
 
 Prefer union types for domain errors:
 
@@ -174,7 +179,7 @@ type InvalidField {
 }
 ```
 
-### Error Response Format
+**Error Response Format**
 
 When using top-level errors, include machine-readable codes:
 
@@ -192,7 +197,7 @@ When using top-level errors, include machine-readable codes:
 }
 ```
 
-### Standard Error Codes
+**Standard Error Codes**
 
 Use these codes consistently:
 
@@ -203,17 +208,11 @@ Use these codes consistently:
 - `INTERNAL_ERROR` — server error
 - `UNAUTHORIZED` — authentication required
 
-### Partial Results
+**Partial Results**
 
 GraphQL allows returning partial data alongside errors. If a field fails, return `null` for that field and populate the `errors` array.
 
-## 6. Performance — N+1 Prevention
-
-**MANDATORY**: Use **Dataloaders** for all nested relation fields.
-
-**Check**: If a resolver hits the DB in a loop/list, reject it.
-
-**Solution**: Batch IDs and fetch once.
+**Performance — N+1 Prevention**
 
 ```typescript
 // Bad: N+1 query
@@ -226,9 +225,9 @@ const user = await userLoader.load(id);
 const posts = await postLoader.loadMany(user.postIds);
 ```
 
-## 7. Security
+**Security**
 
-### Query Depth Limiting
+**Query Depth Limiting**
 
 Enforce maximum query depth to prevent deeply nested DoS attacks:
 
@@ -239,7 +238,7 @@ Enforce maximum query depth to prevent deeply nested DoS attacks:
 # - Avoid allowing >10 levels
 ```
 
-### Query Complexity Analysis
+**Query Complexity Analysis**
 
 Assign costs to fields and reject queries exceeding a threshold:
 
@@ -250,7 +249,7 @@ Assign costs to fields and reject queries exceeding a threshold:
 | List              | list_size x item_cost       |
 | Connection        | first x item_cost           |
 
-### Introspection
+**Introspection**
 
 **Disable introspection in production** unless explicitly required:
 
@@ -262,7 +261,7 @@ const server = new ApolloServer({
 });
 ```
 
-### Rate Limiting
+**Rate Limiting**
 
 Implement rate limiting based on **query cost**, not just IP:
 
@@ -272,9 +271,9 @@ const costLimit = 1000; // max cost per minute
 const depthLimit = 10;
 ```
 
-## 8. Federation (Apollo Federation v2)
+**Federation (Apollo Federation v2)**
 
-### Core Directives
+**Core Directives**
 
 ```graphql
 # Define entity with key
@@ -291,7 +290,7 @@ extend type Post @key(fields: "id") {
 }
 ```
 
-### Federation v2 Directives
+**Federation v2 Directives**
 
 | Directive       | Purpose                                                           |
 | --------------- | ----------------------------------------------------------------- |
@@ -302,7 +301,7 @@ extend type Post @key(fields: "id") {
 | `@provides`     | Hint for fields provided by this service                           |
 | `@requires`     | Hint for fields required by this service                           |
 
-### Entity Resolution Pattern
+**Entity Resolution Pattern**
 
 ```graphql
 # In User service
@@ -319,7 +318,7 @@ type Post @key(fields: "id") {
 }
 ```
 
-### Schema Composition
+**Schema Composition**
 
 Use Apollo Router or Federation gateway for composition:
 
@@ -330,16 +329,16 @@ rover subgraph compose \
   --subgraph_schema=./users/schema.graphql
 ```
 
-## 9. Schema Evolution
+**Schema Evolution**
 
-### Additive Changes (Safe)
+**Additive Changes (Safe)**
 
 - Add new fields (clients ignore unknown fields)
 - Add new enum values (clients handle gracefully)
 - Add new optional arguments
 - Add new types
 
-### Breaking Changes (Unsafe)
+**Breaking Changes (Unsafe)**
 
 - Remove or rename fields → use `@deprecated`
 - Change field types → additive migration only
@@ -347,7 +346,7 @@ rover subgraph compose \
 - Remove enum values
 - Change nullability
 
-### Deprecation Pattern
+**Deprecation Pattern**
 
 ```graphql
 type User {
@@ -357,7 +356,7 @@ type User {
 }
 ```
 
-### Migration Strategy
+**Migration Strategy**
 
 1. Add new field alongside old
 2. Deploy
@@ -365,9 +364,9 @@ type User {
 4. Deprecate old field
 5. Remove in next major version
 
-## 10. Subscriptions
+**Subscriptions**
 
-### Connection Pattern
+**Connection Pattern**
 
 ```graphql
 type Subscription {
@@ -376,37 +375,37 @@ type Subscription {
 }
 ```
 
-### Server Implementation Notes
+**Server Implementation Notes**
 
 - Use WebSocket for transport
 - Implement connection keep-alive
 - Handle reconnection gracefully
 - Filter subscription events by user authorization
 
-## 11. Tooling & Codegen
+**Tooling & Codegen**
 
 Never write types manually. Generate them.
 
-### TypeScript / Node
+**TypeScript / Node**
 
 - **Tool**: **GraphQL Code Generator** (`@graphql-codegen/cli`)
 - **Command**: `pnpm codegen`
 - **Config**: `codegen.ts`
 
-### Go
+**Go**
 
 - **Tool**: **gqlgen** (`github.com/99designs/gqlgen`)
 - **Command**: `go run github.com/99designs/gqlgen generate`
 - **Config**: `gqlgen.yml`
 
-### Python
+**Python**
 
 - **Tool**: **Ariadne** or **Strawberry**
 - **Codegen**: `ariadne-codegen` for client types
 
-## 12. Rate Limiting
+**Rate Limiting**
 
-### Query Cost Calculation
+**Query Cost Calculation**
 
 ```graphql
 # Example cost weights
@@ -416,7 +415,7 @@ posts: list_length × Post (10 items = 10)
 comments: list_length × Comment (10 items = 10)
 ```
 
-### Response Headers
+**Response Headers**
 
 ```http
 X-RateLimit-Limit: 1000
@@ -425,7 +424,7 @@ X-RateLimit-Reset: 1640000000
 Retry-After: 60
 ```
 
-### Error Response
+**Error Response**
 
 ```json
 {
@@ -436,7 +435,8 @@ Retry-After: 60
 }
 ```
 
-## Reference
+**Reference**
 
 **Docs**: Context7 `/graphql/graphql.github.io` · Fallback: <https://graphql.org>
 **Federation**: <https://www.apollographql.com/docs/federation/v2/>
+</standards>

@@ -17,5 +17,10 @@ Do not make any code edits; you only have read-only tools like #tool:search/code
 The plan must consist of a structured Markdown document.
 
 ## Global Directives
-<!-- @import _core/1_governance/hitl_gates.md -->
-<!-- @import _core/3_engineering/architecture.md -->
+<!-- @import _core/1_governance/hitl_gates/redlines.md -->
+<!-- @import _core/1_governance/hitl_gates/protocol.md -->
+<!-- @import _core/1_governance/hitl_gates/memory.md -->
+<!-- @import _core/3_engineering/architecture/redlines.md -->
+<!-- @import _core/3_engineering/architecture/protocol.md -->
+<!-- @import _core/3_engineering/architecture/standards.md -->
+<!-- @import _core/3_engineering/architecture/memory.md -->

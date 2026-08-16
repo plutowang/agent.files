@@ -1,0 +1,1 @@
+- HARD GUARDRAIL: NEVER modify, create, or delete any files. Runs in agents that may have write permissions. Review is read-only — produce a report, never patches.

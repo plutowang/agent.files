@@ -7,16 +7,21 @@ description: Auto-apply when designing or implementing REST APIs. Trigger this s
 
 You are an expert in **REST API Design**. You strictly adhere to resource-oriented architecture and HTTP semantics.
 
-## 1. Resource Naming Conventions
+<red_lines>
 
-### URL Structure
+- **No verbs in URLs** — Use HTTP methods, not `/getUser` or `/createPost`.
+- **Plural nouns** for collections: `/users`, `/posts`, `/comments`.
+- **kebab-case** for multi-word paths: `/user-profiles`, `/order-items`.
+- Never expose stack traces, internal file paths, database errors, or implementation details in an error response. Log them server-side and return the opaque `traceId` instead — it is the only safe way to correlate a client report with a server log.
+- Use **cursor-based pagination** for large datasets — never offset pagination for large tables.
+</red_lines>
 
-- **Plural nouns** for collections: `/users`, `/posts`, `/comments`
+<standards>
+**URL Structure**
+
 - **Nested resources** for relationships: `/users/{userId}/posts`
-- **kebab-case** for multi-word paths: `/user-profiles`, `/order-items`
-- **No verbs in URLs**: Use HTTP methods, not `/getUser` or `/createPost`
 
-### Examples
+Examples:
 
 ```http
 GET    /users              # List users
@@ -30,7 +35,7 @@ GET    /users/{userId}/posts    # Get user's posts
 POST   /users/{userId}/posts    # Create post for user
 ```
 
-### Anti-Patterns
+**Anti-Patterns** — never do these:
 
 ```http
 # Bad: verbs in URLs
@@ -46,7 +51,7 @@ POST /users/add
 GET /user_profiles  (should be /user-profiles)
 ```
 
-## 2. HTTP Methods
+**HTTP Methods**
 
 | Method    | Semantics          | Idempotent | Safe |
 | --------- | ------------------ | ---------- | ---- |
@@ -58,7 +63,7 @@ GET /user_profiles  (should be /user-profiles)
 | `HEAD`    | Headers only       | Yes        | Yes  |
 | `OPTIONS` | Capabilities       | Yes        | Yes  |
 
-## 3. Standard Error Format
+**Standard Error Format**
 
 Use a consistent error response format across all endpoints:
 
@@ -84,11 +89,7 @@ Use a consistent error response format across all endpoints:
 }
 ```
 
-**Never expose stack traces, internal file paths, database errors, or implementation details in an error response.** Log
-them server-side and return the opaque `traceId` instead — it is the only safe way to correlate a client report with a
-server log.
-
-### Standard Error Codes
+**Standard Error Codes**
 
 | HTTP Status | Code                  | Use Case                              |
 | ----------- | --------------------- | ------------------------------------- |
@@ -103,7 +104,7 @@ server log.
 | 500         | `INTERNAL_ERROR`      | Unexpected server error               |
 | 503         | `SERVICE_UNAVAILABLE` | Temporarily unavailable               |
 
-### HTTP Status Code Guidelines
+**HTTP Status Code Guidelines**
 
 - `200 OK` — Successful GET, PATCH, PUT, DELETE
 - `201 Created` — Successful POST creating a resource
@@ -118,11 +119,9 @@ server log.
 - `429 Too Many Requests` — Rate limit exceeded
 - `500 Internal Server Error` — Server-side error
 
-## 4. Pagination
+**Pagination**
 
-Use **cursor-based pagination** for large datasets. Never use offset pagination for large tables.
-
-### Cursor Pagination
+Cursor pagination response:
 
 ```json
 {
@@ -137,14 +136,12 @@ Use **cursor-based pagination** for large datasets. Never use offset pagination 
 }
 ```
 
-### Request Parameters
+Request parameters:
 
 ```bash
 GET /users?first=20&after=eyJpZCI6MTAwfQ==
 GET /posts?last=10&before=eyJpZCI6MjAwfQ==
 ```
-
-### Query Parameters
 
 | Parameter | Purpose                                             |
 | --------- | --------------------------------------------------- |
@@ -155,48 +152,46 @@ GET /posts?last=10&before=eyJpZCI6MjAwfQ==
 | `filter` | JSON-encoded filter object                          |
 | `sort`   | Field and direction (e.g., `createdAt:desc`)      |
 
-## 5. Idempotency
+**Idempotency**
 
 For critical POST operations, support idempotency keys:
-
-### Request Headers
 
 ```bash
 Idempotency-Key: <unique-client-generated-key>
 ```
 
-### Idempotency Response
+Idempotency response:
 
 ```http
 HTTP/1.1 201 Created
 Idempotency-Key: abc123
 ```
 
-### Implementation Notes
+Implementation notes:
 
 - Store idempotency keys with TTL (24 hours recommended)
 - Return cached response for duplicate keys
 - Keys should be UUIDs or similar high-entropy values
 
-## 6. API Versioning
+**API Versioning**
 
-### URL Path Versioning (Recommended)
+URL path versioning (recommended):
 
 ```bash
 /api/v1/users
 /api/v2/users
 ```
 
-### Version Lifecycle
+Version lifecycle:
 
-| Status       | Description                                           |
-| ------------ | ----------------------------------------------------- |
-| `current`    | Latest stable version                                 |
-| `deprecated` | Still supported, migration recommended               |
-| `sunset`     | Security patches only, migration required             |
-| `closed`     | No longer available                                   |
+| Status       | Description                |
+| ------------ | -------------------------- |
+| `current`    | Latest stable version      |
+| `deprecated` | Still supported, migration recommended |
+| `sunset`     | Security patches only, migration required |
+| `closed`     | No longer available        |
 
-### Deprecation Headers
+Deprecation headers:
 
 ```http
 Deprecation: true
@@ -204,15 +199,13 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
 Link: <https://api.example.com/v2/users>; rel="successor-version"
 ```
 
-## 7. Input Validation
-
-### Validation Rules
+**Input Validation**
 
 - Validate at **boundary** (entry point), not in business logic
 - Reject early with clear, actionable error messages
 - Use schema validation (Zod, JSON Schema, etc.)
 
-### Example Validation Error
+Example validation error:
 
 ```json
 {
@@ -230,25 +223,25 @@ Link: <https://api.example.com/v2/users>; rel="successor-version"
 }
 ```
 
-### Common Validation Types
+Common validation types:
 
 | Type       | Rule Example                                     |
 | ---------- | ------------------------------------------------ |
-| `required` | Field must be present                             |
-| `string`   | Must be a string                                  |
-| `email`    | Valid email format                                |
-| `uuid`     | Valid UUID v4 format                              |
-| `url`      | Valid URL                                         |
-| `minLength`| Minimum string length                             |
-| `maxLength`| Maximum string length                             |
-| `minimum`  | Minimum numeric value                             |
-| `maximum`  | Maximum numeric value                             |
+| `required` | Field must be present                            |
+| `string`   | Must be a string                                 |
+| `email`    | Valid email format                               |
+| `uuid`     | Valid UUID v4 format                             |
+| `url`      | Valid URL                                        |
+| `minLength`| Minimum string length                            |
+| `maxLength`| Maximum string length                            |
+| `minimum`  | Minimum numeric value                            |
+| `maximum`  | Maximum numeric value                            |
 | `enum`     | Must be one of allowed values                     |
 | `pattern`  | Must match regex pattern                          |
 
-## 8. Rate Limiting
+**Rate Limiting**
 
-### Response Headers
+Response headers:
 
 ```http
 X-RateLimit-Limit: 1000
@@ -257,7 +250,7 @@ X-RateLimit-Reset: 1640000000
 Retry-After: 60
 ```
 
-### Rate Limit Exceeded Response
+Rate limit exceeded response:
 
 ```http
 HTTP/1.1 429 Too Many Requests
@@ -273,29 +266,25 @@ Content-Type: application/json
 }
 ```
 
-### Rate Limit Tiers
+Rate limit tiers:
 
-| Tier      | Requests/minute | Use Case             |
-| --------- | --------------- | ------------------- |
+| Tier      | Requests/minute | Use Case |
+| --------- | --------------- | ---- |
 | Standard  | 60              | Default              |
 | Elevated  | 600             | Authenticated        |
 | Partner   | 6000            | Business partners    |
 | Internal  | Unlimited       | Service-to-service   |
 
-## 9. Request/Response Conventions
+**Request/Response Conventions**
 
-### Content Type
-
-Always specify Content-Type and Accept headers:
+- Always specify Content-Type and Accept headers:
 
 ```http
 Content-Type: application/json
 Accept: application/json
 ```
 
-### Date Format
-
-Use **ISO 8601** with UTC timezone:
+- Dates in **ISO 8601** with UTC timezone:
 
 ```json
 {
@@ -304,33 +293,31 @@ Use **ISO 8601** with UTC timezone:
 }
 ```
 
-### Null vs Empty
+- Null vs empty semantics:
 
 | Value    | Meaning                                           |
-| -------- | ------------------------------------------------- |
+| ------ | ------------------------------------------------- |
 | `null`   | Field exists but has no value                     |
 | `[]`     | Empty collection                                   |
 | `""`     | Empty string (rarely use)                         |
 | omitted  | Field not included (sparse fields)                |
 
-### Sparse Fieldsets
-
-Allow clients to request specific fields:
+- Allow clients to request specific fields:
 
 ```bash
 GET /users?fields=id,name,email
 ```
 
-## 10. Async Operations
+**Async Operations**
 
-### Accepted Response (202)
+Accepted response:
 
 ```http
 HTTP/1.1 202 Accepted
 Location: /operations/12345
 ```
 
-### Operation Resource
+Operation resource:
 
 ```json
 {
@@ -341,9 +328,7 @@ Location: /operations/12345
 }
 ```
 
-### Webhook Alternative
-
-For async operations that complete asynchronously:
+Webhook alternative for async completion:
 
 ```json
 {
@@ -353,23 +338,11 @@ For async operations that complete asynchronously:
 }
 ```
 
-## 11. Security
+**Security**
 
-### Authentication
-
-- Use Bearer tokens in Authorization header
-- API keys for server-to-server
-- JWT or OAuth 2.0 for user authentication
-
-### Authorization
-
-- Implement RBAC or ABAC
-- Validate permissions at endpoint level
-- Audit log all authorization failures
-
-### CORS
-
-Configure appropriate CORS headers:
+- Authentication: Bearer tokens in Authorization header; API keys for server-to-server; JWT or OAuth 2.0 for user authentication
+- Authorization: implement RBAC or ABAC; validate permissions at endpoint level; audit log all authorization failures
+- CORS headers:
 
 ```http
 Access-Control-Allow-Origin: https://app.example.com
@@ -378,17 +351,19 @@ Access-Control-Allow-Headers: Content-Type, Authorization, Idempotency-Key
 Access-Control-Max-Age: 86400
 ```
 
-## 12. API Design Checklist
+</standards>
 
-Before finalizing any REST API design:
+<pre_flight_check>
+Before finalizing any REST API design, verify:
 
 - [ ] URLs use plural nouns, kebab-case, no verbs
-- [ ] Correct HTTP methods used (GET/POST/PATCH/DELETE)
+- [ ] Correct HTTP methods used
 - [ ] Consistent error format with machine-readable codes
-- [ ] Appropriate HTTP status codes
+- [ ] Correct HTTP status codes
 - [ ] Cursor-based pagination implemented
 - [ ] Idempotency keys supported for POST
-- [ ] Input validation at boundary with clear errors
+- [ ] Input validation at the boundary with clear errors
 - [ ] Rate limiting headers present
 - [ ] Versioning strategy defined
 - [ ] Security headers configured
+</pre_flight_check>

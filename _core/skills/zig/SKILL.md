@@ -7,9 +7,17 @@ description: Auto-apply when working with Zig. Trigger this skill when the user 
 
 You are an expert in the Zig programming language. Zig is not yet stable (v1.0), so `std.Build` and stdlib APIs change between minor versions.
 
-**Rule #1:** Never generate Zig code without knowing the active toolchain version.
+<red_lines>
 
-## 1. Version Context Protocol (Mandatory)
+- **Rule #1:** Never generate Zig code without knowing the active toolchain version.
+- **Mismatch Alert**: If the requested features exceed `zig version`, stop and warn.
+- **NEVER** use any API from the "Old" column of a migration file — always use "New".
+- If unsure whether an API changed, check the migration file before writing code.
+- **CRITICAL**: Always match documentation to the project's Zig version. Syntax and stdlib APIs change between minor releases.
+</red_lines>
+
+<execution_protocol>
+**Version Context Protocol (Mandatory)**
 
 Before answering any coding question, execute the following mental or actual checks:
 
@@ -24,9 +32,34 @@ Before answering any coding question, execute the following mental or actual che
    - **Version >= 0.13**: `std.http` and `std.net` changes.
    - **Version >= 0.14**: `GPA.init` and `root_module` in build scripts.
    - **Version >= 0.15**: `std.Io` (new I/O); `async`/`await` removed.
-   - **Version >= 0.16**: "Juicy Main" (`std.process.Init`); `@cImport` removed; `@Type` split into `@Int`/`@Struct`/etc.; `std.Io` param threading mandatory; unmanaged containers; process/sync/time APIs migrated to `Io`. **Read the migration file before generating code** (see Section 5).
+   - **Version >= 0.16**: "Juicy Main" (`std.process.Init`); `@cImport` removed; `@Type` split into `@Int`/`@Struct`/etc.; `std.Io` param threading mandatory; unmanaged containers; process/sync/time APIs migrated to `Io`. **Read the migration file before generating code** (see Version Migration Protocol).
 
-## 2. Project Structure
+**Development Workflow**
+
+Instruct the user to use these commands:
+
+- **Check**: `zig build check` (if present).
+- **Test**: `zig build test --summary all`
+- **Run**: `zig build run`
+- **Format**: `zig fmt .` (Enforce this style).
+
+**Version Migration Protocol**
+
+Zig has breaking API changes every minor version.
+
+**Available migration files** (in this skill's `migrations/` directory):
+
+- **0.16** → `migrations/0.16.md` — "Juicy Main", I/O threading, `@cImport` removal, `@Type` split, unmanaged containers, process/sync/time migration
+
+**Workflow:**
+
+1. Detect the project's Zig version (see Version Context Protocol)
+2. Read that migration file immediately
+3. Cross-check **every** stdlib call against the OLD→NEW tables in the migration file
+</execution_protocol>
+
+<standards>
+**Project Structure**
 
 Modern Zig projects follow this structure:
 
@@ -36,18 +69,9 @@ Modern Zig projects follow this structure:
   - Contains dependencies and hash locks.
 - **`src/main.zig`**: Standard entry point.
 
-## 3. Development Workflow
+**Coding Standards & Safety**
 
-Instruct the user to use these commands:
-
-- **Check**: `zig build check` (if present).
-- **Test**: `zig build test --summary all`
-- **Run**: `zig build run`
-- **Format**: `zig fmt .` (Enforce this style).
-
-## 4. Coding Standards & Safety
-
-### Memory Management
+**Memory Management**
 
 Zig is manual. Always define ownership and allocator lifetime.
 
@@ -68,33 +92,16 @@ const allocator = gpa_inst.allocator();
 
 For library code (no main), accept `allocator` and `io` as function parameters.
 
-### Error Handling
+**Error Handling**
 
 - Use error unions (`!T`) everywhere.
 - Use `try` to bubble up errors.
 - Use `catch |err| switch (err)` or `if (res) |val| else |err|` to handle them.
 
-### Cross-Version Syntax Trap
+**Cross-Version Syntax Trap**
 
 - **Loops**: `for (items) |item|` (Old) vs `for (items) |*item|` (Pointer capture) vs `for (items, 0..) |item, i|` (Index capture).
   - _Action_: Verify which loop syntax is valid for the detected version.
 
-## 5. Version Migration Protocol
-
-Zig has breaking API changes every minor version. When the detected version has a migration file, **read it before generating any code** to ensure no deprecated/removed APIs are used.
-
-**Available migration files** (in this skill's `migrations/` directory):
-
-- **0.16** → `migrations/0.16.md` — "Juicy Main", I/O threading, `@cImport` removal, `@Type` split, unmanaged containers, process/sync/time migration
-
-**Workflow:**
-
-1. Detect the project's Zig version (Section 1)
-2. If a migration file exists for that version, read it immediately
-3. Cross-check **every** stdlib call against the OLD→NEW tables in the migration file
-4. **NEVER** use any API from the "Old" column — always use "New"
-5. If unsure whether an API changed, check the migration file before writing code
-
 **Docs**: Context7 `/websites/ziglang` · Fallback: <https://ziglang.org/documentation>
-
-**CRITICAL**: Always match documentation to the project's Zig version. Syntax and stdlib APIs change between minor releases.
+</standards>

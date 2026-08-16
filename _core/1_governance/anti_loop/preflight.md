@@ -1,0 +1,1 @@
+- [ ] Before generating output, confirm: the next action is not the same tool+arguments retried, is not a repeated reasoning step, and is not a restatement of prior content. If any apply — stop and summarize instead.

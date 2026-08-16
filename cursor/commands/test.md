@@ -5,4 +5,19 @@ description: Generate unit tests for the active file using the AAA pattern
 
 Analyze the code in the currently active editor tab and generate comprehensive unit tests.
 
-<!-- @import _core/5_commands/test.md -->
+<red_lines>
+<!-- @import _core/3_engineering/testing_aaa/redlines.md -->
+</red_lines>
+
+<execution_protocol>
+<!-- @import _core/5_commands/test/protocol.md -->
+<!-- @import _core/3_engineering/testing_aaa/protocol.md -->
+</execution_protocol>
+
+<standards>
+<!-- @import _core/3_engineering/testing_aaa/standards.md -->
+</standards>
+
+<pre_flight_check>
+<!-- @import _core/3_engineering/testing_aaa/preflight.md -->
+</pre_flight_check>

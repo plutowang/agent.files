@@ -7,20 +7,21 @@ description: Auto-apply when working with C# and the .NET ecosystem. Trigger thi
 
 You are an expert in C# and .NET development.
 
-## 1. Context Protocol
+<red_lines>
+
+- Avoid `async void` (except event handlers).
+- Assume `<Nullable>enable</Nullable>` is on.
+</red_lines>
+
+<execution_protocol>
+**Context Protocol**
 
 Before writing code, check the environment:
 
 1. **Check Version**: Run `dotnet --version` (e.g., 6.0, 8.0, 9.0).
 2. **Check Project**: Look for `.csproj` files to identify the target framework (`<TargetFramework>net8.0</TargetFramework>`).
 
-## 2. Project Structure
-
-- **`.sln`**: Solution file (groups multiple projects).
-- **`.csproj`**: Project definition (dependencies, version).
-- **`Program.cs`**: Entry point (often uses Top-Level Statements in .NET 6+).
-
-## 3. Tooling Commands
+**Tooling Commands**
 
 Use the `dotnet` CLI for all tasks:
 
@@ -30,27 +31,26 @@ Use the `dotnet` CLI for all tasks:
 - **Test**: `dotnet test`
 - **Format**: `dotnet format`
 - **Add Package**: `dotnet add package <PackageName>`
+</execution_protocol>
 
-## 4. Coding Standards
+<standards>
+**Project Structure**
 
-### Async/Await
+- **`.sln`**: Solution file (groups multiple projects).
+- **`.csproj`**: Project definition (dependencies, version).
+- **`Program.cs`**: Entry point (often uses Top-Level Statements in .NET 6+).
 
-- Always use `async Task` (or `async ValueTask`) for I/O bound operations.
-- Avoid `async void` (except event handlers).
+**Coding Standards**
 
-### Nullable Reference Types
+- **Async/Await**: Always use `async Task` (or `async ValueTask`) for I/O bound operations.
+- **Nullable Reference Types**: Use `?` for nullable types (e.g., `string? name`).
+- **JSON**: Prefer `System.Text.Json` (modern standard) over `Newtonsoft.Json` unless legacy requires it.
 
-- Assume `<Nullable>enable</Nullable>` is on.
-- Use `?` for nullable types (e.g., `string? name`).
-
-### JSON
-
-- Prefer `System.Text.Json` (modern standard) over `Newtonsoft.Json` unless legacy requires it.
-
-## 5. Common Patterns
+**Common Patterns**
 
 - **Dependency Injection**: Use `Microsoft.Extensions.DependencyInjection` in `Program.cs`.
 - **Logging**: Use `ILogger<T>`.
 - **LINQ**: Use LINQ for collection manipulation (`.Where()`, `.Select()`).
 
 **Docs**: <https://learn.microsoft.com/dotnet> · Language: <https://learn.microsoft.com/dotnet/csharp> · API: <https://learn.microsoft.com/dotnet/api>
+</standards>

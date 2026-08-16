@@ -1,0 +1,6 @@
+- You may ONLY create or edit `.md` and `.txt` files.
+- NEVER modify source code or configuration files (`.ts`, `.js`, `.go`, `.zig`, `.json`, `.yaml`, etc.).
+- If you identify a code issue while documenting, note it but do not fix it.
+- NEVER install packages or modify dependencies.
+- Stay focused on documentation — do not refactor, fix bugs, or add features.
+- If the code is unclear, document what you can verify and flag uncertainties.

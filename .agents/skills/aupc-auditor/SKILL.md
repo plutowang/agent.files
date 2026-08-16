@@ -13,7 +13,7 @@ Before proceeding with this audit, you MUST have already loaded and understood t
 
 ## AUDIT MISSION
 
-You are the Principal AI Architect conducting a rigorous, holistic review of all files in the `_core/`, `opencode/`, `cursor/`, and any new IDE directories (e.g., `copilot/`). 
+You are the Principal AI Architect conducting a rigorous, holistic review of all files in the `_core/`, `opencode/`, `cursor/`, and any new IDE directories (e.g., `copilot/`).
 Your primary goal is to **optimize the Context Window** for the compiled agents by identifying redundancies, resolving logical contradictions, preventing IDE dialect leakage, and enforcing strict domain boundaries.
 
 ---
@@ -39,14 +39,14 @@ Please meticulously scan the codebase against these 5 dimensions:
 - **Absence Is A Grant**: Unspecified keys default to `allow`. When auditing, treat a missing key as a granted capability, never as a restriction.
 - **Pattern Order**: The last matching pattern wins. In every map the broad pattern must come FIRST — `{"*": "deny", "explore": "allow"}` allows only `explore`; the reverse order allows everything. Flag any specific `allow` that sits before a broader `ask`/`deny` covering it, because the specific rule is dead.
 - **Permission vs. Prompt Conflicts**: Does an agent have a tool denied in its permission block, but its markdown prompt explicitly tells it to use that tool (e.g. `read: deny` alongside "read the log files")?
-- **Edit Accuracy Isolation**: Is the OpenCode-specific workaround macro (`_core/1_governance/edit_accuracy.md`) accidentally imported into read-only agents (like `explore.md` or `verifier.md`) or global files (`AGENTS.md`)? It MUST ONLY be in write-enabled agents.
+- **Edit Accuracy Isolation**: Is the OpenCode-specific workaround fragment (`_core/1_governance/edit_accuracy/memory.md`) accidentally imported into read-only agents (like `explore.md` or `verifier.md`) or global files (`AGENTS.md`)? It MUST ONLY be in write-enabled agents.
 
 ### 4. The DRY Audit (Eliminating Redundancy)
 - **Shadow Redundancy**: Does an IDE Host Shell manually state a rule in its markdown body that is *already* covered by one of the `<!-- @import _core/... -->` macros it includes at the bottom?
 - **Double Injection**: Is the same `_core/` macro being imported in both a global file (e.g., `AGENTS.md`) AND a file-scoped rule (e.g., `.mdc`), causing token waste when both activate?
 
 ### 5. Context Optimization (Dieting the Agents)
-- **Irrelevant Imports**: Is a host shell importing a macro it does not need? 
+- **Irrelevant Imports**: Is a host shell importing a macro it does not need?
   *Example*: A pure search agent (`explore.md`) does NOT need `<!-- @import _core/3_engineering/testing_aaa.md -->` bloating its context window.
 
 ---
@@ -56,7 +56,7 @@ Please meticulously scan the codebase against these 5 dimensions:
 You are conducting an audit. **DO NOT modify or rewrite any files yet.**
 
 1. **Analyze**: Deeply read the requested files, trace how the macros assemble (resolving the `<!-- @import -->` chains), and evaluate them against the Audit Matrix above.
-2. **Report**: Output an "Architectural Audit Report" grouped by the 5 dimensions. 
+2. **Report**: Output an "Architectural Audit Report" grouped by the 5 dimensions.
 3. **Action Items**: For every issue found, provide a concrete, actionable recommendation. You must use the following strict format:
    - **[ISSUE]** (e.g., Conflict / Redundancy / Purity Breach): `[File Path A]` contains `[Toxic Phrase/Misalignment]`.
    - **[FIX]**: Remove/Edit line [X] from file [Y]. Add macro [Z].
@@ -72,7 +72,7 @@ These have been reviewed and deliberately left in place. Flagging them again was
 | --- | --- | --- |
 | `_core/3_engineering/testing_aaa.md` | "Need to explore first" | Ordinary English verb in a rationalizations table, not a tool reference. |
 | `_core/skills/zig/migrations/0.16.md` | 7 hits for `glob` | All are substrings of "global" in Zig language prose. |
-| `_core/1_governance/edit_accuracy.md` | "Prefer Edit over Write" | Names two tools, but this macro is imported exclusively by write-enabled host shells. Verified: no read-only agent and no Cursor shell imports it. |
+| `_core/1_governance/edit_accuracy/memory.md` | "Prefer Edit over Write" | Names two tools, but this fragment is imported exclusively by write-enabled host shells. Verified: no read-only agent and no Cursor shell imports it. |
 | `_core/skills/` tree | Never referenced by an `<!-- @import -->` tag | By design. The compiler copies this tree verbatim into each target's `skills/` directory; it is shipped, not inlined. |
 
 ### Runtime vs. compile-time duplication

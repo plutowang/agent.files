@@ -7,13 +7,20 @@ alwaysApply: false
 
 Apply these standards when writing or modifying tests.
 
-- Follow Arrange-Act-Assert pattern for all tests.
-- One logical assertion per test. Test names describe the scenario.
-- Prefer integration tests for business logic; unit tests for pure functions.
-- Never mock what you don't own — wrap external deps behind interfaces.
-- Bug fixes: write a failing test BEFORE fixing.
-- 80% minimum coverage on critical paths. Don't chase 100%.
+<red_lines>
+<!-- @import _core/3_engineering/testing_aaa/redlines.md -->
+</red_lines>
 
+<execution_protocol>
 **Interlock**: After completing implementation, you MUST delegate to `/verifier` to validate that tests pass and behavior is correct.
 
-<!-- @import _core/3_engineering/testing_aaa.md -->
+<!-- @import _core/3_engineering/testing_aaa/protocol.md -->
+</execution_protocol>
+
+<standards>
+<!-- @import _core/3_engineering/testing_aaa/standards.md -->
+</standards>
+
+<pre_flight_check>
+<!-- @import _core/3_engineering/testing_aaa/preflight.md -->
+</pre_flight_check>

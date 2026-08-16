@@ -10,4 +10,7 @@ After creating the file, review the recent git changes to ensure no unintended m
 
 Finally, review the project-wide styling rules located in @docs/style-guide.md to ensure the new file complies.
 
-<!-- @import _core/1_governance/anti_loop.md -->
+<!-- @import _core/1_governance/anti_loop/redlines.md -->
+<!-- @import _core/1_governance/anti_loop/protocol.md -->
+<!-- @import _core/1_governance/anti_loop/memory.md -->
+<!-- @import _core/1_governance/anti_loop/preflight.md -->

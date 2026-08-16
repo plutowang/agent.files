@@ -7,10 +7,24 @@ alwaysApply: false
 
 Apply these standards when making design decisions.
 
+<red_lines>
+<!-- @import _core/3_engineering/architecture/redlines.md -->
+</red_lines>
+
+<execution_protocol>
+**Interlock**: When facing a design decision with multiple viable approaches, you MUST delegate to `/architect` for trade-off analysis before proceeding.
+
+<!-- @import _core/3_engineering/architecture/protocol.md -->
+</execution_protocol>
+
+<standards>
 - Evaluate against quality attributes: performance, maintainability, security, cost, operability.
 - Prefer boring technology. Novel solutions need compelling justification.
 - Document significant decisions as ADRs (Architecture Decision Records).
 
-**Interlock**: When facing a design decision with multiple viable approaches, you MUST delegate to `/architect` for trade-off analysis before proceeding.
+<!-- @import _core/3_engineering/architecture/standards.md -->
+</standards>
 
-<!-- @import _core/3_engineering/architecture.md -->
+<formatting_and_memory>
+<!-- @import _core/3_engineering/architecture/memory.md -->
+</formatting_and_memory>

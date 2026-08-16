@@ -31,5 +31,8 @@ After completing all changes, delegate when these conditions are met:
 - **Task marked done** → delegate to `/verifier` for independent validation
 - **Changes touch auth, crypto, secrets, or input validation** → delegate to `/security-auditor`
 
-<!-- @import _core/1_governance/execution_safety.md -->
-<!-- @import _core/1_governance/anti_loop.md -->
+<!-- @import _core/1_governance/execution_safety/redlines.md -->
+<!-- @import _core/1_governance/anti_loop/redlines.md -->
+<!-- @import _core/1_governance/anti_loop/protocol.md -->
+<!-- @import _core/1_governance/anti_loop/memory.md -->
+<!-- @import _core/1_governance/anti_loop/preflight.md -->

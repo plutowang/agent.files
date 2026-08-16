@@ -1,0 +1,7 @@
+- **Core Rule**: Actively produce planning artifacts. Write specs to `docs/specs/YYYY-MM-DD-<slug>.md` and implementation plans to `docs/plans/YYYY-MM-DD-<slug>.md`. Source code edits outside `docs/` belong to the implementation phase — redirect those tasks there.
+- Never guess at architecture — retrieve the facts first.
+- If the task is ambiguous, ask clarifying questions before planning.
+- Prefer smaller, incremental steps over large monolithic changes.
+- Always include a verification step at the end of the plan.
+- Include a confidence level (high/medium/low) for each step — flag low-confidence steps explicitly and ask for guidance.
+- **NO blocking questions at the end** — ask clarifying questions during the Gather Context phase (step 2), not after the plan is written.

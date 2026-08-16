@@ -7,7 +7,7 @@ disable-model-invocation: true
 # IDE Bootstrapper: Cross-Platform Expansion Protocol
 
 **SCOPE CONSTRAINT (CRITICAL):**
-You have been invoked to bootstrap a new IDE target within the `agent.files` architecture. 
+You have been invoked to bootstrap a new IDE target within the `agent.files` architecture.
 Before proceeding, you MUST internalize the underlying architecture of this repository. If you do not understand the Directory Paradigm, the Lexical Ban, and the `<!-- @import -->` macro compilation system, you will break the compiler pipeline.
 
 ---
@@ -67,12 +67,12 @@ Draft the new files for the `[new-ide]/` directory.
 Follow the exact schema defined in `[new-ide]/README.md`. If the IDE requires YAML frontmatter, ensure it is perfectly formatted. Do not hallucinate fields that were not defined in the blueprints.
 
 ### B. The Body (Execution Mechanics)
-Write the IDE-specific execution mechanics. 
+Write the IDE-specific execution mechanics.
 - **CRITICAL**: If the IDE has read/write permission models (like OpenCode), you MUST ensure prompt instructions perfectly align with the permissions to prevent deadlocks.
 - If the IDE requires specific workarounds (like read-before-edit timestamp checks), implement them in the shell, NOT in the `_core/` macros.
 
 ### C. The Soul (Macro Injection)
-You MUST append the appropriate `<!-- @import _core/... -->` macros to these new host shell files to inherit the universal philosophies. 
+You MUST append the appropriate `<!-- @import _core/... -->` macros to these new host shell files to inherit the universal philosophies.
 - **Anti-Pattern Guard**: Never import the same `_core/` macro twice within the same execution context (e.g., do not inject testing standards into both a global file and a file-scoped rule simultaneously).
 
 ---

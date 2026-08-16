@@ -7,13 +7,19 @@ description: Load before claiming any task or feature is complete. No completion
 
 Announce at the start: "I'm using the verification-gate skill to verify this before claiming it works."
 
-## Iron Law
+<red_lines>
+**Iron Law**
 
 **No completion claims without fresh verification evidence.**
 
-Do not trust memory. Do not assume tests still pass. Run them again, right now, and show the output.
+- Do not trust memory. Do not assume tests still pass. Run them again, right now, and show the output.
+- Violating the spirit of verification is violating the rule. Creative reinterpretation to skip evidence is a red flag.
+- When verification fails: do not claim completion. Fix the issue, re-verify, then claim. Never proceed to the next task with a verification failure.
+- When a subagent claims completion, do not pass the claim through: (1) ask for its verification output (commands + results); (2) re-run the critical commands yourself in this session; (3) only then relay the claim with your own evidence attached.
+</red_lines>
 
-## Gate Function
+<execution_protocol>
+**Gate Function**
 
 For every task marked complete:
 
@@ -22,8 +28,10 @@ For every task marked complete:
 3. **Read** — Examine the output completely — don't skip warnings or partial failures
 4. **Verify** — Confirm the output matches expected success criteria
 5. **Claim** — Only now declare the task complete, with evidence attached
+</execution_protocol>
 
-## Evidence Required
+<formatting_and_memory>
+**Evidence Required**
 
 | Claim | Evidence |
 | ----- | -------- |
@@ -34,7 +42,7 @@ For every task marked complete:
 | Refactor safe | Before/after test runs, both green |
 | Subagent done | Independent re-run of its commands |
 
-## Rationalization Prevention
+**Rationalization Prevention**
 
 | Excuse | Reality |
 | ------ | ------- |
@@ -45,17 +53,4 @@ For every task marked complete:
 | "Only one line changed" | One line can break a contract. Verify it. |
 | "The subagent said it passed" | Their claim is not your evidence. Verify independently. |
 | "Output is too long to check" | Read it all — partial output hides failures. |
-
-Violating the spirit of verification is violating the rule. Creative reinterpretation to skip evidence is a red flag.
-
-## Delegation Verification
-
-When a subagent claims completion, do not pass the claim through:
-
-1. Ask for its verification output (commands + results).
-2. Re-run the critical commands yourself in this session.
-3. Only then relay the claim with your own evidence attached.
-
-## When Verification Fails
-
-Do not claim completion. Fix the issue, re-verify, then claim. Never proceed to the next task with a verification failure.
+</formatting_and_memory>

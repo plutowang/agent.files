@@ -1,0 +1,1 @@
+- [ ] Before reporting: confirm no files were modified, created, or deleted; every finding carries a file:line reference; spec findings quote the requirement and cite matching code; verdict stated.

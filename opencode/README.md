@@ -82,4 +82,4 @@ Slash commands (e.g., `/refactor`) allow for rapid execution of predefined promp
 
 ## 4. Integration with _core
 
-Always append `<!-- @import _core/1_governance/hitl_gates.md -->` (or similar) at the bottom of agent or command files to inherit universal philosophies (like testing standards or human-in-the-loop workflows) without redefining them here.
+Always append `<!-- @import _core/1_governance/hitl_gates/protocol.md -->` (or similar) at the bottom of agent or command files to inherit universal philosophies (like testing standards or human-in-the-loop workflows) without redefining them here. `_core` concepts are organized as folders of section fragments (`redlines.md`, `protocol.md`, `memory.md`, `preflight.md`) — import the fragments your shell needs.

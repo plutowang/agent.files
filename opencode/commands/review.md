@@ -4,8 +4,26 @@ description: Perform a code review of the current branch against a base branch. 
 
 Review the current branch against a base branch.
 
-If `$ARGUMENTS` contains "against <branch>", parse <branch> as the target base.
+If `$ARGUMENTS` contains "against <branch>", use it as the base; otherwise auto-detect the default branch (main or master).
 
-Otherwise, auto-detect the default branch (main or master) as the base.
+<red_lines>
+<!-- @import _core/5_commands/review/redlines.md -->
+<!-- @import _core/3_engineering/code_review/redlines.md -->
+<!-- @import _core/3_engineering/code_standards/redlines.md -->
+</red_lines>
 
-<!-- @import _core/5_commands/review.md -->
+<execution_protocol>
+<!-- @import _core/5_commands/review/protocol.md -->
+</execution_protocol>
+
+<standards>
+<!-- @import _core/3_engineering/code_standards/standards.md -->
+</standards>
+
+<formatting_and_memory>
+<!-- @import _core/3_engineering/code_review/memory.md -->
+</formatting_and_memory>
+
+<pre_flight_check>
+<!-- @import _core/5_commands/review/preflight.md -->
+</pre_flight_check>

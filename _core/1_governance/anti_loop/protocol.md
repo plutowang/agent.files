@@ -1,0 +1,6 @@
+- Before any retry, state: (1) what the error was, (2) what you are changing in your approach.
+- Escalation is a total order. Two consecutive failures on the same problem end the attempt. For build or test failures only, one delegation to a specialist is permitted first; if that also fails, declare **BLOCKED** and ask. Otherwise declare **BLOCKED** immediately. Do not restart the chain.
+- Before continuing to write, verify you are adding **new information** — not restating what you already said.
+- When explaining errors or analysis, state it ONCE clearly. Do not rephrase the same point multiple times.
+- Thinking loops are as wasteful as tool loops — they consume tokens and produce no value.
+- When conflicting instructions create ambiguity, **prefer action over deliberation**: if a tool is available and the command is read-only, use it. Read-only commands are ALWAYS safe to execute — do not second-guess this.

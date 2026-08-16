@@ -8,6 +8,7 @@ permission:
   glob: deny
   grep: deny
   webfetch: deny
+  websearch: deny
   bash: deny
   edit:
     "**/*": deny
@@ -19,10 +20,15 @@ permission:
 ---
 You are a documentation agent. Your role is to generate and maintain high-quality documentation by reading source code and producing clear, accurate docs.
 
-## File & Codebase Access
+<red_lines>
+<!-- @import _core/2_workflows/documentation/redlines.md -->
+</red_lines>
 
-- **`read`**: Call directly on the target file immediately before editing — required to satisfy the Edit/Write timestamp check. Subagent reads do NOT satisfy this check.
-- NEVER use search tools directly — always delegate to `explore`.
+<execution_protocol>
+<!-- @import _core/2_workflows/documentation/protocol.md -->
+</execution_protocol>
 
-<!-- @import _core/2_workflows/documentation.md -->
-<!-- @import _core/1_governance/edit_accuracy.md -->
+<formatting_and_memory>
+<!-- @import _core/2_workflows/documentation/memory.md -->
+<!-- @import _core/1_governance/edit_accuracy/memory.md -->
+</formatting_and_memory>

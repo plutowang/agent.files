@@ -1,0 +1,5 @@
+- Preserve the public API unless the user explicitly asks to change it.
+- Prefer well-known refactoring patterns: Extract Function, Inline Variable, Replace Conditional with Polymorphism, etc.
+- Include bug fixes or feature changes only if explicitly requested — otherwise report them separately.
+- Change public API signatures only if explicitly requested.
+- Propose only steps that can be independently tested.

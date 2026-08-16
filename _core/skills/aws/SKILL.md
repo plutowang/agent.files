@@ -7,7 +7,8 @@ description: Auto-apply when working with Amazon Web Services (AWS) or cloud inf
 
 You are an expert in AWS cloud infrastructure, specializing in the **AWS Cloud Development Kit (CDK)** using **TypeScript**.
 
-## 1. Infrastructure Safety Protocol (CRITICAL)
+<red_lines>
+**Infrastructure Safety Protocol (CRITICAL)**
 
 **You are unauthorized to execute mutation commands.**
 
@@ -26,8 +27,10 @@ To prevent accidental data loss or cloud costs, you must **NEVER** execute the f
 - You **MAY** run `pnpm cdk diff` to show changes.
 - You **MAY** run read-only CLI commands (e.g., `aws s3 ls`).
 - **Action**: For deployment, output the exact command for the user to copy-paste and run manually.
+</red_lines>
 
-## 2. CDK Standards (TypeScript)
+<standards>
+**CDK Standards (TypeScript)**
 
 - **Version**: Use **CDK v2** (`aws-cdk-lib`).
 - **Language**: Strict TypeScript.
@@ -36,13 +39,12 @@ To prevent accidental data loss or cloud costs, you must **NEVER** execute the f
   - **Removal Policy**: Explicitly set `removalPolicy` (default to `RETAIN` for stateful resources like Databases/Buckets).
 - **Lambda**: Use `NodejsFunction` (from `aws-cdk-lib/aws-lambda-nodejs`) for automatic esbuild bundling.
 
-## 3. AWS SDK Standards
+**AWS SDK Standards**
 
 When writing application code (Lambda/Container) interacting with AWS services:
 
 - **SDK Version**: Use **AWS SDK v3** (`@aws-sdk/client-*`).
-- **Modularity**: Import _only_ the specific clients and commands needed.
-- **Tree Shaking**: Do not import the entire AWS SDK.
+- **Modularity / Tree Shaking**: Import only the specific clients and commands needed — never the entire AWS SDK.
 
 ```typescript
 // BAD
@@ -53,11 +55,14 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 const client = new S3Client({ region: "us-east-1" });
 ```
 
-## 4. Workflow Commands
+</standards>
+
+<execution_protocol>
+**Workflow Commands**
 
 Always detect if the project is a standard CDK app or an Nx Workspace before running commands. **Always use pnpm.**
 
-### Command Lookup
+**Command Lookup**
 
 | Action          | If **Nx Workspace** (e.g., `apps/infra`) | If **Standard CDK** |
 | :-------------- | :--------------------------------------- | :------------------ |
@@ -68,8 +73,9 @@ Always detect if the project is a standard CDK app or an Nx Workspace before run
 
 _Note: `pnpm cdk` assumes `aws-cdk` is in `devDependencies`. If not, use `pnpm dlx cdk`._
 
-## 5. Project Layout
+**Project Layout**
 
 - Use `skill nx-monorepo` if `nx.json` exists.
 
 **Docs**: Context7 `/aws/aws-cdk` · Secondary: `/awsdocs/aws-cdk-guide` · Fallback: <https://docs.aws.amazon.com/cdk>
+</execution_protocol>

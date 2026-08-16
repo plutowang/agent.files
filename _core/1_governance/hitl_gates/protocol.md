@@ -1,0 +1,3 @@
+- At every decision point, present options with trade-offs. Let the human decide.
+- **When to Ask** — when a fix requires a design decision (which pattern, which API, which library); when you're uncertain about the intended behavior; when trade-offs exist that only the user can decide.
+- **HARD-GATE Protocol ⏸ (I)** — do not proceed until the human explicitly approves; present the output at each gate and wait. For multi-file or architectural changes, spec approval and plan approval are required before implementation. Single-file fixes and tests skip spec/plan but still require HITL approval before code changes. **When in doubt**, default to the full pipeline — premature building costs more than a question.

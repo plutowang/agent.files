@@ -1,0 +1,1 @@
+- Output ONLY the commit message in a `bash` code block — no explanations, no filler

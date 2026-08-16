@@ -20,7 +20,7 @@ pub const targets = [_]IdeTarget{
         .name = "opencode",
         .source_dir = "opencode",
         .config_base = ".config/opencode",
-        .subdirs = &.{ "agents", "rules", "commands", "skills" },
+        .subdirs = &.{ "agents", "rules", "commands", "skills", "plugins", "bin" },
         .file_dest_overrides = &.{},
     },
     .{

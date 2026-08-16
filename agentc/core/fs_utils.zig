@@ -24,6 +24,12 @@ fn shouldSkip(entry_path: []const u8) bool {
     return false;
 }
 
+/// Returns true if the content contains a NUL byte — the standard heuristic
+/// for detecting binary files, which must be copied verbatim, not compiled.
+pub fn isBinaryContent(content: []const u8) bool {
+    return mem.indexOfScalar(u8, content, 0) != null;
+}
+
 fn copyFile(io: Io, allocator: mem.Allocator, source_path: []const u8, dest_path: []const u8) !void {
     // Read the source file and write it to the destination.
     const content = try Io.Dir.cwd().readFileAlloc(io, source_path, allocator, .limited(1024 * 1024 * 100));
@@ -71,38 +77,56 @@ pub fn buildTargetDir(
 
     while (try walker.next(io)) |entry| {
         if (shouldSkip(entry.path)) continue;
+        if (entry.kind != .file) continue;
 
-        if (entry.kind == .file) {
-            // entry.path is relative to the opened dir; build full source path
-            const source_path = try fs.path.join(allocator, &.{ source_dir_path, entry.path });
-            defer allocator.free(source_path);
+        // entry.path is relative to the opened dir; build full source path
+        const source_path = try fs.path.join(allocator, &.{ source_dir_path, entry.path });
+        defer allocator.free(source_path);
 
-            // Mirror the same relative path into dest_dir
-            const dest_path = try fs.path.join(allocator, &.{ dest_dir_path, entry.path });
-            defer allocator.free(dest_path);
+        // Mirror the same relative path into dest_dir
+        const dest_path = try fs.path.join(allocator, &.{ dest_dir_path, entry.path });
+        defer allocator.free(dest_path);
 
-            const is_json = mem.endsWith(u8, entry.path, ".json");
+        // Read once to decide routing: binaries and JSON copy verbatim,
+        // everything else runs through the @import compiler.
+        const content = try Io.Dir.cwd().readFileAlloc(io, source_path, allocator, .limited(1024 * 1024 * 100));
+        defer allocator.free(content);
 
-            if (dry_run) {
-                if (is_json) {
-                    log.info("Would copy   {s}/{s}", .{ source_dir_path, entry.path });
-                } else {
-                    log.info("Would compile {s}/{s}", .{ source_dir_path, entry.path });
-                }
+        const is_json = mem.endsWith(u8, entry.path, ".json");
+        const is_binary = isBinaryContent(content);
+
+        if (dry_run) {
+            if (is_json or is_binary) {
+                log.info("Would copy   {s}/{s}", .{ source_dir_path, entry.path });
             } else {
-                if (fs.path.dirname(dest_path)) |parent| {
-                    try Io.Dir.cwd().createDirPath(io, parent);
-                }
-                if (is_json) {
-                    try copyFile(io, allocator, source_path, dest_path);
-                    log.success("Copied   {s}/{s}", .{ source_dir_path, entry.path });
-                } else {
-                    try compileFile(allocator, io, source_path, dest_path, log);
-                    log.success("Compiled {s}/{s}", .{ source_dir_path, entry.path });
-                }
+                log.info("Would compile {s}/{s}", .{ source_dir_path, entry.path });
             }
             count += 1;
+            continue;
         }
+
+        if (fs.path.dirname(dest_path)) |parent| {
+            try Io.Dir.cwd().createDirPath(io, parent);
+        }
+
+        if (is_json or is_binary) {
+            const dest = try Io.Dir.cwd().createFile(io, dest_path, .{});
+            defer dest.close(io);
+            try dest.writeStreamingAll(io, content);
+            if (is_binary) {
+                // Preserve the source's permissions (notably the executable bit)
+                // — createFile defaults to non-executable.
+                const src_file = try Io.Dir.cwd().openFile(io, source_path, .{});
+                defer src_file.close(io);
+                const src_permissions = (try src_file.stat(io)).permissions;
+                try Io.Dir.cwd().setFilePermissions(io, dest_path, src_permissions, .{});
+            }
+            log.success("Copied   {s}/{s}", .{ source_dir_path, entry.path });
+        } else {
+            try compileFile(allocator, io, source_path, dest_path, log);
+            log.success("Compiled {s}/{s}", .{ source_dir_path, entry.path });
+        }
+        count += 1;
     }
 
     return count;

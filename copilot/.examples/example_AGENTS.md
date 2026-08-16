@@ -12,5 +12,6 @@ This file provides the baseline instructions for all AI coding agents operating 
 - Never log Personally Identifiable Information (PII) or secrets.
 
 ## Global Directives
-<!-- @import _core/1_governance/execution_safety.md -->
-<!-- @import _core/3_engineering/code_standards.md -->
+<!-- @import _core/1_governance/execution_safety/redlines.md -->
+<!-- @import _core/3_engineering/code_standards/standards.md -->
+<!-- @import _core/3_engineering/code_standards/redlines.md -->

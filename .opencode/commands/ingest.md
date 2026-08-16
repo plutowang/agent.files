@@ -9,7 +9,7 @@ You have been invoked to ingest new AI prompt configurations into the `agent.fil
 **$ARGUMENTS**
 
 ## CRITICAL PREREQUISITE
-You **MUST** immediately load and read the `agent-architect` and `agent-ingestor` skills before proceeding. 
+You **MUST** immediately load and read the `agent-architect` and `agent-ingestor` skills before proceeding.
 Do not attempt to generate or modify any files until you have fully internalized the Assimilation Pipeline, the Lexical Ban (Goal-Oriented phrasing), and the Host Shell routing rules (e.g., Cursor `.mdc` vs OpenCode YAML permissions).
 
 ## EXECUTION DIRECTIVE

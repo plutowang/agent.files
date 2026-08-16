@@ -15,4 +15,6 @@ Instructions:
 - For REST API design and error handling: `@docs/api-standards.md`
 - For testing strategies and coverage requirements: `@test/testing-guidelines.md`
 
-<!-- @import _core/1_governance/hitl_gates.md -->
+<!-- @import _core/1_governance/hitl_gates/redlines.md -->
+<!-- @import _core/1_governance/hitl_gates/protocol.md -->
+<!-- @import _core/1_governance/hitl_gates/memory.md -->

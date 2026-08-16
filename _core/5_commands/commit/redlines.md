@@ -1,0 +1,4 @@
+- This is a READ-ONLY operation — no files are modified.
+- Do NOT load any skills. Do NOT plan. Do NOT deliberate about whether you are allowed to run these commands. You are.
+- Do NOT execute `git add`, `git commit`, or `git push`
+- If you catch yourself repeating the same reasoning, STOP THINKING and make the first tool call

@@ -5,4 +5,4 @@ alwaysApply: false
 ---
 - Use our internal RPC pattern when defining services.
 - Always use snake_case for service names.
-<!-- @import _core/1_governance/execution_safety.md -->
+<!-- @import _core/1_governance/execution_safety/redlines.md -->

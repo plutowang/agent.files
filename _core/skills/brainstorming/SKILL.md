@@ -9,11 +9,13 @@ Turn ideas into fully formed specs through collaborative dialogue.
 
 Announce at the start: "I'm using the brainstorming skill to turn this into a spec."
 
-## HARD-GATE
+<red_lines>
 
-Do NOT implement anything — no code, no scaffolding — until the spec is written and the human explicitly approves it. This applies to every project, regardless of perceived simplicity. Single-file bug fixes, typos, and straightforward test additions are exempt from spec creation per Invariant I; load `writing-plans` only for work that benefits from a full plan.
+- **HARD-GATE**: Do NOT implement anything — no code, no scaffolding — until the spec is written and the human explicitly approves it. This applies to every project, regardless of perceived simplicity. Single-file bug fixes, typos, and straightforward test additions are exempt from spec creation per Invariant I; load `writing-plans` only for work that benefits from a full plan.
+</red_lines>
 
-## Process
+<execution_protocol>
+**Process**
 
 1. **Gather context** — Build an accurate picture of the current state: the affected code, the docs, recent commits. Delegate retrieval if you cannot read directly.
 2. **Check scope** — Before asking detailed questions, assess scope. If the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, and billing"), flag it immediately — don't refine details of a project that needs decomposition first. For too-large projects, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Each sub-project gets its own spec → plan → implementation cycle.
@@ -27,7 +29,13 @@ Do NOT implement anything — no code, no scaffolding — until the spec is writ
    - **Ambiguity check** — Could any requirement be read two ways? Pick one and make it explicit.
 7. **HITL Gate** — Ask the human to review the spec before proceeding
 
-## Key Principles
+**After Approval**
+
+Load `writing-plans` to create the implementation plan.
+</execution_protocol>
+
+<standards>
+**Key Principles**
 
 - **One question at a time.** Break multi-faceted topics into separate questions; batch independent decisions into frontier rounds (see step 3). Thoroughness over speed.
 - **YAGNI ruthlessly.** Remove unnecessary features from every design
@@ -35,6 +43,4 @@ Do NOT implement anything — no code, no scaffolding — until the spec is writ
 - **Design for isolation.** Each unit should have one clear purpose, a well-defined interface, and be independently testable. Ask: can someone understand this unit without reading its internals? Can you change the internals without breaking consumers? If not, the boundaries need work.
 - **Work within existing patterns.** Explore the current codebase before proposing changes and follow its conventions. Where existing code problems affect the work (tangled responsibilities, oversized files), include targeted improvements in the design — but no unrelated refactoring.
 
-## After Approval
-
-Load `writing-plans` to create the implementation plan.
+</standards>

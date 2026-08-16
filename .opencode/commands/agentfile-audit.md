@@ -13,7 +13,7 @@ You have been invoked to perform a rigorous architectural audit of this reposito
 ## EXECUTION DIRECTIVE
 1. Scan the `_core/` directory for **Lexical Ban** violations (e.g., tool micromanagement, OpenCode/Cursor dialects leaked into universal files).
 2. Scan the `cursor/` directory for **Dual-Engine** violations (e.g., missing specific globs in `.mdc`, toxic process-blocking phrases, incorrect `@` instead of `/` interlock syntax).
-3. Scan the `opencode/` directory for **Permission Alignment** deadlocks and accidental `edit_accuracy.md` imports in read-only agents.
+3. Scan the `opencode/` directory for **Permission Alignment** deadlocks and accidental `edit_accuracy/memory.md` imports in read-only agents.
 4. Scan for **Shadow Redundancy** and **Double Injections**.
 
 > **Remember:** You are in Read-Only mode for this phase. Do not modify any files. Output the structured "Architectural Audit Report" with recommended fixes, and WAIT for the explicit "Approved" command.

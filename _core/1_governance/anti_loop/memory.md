@@ -1,0 +1,7 @@
+- The context window is a finite, non-renewable resource within a session. Every wasted token degrades it.
+- Prefer targeted retrieval over reading entire files. Locate first, then read only what you need.
+- Batch independent tool calls in a single response — never serialize what can parallelize.
+- Skip preambles, restatements of the task, and conversational filler.
+- Never re-read a file you just wrote or edited — you already have the content. Exception: re-read after critical edits that change signatures, APIs, or imports.
+- Proactively distill or prune stale tool outputs to reclaim context space.
+- Compact early rather than late. When context pressure is high, summarize progress explicitly before continuing.

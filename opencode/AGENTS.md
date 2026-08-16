@@ -1,42 +1,30 @@
-<!-- @import _core/1_governance/skills_manifest.md -->
-
 ## Agent Orchestration
 
-Delegate only to a subagent your own permissions allow. The `Callable by` column is authoritative — a delegation outside it will be refused.
+<red_lines>
+<!-- @import _core/1_governance/hitl_gates/redlines.md -->
+<!-- @import _core/1_governance/execution_safety/redlines.md -->
+<!-- @import _core/1_governance/anti_loop/redlines.md -->
+</red_lines>
 
-| Trigger | Subagent | Callable by | When |
-| --- | --- | --- | --- |
-| Discovery | `explore` | build, design, docs, debug, build-error-resolver | Any file discovery, pattern search, or documentation retrieval |
-| Design decision | `architect` | design | Two or more genuinely different approaches are viable |
-| Restructuring | `refactor` | build, design | Duplication or complexity is blocking progress |
-| Build failure | `build-error-resolver` | build | Two failed attempts → delegate once; if that also fails, BLOCKED ⏸ (III) |
-| Security-sensitive | `security-reviewer` | build, design | Auth, crypto, secrets, or input validation touched |
-| Broad change | `code-reviewer` | build, design | Changes touching more than 3 files, or critical paths (auth, data, API) |
-| Claimed complete | `verifier` | build | Skeptical validation before declaring done |
-| Docs stale | `docs` | build | After significant implementation |
+<execution_protocol>
+<!-- @import _core/1_governance/orchestration/protocol.md -->
+<!-- @import _core/1_governance/hitl_gates/protocol.md -->
+<!-- @import _core/1_governance/anti_loop/protocol.md -->
+</execution_protocol>
 
-**User-initiated only:** `debug`.
+<standards>
+<!-- @import _core/1_governance/orchestration/standards.md -->
 
-The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`, with `test-driven-development` active throughout implementation.
+**Agent name map (opencode):** retrieval agent = `explore` · implementation agent = `build` · planning agent = `design` · documentation agent = `docs` · debugging agent = `debug` · build-error agent = `build-error-resolver` · architect agent = `architect` · refactoring agent = `refactor` · code review agent = `code-reviewer` · security review agent = `security-reviewer` · verifier agent = `verifier` · evolution agent = `evolver` (disabled).
+</standards>
 
-## Delegation Format
+<formatting_and_memory>
+<!-- @import _core/1_governance/skills_manifest/memory.md -->
+<!-- @import _core/1_governance/hitl_gates/memory.md -->
+<!-- @import _core/1_governance/anti_loop/memory.md -->
+<!-- @import _core/2_workflows/communication/memory.md -->
+</formatting_and_memory>
 
-When delegating, provide structured context:
-
-**Parent provides:**
-
-1. What was attempted and the current state
-2. The exact error message or output (if applicable)
-3. Relevant file paths, line numbers, AND complete file contents required for the task
-4. What has already been tried (to avoid re-exploration)
-
-**Subagent returns:**
-
-1. Diagnosis of the issue
-2. Actions taken (with file:line references)
-3. Remaining issues or follow-ups (if any)
-
-<!-- @import _core/1_governance/hitl_gates.md -->
-<!-- @import _core/1_governance/execution_safety.md -->
-<!-- @import _core/1_governance/anti_loop.md -->
-<!-- @import _core/2_workflows/communication.md -->
+<pre_flight_check>
+<!-- @import _core/1_governance/anti_loop/preflight.md -->
+</pre_flight_check>

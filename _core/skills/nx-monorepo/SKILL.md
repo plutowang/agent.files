@@ -5,21 +5,28 @@ description: Auto-apply when working in an Nx monorepo workspace. Trigger this s
 
 # Nx Monorepo Layout Detection
 
-## Detection
+<execution_protocol>
+**Detection**
 
 Check for `nx.json` in the repository root:
 
 - If present: Nx workspace layout.
 - If absent: Standard layout.
 
-## Layout
+**Usage**
 
-### Nx Workspace
+Detect layout before generating file paths or imports.
+</execution_protocol>
+
+<standards>
+**Layout**
+
+**Nx Workspace**
 
 - `apps/<app-name>/src/`
 - `libs/<lib-name>/src/`
 
-### Standard Layout
+**Standard Layout**
 
 Frontend:
 
@@ -37,6 +44,4 @@ Backend (Rust):
 - `src/main.rs`
 - `src/lib.rs`
 
-## Usage
-
-Detect layout before generating file paths or imports.
+</standards>

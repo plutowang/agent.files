@@ -57,7 +57,26 @@ jobs:
         run: npm install -g markdownlint-cli
 
       - name: Check markdown formatting
-        run: markdownlint . --ignore node_modules --ignore .git
+        run: markdownlint . --ignore node_modules --ignore .git --ignore docs --ignore tmp --ignore dist
+
+  js:
+    name: JS Format & Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3'
+
+      - name: Check JS formatting
+        run: bun x prettier@3.8 --no-semi --check opencode/plugins tests
+
+      - name: Run JS tests
+        run: bun test tests/design-reminders.test.js tests/zmask-pii.test.js
 
   secrets:
     name: Secret Scanning

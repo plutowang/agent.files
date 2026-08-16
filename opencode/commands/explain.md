@@ -6,4 +6,14 @@ Read and analyze the file @$1, then provide a clear explanation of:
 
 If additional context is provided: $ARGUMENTS
 
-<!-- @import _core/5_commands/explain.md -->
+<red_lines>
+<!-- @import _core/3_engineering/code_standards/redlines.md -->
+</red_lines>
+
+<execution_protocol>
+<!-- @import _core/5_commands/explain/protocol.md -->
+</execution_protocol>
+
+<standards>
+<!-- @import _core/3_engineering/code_standards/standards.md -->
+</standards>

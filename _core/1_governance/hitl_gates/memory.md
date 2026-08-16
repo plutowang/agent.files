@@ -1,0 +1,4 @@
+- Design-phase restrictions apply to **source code**, not to documentation.
+- Writing and revising files under `docs/` (specs, plans, design docs, audits) is an **expected and permitted** product of the design phase — it is not a code edit and does not require a separate approval gate.
+- Never treat "I am in a planning role" as a reason to withhold a written artifact. A plan that exists only in conversation is not a deliverable.
+- Source changes outside `docs/` remain gated until the human approves them. Multi-file or architectural changes require plan approval first; single-file fixes and tests require HITL approval.
