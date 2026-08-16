@@ -19,12 +19,12 @@ pub fn handler(parser: *zlap.Parser) !void {
 
     // Get target from positional argument
     const target_name = parser.getArg(0) orelse {
-        log.err("Error: target required (opencode or cursor)", .{});
+        log.err("Error: target required (opencode, cursor, or copilot)", .{});
         return;
     };
 
     const target = config.findTarget(target_name) orelse {
-        log.err("Error: unknown target '{s}'. Available: opencode, cursor", .{target_name});
+        log.err("Error: unknown target '{s}'. Available: opencode, cursor, copilot", .{target_name});
         return;
     };
 

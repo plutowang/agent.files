@@ -15,9 +15,9 @@ This directory contains the source files for VS Code Copilot Custom Agents, Prom
 
 Unlike other IDEs that use standard `.md` files, VS Code Copilot strictly requires specific file extensions and locations. When the `agentc` compiler processes this directory, it must output to the following locations in the target workspace (or global user profile):
 
-- **Agents**: Source files in `vscode/agents/` MUST be compiled with the `.agent.md` extension and deployed to `.github/agents/*.agent.md` (or `~/.copilot/agents/`).
-- **Commands (Prompts)**: Source files in `vscode/commands/` MUST be compiled with the `.prompt.md` extension and deployed to `.github/prompts/*.prompt.md`.
-- **Rules (Instructions)**: Source files in `vscode/rules/` MUST be compiled with the `.instructions.md` extension and deployed to `.github/instructions/*.instructions.md`. A global rule file should be compiled to `.github/copilot-instructions.md`.
+- **Agents**: Source files in `copilot/agents/` MUST be compiled with the `.agent.md` extension and deployed to `.github/agents/*.agent.md` (or `~/.copilot/agents/`).
+- **Commands (Prompts)**: Source files in `copilot/commands/` MUST be compiled with the `.prompt.md` extension and deployed to `.github/prompts/*.prompt.md`.
+- **Rules (Instructions)**: Source files in `copilot/rules/` MUST be compiled with the `.instructions.md` extension and deployed to `.github/instructions/*.instructions.md`. A global rule file should be compiled to `.github/copilot-instructions.md`.
 
 ---
 
@@ -34,7 +34,7 @@ Custom Agents define persistent personas with specific tool restrictions and han
 | `argument-hint` | string | No | Hint text shown in the chat input field to guide user interaction. |
 | `tools` | array | No | List of available tools or tool sets (e.g., `['web/fetch', 'search']`). |
 | `agents` | array | No | Subagents available to this agent. Use `*` for all, or `[]` for none. |
-| `model` | string/array | No | e.g., `['Claude Opus 4.5', 'GPT-5.2']`. Falls back in array order. |
+| `model` | string/array | No | e.g., `['Claude Sonnet 5', 'GPT-5.6 Terra']`. Falls back in array order. |
 | `user-invocable`| boolean | No | Set to `false` to hide from the chat dropdown (default `true`). |
 | `disable-model-invocation`| boolean | No | Set to `true` to prevent being invoked as a subagent (default `false`). |
 | `target` | string | No | The target environment (`vscode` or `github-copilot`). |
@@ -130,3 +130,39 @@ You can restrict agents and prompts using either broad **Tool Sets** or specific
 Whether building an agent, a prompt file, or custom instructions, append `<!-- @import _core/[filename].md -->` at the bottom of the host shells to inherit universal philosophies without violating the Lexical Ban.
 
 Do NOT redefine universal software engineering philosophies in this directory. Rely entirely on the macro compiler to inject the rules from `_core/`.
+
+---
+
+## 7. Conflict Avoidance (Reserved Names)
+
+Do NOT create custom artifacts with these names — they collide with VS Code Copilot built-ins:
+
+- **Agent names:** `Agent`, `Plan`, `Explore`, `ask` (built-in roles/subagents; names are case-sensitive).
+- **Slash commands:** `/explain`, `/fix`, `/tests`, `/setupTests`, `/plan`, `/doc`, `/debug`, `/troubleshoot`, `/new`, `/init`, `/search`, `/clear`, `/compact`, `/fork`, `/agents`, `/hooks`, `/instructions`, `/prompts`, `/skills`, `/create-*`, `/yolo`, `/autoApprove`, `/fixTestFailure`.
+- This expansion therefore names its commands `explain-code` and `fix-issue` (instead of `explain`/`fix`). `commit`, `refactor`, `review`, `security`, and `test` are verified safe in the default Local harness.
+- Custom agents appear in the Agents dropdown, not the `@` participant list (`@github`, `@terminal`, `@vscode`).
+
+## 8. Global Instructions: Choose One File Only
+
+Ship **only** `.github/copilot-instructions.md` as the always-on global shell. VS Code loads both `copilot-instructions.md` and `AGENTS.md` on every request (combined, no guaranteed order), and the official in-repo reference explicitly says: "Use **only one**—not both." Keep the global file lean — GitHub's guidance: instructions no longer than 2 pages.
+
+## 9. Deployment
+
+1. `./agentc-cli build` compiles to `dist/copilot/`.
+2. Per-project (workspace): copy
+   - `dist/copilot/agents/` → `<project>/.github/agents/`
+   - `dist/copilot/commands/` → `<project>/.github/prompts/`
+   - `dist/copilot/rules/` → `<project>/.github/instructions/` (nested subdirectories are supported)
+   - `dist/copilot/copilot-instructions.md` → `<project>/.github/copilot-instructions.md`
+   - `dist/copilot/mcp.json` → `<project>/.github/mcp.json`
+3. User-level (optional): `./agentc-cli link copilot` symlinks `dist/copilot/agents/` → `~/.copilot/agents/`.
+4. Prompt files work with local agents only; for Agent Host sessions, migrate them to skills (SKILL.md).
+
+## 10. Model Names
+
+Model arrays fall back in order (`['Claude Sonnet 5', 'GPT-5.6 Terra']` = try Sonnet first). Arrays are the defensive pattern: plan-gated or retired models are skipped, not errors.
+
+- **Deep reasoning (this expansion):** `['Claude Sonnet 5', 'GPT-5.6 Terra', 'GPT-5.4']`
+- **Fast/utility (this expansion):** `['GPT-5.6 Luna', 'Claude Haiku 4.5', 'GPT-5 mini']`
+
+**Copilot Pro note (verified 2026-08-16):** `Claude Opus 4.5/4.6` are Business/Enterprise-only and retire 2026-09-01; no Opus 4.7+/5 or GPT-5.5/5.6 Sol on Pro. There is no model named `GPT-5.6` alone — use `GPT-5.6 Luna`/`Sol`/`Terra`. The authoritative per-plan list: <https://docs.github.com/en/copilot/reference/ai-models/supported-models>.

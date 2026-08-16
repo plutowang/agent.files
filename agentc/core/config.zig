@@ -33,6 +33,13 @@ pub const targets = [_]IdeTarget{
             .{ .name = "extensions.json", .dest_relative_home = "Library/Application Support/Cursor/User/extensions.json" },
         },
     },
+    .{
+        .name = "copilot",
+        .source_dir = "copilot",
+        .config_base = ".copilot",
+        .subdirs = &.{"agents"},
+        .file_dest_overrides = &.{},
+    },
 };
 
 pub fn findTarget(name: []const u8) ?IdeTarget {

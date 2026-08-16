@@ -27,7 +27,7 @@ pub fn main(init: std.process.Init) !void {
 
     // Link subcommand with required positional argument
     const link_sub = try parser.subCommand("link", "Symlink dist/ to IDE config directories", link_cmd.handler);
-    _ = link_sub.arg("target", "Target IDE: opencode or cursor", true);
+    _ = link_sub.arg("target", "Target IDE: opencode, cursor, or copilot", true);
     _ = link_sub.flag('n', "dry-run", "Show what would be done without creating any symlinks");
 
     const args = try init.minimal.args.toSlice(allocator);

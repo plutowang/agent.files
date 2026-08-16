@@ -2,7 +2,7 @@
 description: Generate an implementation plan for new features or refactoring existing code.
 name: Planner
 tools: ['web/fetch', 'search/codebase', 'search/usages']
-model: ['Claude Opus 4.5', 'GPT-5.2']
+model: ['Claude Sonnet 5', 'GPT-5.6 Terra']
 handoffs:
   - label: Start Implementation
     agent: implementation
